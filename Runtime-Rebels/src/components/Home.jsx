@@ -5,6 +5,9 @@ import "../index.css";
 export default function Home() {
   return (
     <div className="home">
+      <Header />
+
+      {/* === HERO SECTION === */}
       <section className="hero">
         <div className="hero-text">
           <h1>Because life after work shouldn’t be faced alone.</h1>
@@ -24,6 +27,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* === MISSION SECTION === */}
       <section className="mission">
         <h2>Our Mission</h2>
         <p>
@@ -33,6 +37,7 @@ export default function Home() {
         </p>
       </section>
 
+      {/* === RESOURCES SECTION === */}
       <section className="resources">
         <h2>Resources</h2>
         <div className="resource-grid">
@@ -63,6 +68,60 @@ export default function Home() {
               Navigate mental health resources with ease—large fonts, clear
               instructions, and accessibility features make it simple for everyone.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* === TESTIMONIAL SECTION === */}
+      <section className="testimonials">
+        <h2>What Our Community Says</h2>
+        <div className="testimonial-grid">
+          <div className="testimonial-card">
+            <p>
+              “Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+              aliquip ex ea commodo consequat.”
+            </p>
+            <div className="testimonial-profile">
+              <img src="/images/jane.jpg" alt="Jane Doe" />
+              <div>
+                <h4>Jane Doe</h4>
+                <p>65 years old, Seattle, WA</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="testimonial-card">
+            <p>
+              “Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+              aliquip ex ea commodo consequat.”
+            </p>
+            <div className="testimonial-profile">
+              <img src="/images/john.jpg" alt="John Doe" />
+              <div>
+                <h4>John Doe</h4>
+                <p>60 years old, NYC, NY</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="testimonial-card">
+            <p>
+              “Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+              aliquip ex ea commodo consequat.”
+            </p>
+            <div className="testimonial-profile">
+              <img src="/images/robert.jpg" alt="Robert Bob" />
+              <div>
+                <h4>Robert Bob</h4>
+                <p>70 years old, Orlando, FL</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

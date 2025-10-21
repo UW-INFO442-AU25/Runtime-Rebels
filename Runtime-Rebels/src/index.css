@@ -282,4 +282,66 @@ a:hover {
     color: var(--color-gray);
     line-height: 1.5;
   }
+
+  .testimonials {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(to right, var(--color-secondary-3), var(--color-secondary-2));
+  }
+  
+  .testimonials h2 {
+    font-size: var(--h2-size);
+    color: var(--color-primary-2);
+    margin-bottom: 2rem;
+  }
+  
+  .testimonial-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+  
+  .testimonial-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    padding: 2rem;
+    max-width: 300px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .testimonial-card p {
+    font-style: italic;
+    color: var(--color-gray);
+    margin-bottom: 1.5rem;
+  }
+  
+  .testimonial-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .testimonial-profile img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .testimonial-profile h4 {
+    margin: 0;
+    font-weight: 600;
+    color: var(--color-primary-1);
+  }
+  
+  .testimonial-profile p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-gray);
+  }
   
