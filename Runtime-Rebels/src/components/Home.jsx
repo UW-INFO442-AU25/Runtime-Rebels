@@ -1,0 +1,71 @@
+import React from "react";
+import Header from "./Header";
+import "../index.css";
+
+export default function Home() {
+  return (
+    <div className="home">
+      <section className="hero">
+        <div className="hero-text">
+          <h1>Because life after work shouldn’t be faced alone.</h1>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+            minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+            ex ea commodo consequat.
+          </p>
+          <div className="hero-buttons">
+            <button className="primary-btn">Get Started</button>
+            <button className="secondary-btn">Log In</button>
+          </div>
+        </div>
+        <div className="hero-image">
+          <img src="/images/boat.jpg" alt="People on a boat" />
+        </div>
+      </section>
+
+      <section className="mission">
+        <h2>Our Mission</h2>
+        <p>
+          We want to bridge the gap in mental health support for retired adults by
+          offering accessible tools, guidance, and community resources that
+          enhance well-being and reduce isolation.
+        </p>
+      </section>
+
+      <section className="resources">
+        <h2>Resources</h2>
+        <div className="resource-grid">
+          <div className="resource-card">
+            <h3>Mental Health</h3>
+            <p>
+              Explore easy-to-understand articles, videos, and tools to help you
+              manage stress, anxiety, and overall mental well-being.
+            </p>
+          </div>
+          <div className="resource-card">
+            <h3>Guided Wellness Tools</h3>
+            <p>
+              Try guided exercises like meditation, journaling, and cognitive
+              activities designed to support a healthy mind and daily routine.
+            </p>
+          </div>
+          <div className="resource-card">
+            <h3>Community</h3>
+            <p>
+              Connect with peers, share experiences, and find support in a
+              welcoming, stigma-free space.
+            </p>
+          </div>
+          <div className="resource-card">
+            <h3>Accessibility</h3>
+            <p>
+              Navigate mental health resources with ease—large fonts, clear
+              instructions, and accessibility features make it simple for everyone.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
