@@ -21,7 +21,7 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-image">
-          <img src="/images/boat.jpg" alt="People on a boat" />
+          <img src="../img/peopleonboat.png" alt="People on a boat" />
         </div>
       </section>
 
