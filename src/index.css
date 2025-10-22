@@ -345,4 +345,163 @@ a:hover {
     font-size: 0.9rem;
     color: var(--color-gray);
   }
+
+  /* ========== Footer ========== */
+.footer {
+  background-color: #1d4ed8;
+  color: white;
+  font-family: "Figtree", sans-serif;
+  padding: 60px 20px;
+}
+
+.newsletter h2,
+.footer-links h3 {
+  color: #ffffff;
+}
+
+.footer-content {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.legal {
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: 8px;
+  color: #e0e7ff;
+  max-width: 600px;         
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Newsletter section */
+.newsletter h2 {
+  font-size: 28px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.smile {
+  font-size: 30px;
+}
+
+.description {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.legal {
+  font-size: 14px;
+  margin-top: 10px;
+  color: #ffffff;
+}
+
+.legal a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Form */
+.subscribe-form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.email-input {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  width: 90%;
+  max-width: 400px;
+  font-size: 15px;
+}
+
+.subscribe-btn {
+  background-color: white;
+  color: #1d4ed8;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.subscribe-btn:hover {
+  background-color: #f1f5f9;
+}
+
+/* Divider */
+.divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  margin: 40px 0;
+}
+
+/* Footer Links */
+.footer-link {
+  color: #ffffff;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s ease;
+  text-align: center;
+  flex-direction: column;
+}
+
+.footer-links {
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  left: 0;
+  bottom: -4px;
+  background-color: #ffffff;
+  transition: width 0.3s ease;
+}
+
+.footer-link:hover::after {
+  width: 100%;
+}
+
+.footer-link:hover {
+  color: #e0e7ff;
+}
+
+/*=== Responsive layout ===*/
+@media (min-width: 768px) {
+  .footer-links {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .subscribe-form {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .email-input {
+    width: 400px;
+  }
+}
+
+.tagline {
+  margin-top: 30px;
+  font-style: italic;
+  font-size: 14px;
+}
   
