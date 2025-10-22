@@ -1,16 +1,19 @@
-# React + Vite
+# AzureHaven
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Group Members
+- Celine Chen
+- Mia (Yoonsoo) Cho
+- Ben Nguyen
+- Gabi Schwartz
+- Cassidy Wong
 
-Currently, two official plugins are available:
+## Problem Statement
+“How might we provide retired adults with accessible mental health resources that help them care for themselves while increasing their quality of life?”
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Objective
+Good health and well-being are shaped by a wide range of factors, including both physical and mental health. Nutrition, education, and environmental conditions also play an important role, while genetics further influence individual health outcomes. Our current understanding recognizes that health is multidimensional, with many interconnected factors contributing to overall well-being.
 
-## React Compiler
+### Background
+In recent years, mental health has increasingly been recognized as a key component of overall health. The United Nations’ Sustainable Development Goal (SDG) 3.4 sets the target that, by 2030, premature mortality from noncommunicable diseases (NCDs) should be reduced by one third through prevention, treatment, and the promotion of mental health and well-being (United Nations). The UN emphasizes that addressing mental health is just as critical as tackling NCDs. However, progress is lagging: in 2021, an estimated 18 million people under the age of 70 died from NCDs worldwide, accounting for more than half of all premature deaths, and the SDG target is not currently on track to be met (United Nations). Our goal is to help create software to help tackle that goal. 
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The National Alliance on Mental Health states that 22.8% of U.S. adults experienced mental illness in 2021, representing 1 in 5 adults. We want to focus on helping retired adults and their mental health, our aim is to improve their quality of life by making mental health resources accessible and addressed. We plan to address barriers such as technology accessibility and awareness, rather than medical treatment availability. Poor mental health among retired adults is often caused by social isolation, financial constraints, and limited digital literacy. Many face shrinking social networks after retirement, stigma around seeking help, and difficulties navigating online resources, which creates barriers to accessing care. How might we provide retired adults with accessible mental health resources so that they can prioritize their own well-being and improve their quality of life?
