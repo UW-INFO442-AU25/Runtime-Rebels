@@ -1,4 +1,5 @@
 # AzureHaven
+![AzureHaven Logo](Design from Canva.png)
 
 ## Group Members
 - Celine Chen
