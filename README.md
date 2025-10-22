@@ -1,6 +1,6 @@
 # AzureHaven
 
-# Group Members
+## Group Members
 - Celine Chen
 - Mia (Yoonsoo) Cho
 - Ben Nguyen
