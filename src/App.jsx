@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import Home from "./components/Home";
 import Resources from "./components/Resources";
 import Calendar from "./components/Calendar";
+import CommunityDiscussions from "./components/Discussion";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/calendar" element={<Calendar />} />
+        <Route path="/discussion" element={<CommunityDiscussions />} />
       </Routes>
       <Footer />
     </>
