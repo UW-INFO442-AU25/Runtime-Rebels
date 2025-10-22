@@ -4,7 +4,9 @@ import "../index.css";
 export default function Header() {
   return (
     <header className="navbar">
-      <div className="logo">Azure Haven</div>
+      <div className="logo">
+        <img src="Design from Canva.png" alt="Azure Haven Logo" />
+        </div>
       <nav>
         <ul className="nav-links">
           <li><a href="#">Home</a></li>
