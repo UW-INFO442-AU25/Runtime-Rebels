@@ -6,7 +6,7 @@ export default function Header() {
   return (
     <header className="navbar">
       <div className="logo">
-        <img src="/img/Design from Canva.png" alt="Azure Haven Logo" />
+        <img src="/img/N Logo.png" alt="Azure Haven Logo" style={{ width: "50px", height: "auto" }}/>
       </div>
 
       <nav>

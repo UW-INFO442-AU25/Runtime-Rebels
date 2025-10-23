@@ -78,7 +78,7 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 3rem;
+    padding: 0.5rem 2rem;
     background: var(--color-white);
     box-shadow: var(--shadow-soft);
     font-family: var(--font-family-base);
