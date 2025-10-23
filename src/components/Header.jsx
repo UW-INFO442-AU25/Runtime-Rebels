@@ -6,7 +6,7 @@ export default function Header() {
   return (
     <header className="navbar">
       <div className="logo">
-        <img src="./img/Design from Canva.png" alt="Azure Haven Logo" />
+        <img src="/img/Design from Canva.png" alt="Azure Haven Logo" />
       </div>
 
       <nav>
