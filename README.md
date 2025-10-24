@@ -1,5 +1,5 @@
 # Azure Haven
-![Design from Canva](Design%20from%20Canva.png)
+![Design from Canva](public/img/N%20Logo.png)
 ## Group Members
 - Celine Chen
 - Mia (Yoonsoo) Cho
