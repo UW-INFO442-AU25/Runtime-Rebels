@@ -744,6 +744,20 @@ a:hover {
     width: 100%;
   }
 }
+/* ===== Calender SECTION ===== */
+@media (max-width: 640px) {
+  .calendar-card {
+    padding: 1.5rem;
+  }
+
+  .calendar-header h1 {
+    font-size: 24px;
+  }
+
+  .calendar-month {
+    font-size: 18px;
+  }
+}
 
 /* ===== Community SECTION ===== */
 
