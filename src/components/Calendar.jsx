@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './index.css';
 
 export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date(2025, 4, 20)); // May 2025, 20th selected
@@ -73,13 +74,13 @@ export default function Calendar() {
   const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="w-full max-w-lg bg-white rounded-3xl shadow-lg p-8">
+    <div className="calendar-container">
+      <div className="calendar-card">
         {/* Header */}
-        <div className="flex items-center gap-3 mb-8">
-          <h1 className="text-3xl font-bold text-blue-600">Calendar</h1>
+        <div className="calendar-header">
+          <h1>Calendar</h1>
           <svg 
-            className="w-8 h-8 text-blue-600" 
+            className="calendar-icon" 
             fill="currentColor" 
             viewBox="0 0 24 24"
           >
@@ -91,39 +92,39 @@ export default function Calendar() {
         </div>
 
         {/* Month Navigation */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="calendar-navigation">
           <button 
             onClick={previousMonth}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="nav-btn"
             aria-label="Previous month"
           >
-            <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           
-          <h2 className="text-xl font-semibold text-blue-600">
+          <h2 className="calendar-month">
             {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
           </h2>
           
           <button 
             onClick={nextMonth}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="nav-btn"
             aria-label="Next month"
           >
-            <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
         </div>
 
         {/* Calendar Grid */}
-        <div className="grid grid-cols-7 gap-2">
+        <div className="calendar-grid">
           {/* Week day headers */}
           {weekDays.map((day, index) => (
             <div 
               key={`weekday-${index}`}
-              className="text-center text-sm font-medium text-gray-400 pb-2"
+              className="weekday-header"
             >
               {day}
             </div>
@@ -135,18 +136,7 @@ export default function Calendar() {
               key={`day-${index}`}
               onClick={() => dayObj.isCurrentMonth && setSelectedDate(dayObj.day)}
               disabled={!dayObj.isCurrentMonth}
-              className={`
-                aspect-square flex items-center justify-center rounded-full text-sm
-                transition-all duration-200
-                ${!dayObj.isCurrentMonth 
-                  ? 'text-gray-300 cursor-default' 
-                  : 'text-gray-700 hover:bg-gray-100 cursor-pointer'
-                }
-                ${dayObj.isCurrentMonth && dayObj.day === selectedDate 
-                  ? 'bg-blue-600 text-white hover:bg-blue-700 font-semibold' 
-                  : ''
-                }
-              `}
+              className={`calendar-day ${!dayObj.isCurrentMonth ? 'other-month' : ''} ${dayObj.isCurrentMonth && dayObj.day === selectedDate ? 'selected' : ''}`}
             >
               {dayObj.day}
             </button>
