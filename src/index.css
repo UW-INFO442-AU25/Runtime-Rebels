@@ -241,22 +241,23 @@ a:hover {
   }
   
   /* === CALENDER SECTION === */
-  .calendar-container {
+.calendar-container {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   background-color: var(--color-bg);
   font-family: var(--font-family-base);
+  padding: 2rem;
 }
 
 .calendar-card {
   width: 100%;
-  max-width: 500px;
+  max-width: 800px;
   background: var(--color-white);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
-  padding: 2rem;
+  padding: 3rem;
 }
 
 /* Header */
@@ -321,15 +322,16 @@ a:hover {
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .weekday-header {
   text-align: center;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
-  color: #9ca3af;
-  padding-bottom: 0.5rem;
+  color: var(--color-gray);
+  padding-bottom: 0.75rem;
+  opacity: 0.7;
 }
 
 .calendar-day {
@@ -338,13 +340,14 @@ a:hover {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  font-size: 14px;
+  font-size: 16px;
   border: none;
   background: transparent;
   color: var(--color-gray);
   cursor: pointer;
   transition: all 0.2s;
   font-family: var(--font-family-base);
+  min-height: 50px;
 }
 
 .calendar-day:not(.other-month):hover {
@@ -352,8 +355,9 @@ a:hover {
 }
 
 .calendar-day.other-month {
-  color: #d1d5db;
+  color: var(--color-secondary-2);
   cursor: default;
+  opacity: 0.5;
 }
 
 .calendar-day.selected {
@@ -744,7 +748,14 @@ a:hover {
     width: 100%;
   }
 }
-/* ===== Calender SECTION ===== */
+/* ===== Calendar SECTION ===== */
+@media (max-width: 900px) {
+  .calendar-card {
+    max-width: 600px;
+    padding: 2rem;
+  }
+}
+
 @media (max-width: 640px) {
   .calendar-card {
     padding: 1.5rem;
@@ -756,6 +767,15 @@ a:hover {
 
   .calendar-month {
     font-size: 18px;
+  }
+
+  .calendar-grid {
+    gap: 0.5rem;
+  }
+
+  .calendar-day {
+    font-size: 14px;
+    min-height: 40px;
   }
 }
 
