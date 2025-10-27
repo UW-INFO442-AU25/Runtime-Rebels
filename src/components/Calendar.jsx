@@ -81,7 +81,7 @@ export default function Calendar() {
         title: 'Pickleball',
         location: 'Seattle, WA',
         time: '5:30 PM',
-        image: '../img/pickleballEvent.png',
+        image: '../img/pickleballEvent.jpg',
         isPast: false
       },
       {
@@ -89,7 +89,7 @@ export default function Calendar() {
         title: 'Reading',
         location: 'Bellevue, WA',
         time: '7:30 PM',
-        image: '../img/readingEvent.png',
+        image: '../img/readingEvent.jpeg',
         isPast: false
       },
       {
@@ -97,7 +97,7 @@ export default function Calendar() {
         title: 'Reading',
         location: 'Bellevue, WA',
         time: '2:30 PM',
-        image: '../img/readingEvent.png',
+        image: '../img/readingEvent.jpeg',
         isPast: true
       },
       {
@@ -105,7 +105,7 @@ export default function Calendar() {
         title: 'Reading',
         location: 'Bellevue, WA',
         time: '4:30 PM',
-        image: '../img/readingEvent.png',
+        image: '../img/readingEvent.jpeg',
         isPast: true
       }
     ]
