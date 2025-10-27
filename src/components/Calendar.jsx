@@ -75,31 +75,13 @@ export default function Calendar() {
 
 
     const eventsByDay = {
-    15: [
-      {
-        id: 1,
-        title: 'Morning Yoga',
-        location: 'Seattle, WA',
-        time: '8:00 AM',
-        image: '/yoga.jpg',
-        isPast: true
-      },
-      {
-        id: 2,
-        title: 'Team Meeting',
-        location: 'Bellevue, WA',
-        time: '2:00 PM',
-        image: '/meeting.jpg',
-        isPast: true
-      }
-    ],
     20: [
       {
         id: 1,
         title: 'Pickleball',
         location: 'Seattle, WA',
         time: '5:30 PM',
-        image: '/pickleball.jpg',
+        image: '../img/pickleballEvent.png',
         isPast: false
       },
       {
@@ -107,7 +89,7 @@ export default function Calendar() {
         title: 'Reading',
         location: 'Bellevue, WA',
         time: '7:30 PM',
-        image: '/reading.jpg',
+        image: '../img/readingEvent.png',
         isPast: false
       },
       {
@@ -115,7 +97,7 @@ export default function Calendar() {
         title: 'Reading',
         location: 'Bellevue, WA',
         time: '2:30 PM',
-        image: '/reading.jpg',
+        image: '../img/readingEvent.png',
         isPast: true
       },
       {
@@ -123,36 +105,8 @@ export default function Calendar() {
         title: 'Reading',
         location: 'Bellevue, WA',
         time: '4:30 PM',
-        image: '/reading.jpg',
+        image: '../img/readingEvent.png',
         isPast: true
-      }
-    ],
-    22: [
-      {
-        id: 1,
-        title: 'Coffee Chat',
-        location: 'Redmond, WA',
-        time: '10:00 AM',
-        image: '/coffee.jpg',
-        isPast: false
-      },
-      {
-        id: 2,
-        title: 'Dinner Party',
-        location: 'Seattle, WA',
-        time: '6:30 PM',
-        image: '/dinner.jpg',
-        isPast: false
-      }
-    ],
-    25: [
-      {
-        id: 1,
-        title: 'Hiking Trip',
-        location: 'North Bend, WA',
-        time: '9:00 AM',
-        image: '/hiking.jpg',
-        isPast: false
       }
     ]
   };
