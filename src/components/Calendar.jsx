@@ -163,7 +163,7 @@ export default function Calendar() {
   const handleDateClick = (day) => {
     setSelectedDate(day);
   };
-  
+
   return (
     <div className="calendar-container">
       <div className="calendar-card">
@@ -233,6 +233,35 @@ export default function Calendar() {
             </button>
           ))}
         </div>
+
+          {/* Events Section */}
+        <div className="events-section">
+          <h2 className="events-title">
+            Events for {monthNames[currentDate.getMonth()]} {selectedDate}, {currentDate.getFullYear()}
+          </h2>
+          {currentEvents.length > 0 ? (
+            <div className="events-list">
+              {currentEvents.map((event) => (
+                <div 
+                  key={event.id} 
+                  className={`event-card ${event.isPast ? 'past-event' : ''}`}
+                >
+                  <div className="event-image">
+                    <img src={event.image} alt={event.title} />
+                  </div>
+                  <div className="event-info">
+                    <h3 className="event-title">{event.title}</h3>
+                    <p className="event-location">{event.location}</p>
+                  </div>
+                  <div className="event-time">{event.time}</div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="no-events">No events scheduled for this day.</p>
+          )}
+        </div>
+
       </div>
     </div>
   );
