@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './index.css';
+import "../index.css";
 
 export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date(2025, 4, 20)); // May 2025, 20th selected
