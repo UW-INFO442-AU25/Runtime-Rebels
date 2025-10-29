@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import "../index.css";
 
 export default function Calendar() {
-  const [currentDate, setCurrentDate] = useState(new Date(2025, 4, 20)); // May 2025, 20th selected
-  const [selectedDate, setSelectedDate] = useState(20);
+  const [currentDate, setCurrentDate] = useState(new Date(2025, 9, 28));
+  const [selectedDate, setSelectedDate] = useState(28);
 
   const monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -38,7 +38,7 @@ export default function Calendar() {
 
   const generateCalendarDays = () => {
     const days = [];
-    
+
     // Previous month's trailing days
     for (let i = firstDay - 1; i >= 0; i--) {
       days.push({
@@ -47,7 +47,7 @@ export default function Calendar() {
         isNextMonth: false
       });
     }
-    
+
     // Current month's days
     for (let i = 1; i <= daysInMonth; i++) {
       days.push({
@@ -56,7 +56,7 @@ export default function Calendar() {
         isNextMonth: false
       });
     }
-    
+
     // Next month's leading days
     const remainingDays = 42 - days.length; // 6 rows * 7 days
     for (let i = 1; i <= remainingDays; i++) {
@@ -66,15 +66,15 @@ export default function Calendar() {
         isNextMonth: true
       });
     }
-    
+
     return days;
   };
 
   const calendarDays = generateCalendarDays();
   const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-
-    const eventsByDay = {
+  // FIX THE EVENTS FOR THIS PAGE
+  const eventsByDay = {
     20: [
       {
         id: 1,
@@ -124,21 +124,21 @@ export default function Calendar() {
         {/* Header */}
         <div className="calendar-header">
           <h1>Calendar</h1>
-          <svg 
-            className="calendar-icon" 
-            fill="currentColor" 
+          <svg
+            className="calendar-icon"
+            fill="currentColor"
             viewBox="0 0 24 24"
           >
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" fill="none" stroke="currentColor" strokeWidth="2"/>
-            <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2"/>
-            <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2"/>
-            <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" fill="none" stroke="currentColor" strokeWidth="2" />
+            <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" />
+            <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" />
+            <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2" />
           </svg>
         </div>
 
         {/* Month Navigation */}
         <div className="calendar-navigation">
-          <button 
+          <button
             onClick={previousMonth}
             className="nav-btn"
             aria-label="Previous month"
@@ -147,12 +147,12 @@ export default function Calendar() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          
+
           <h2 className="calendar-month">
             {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
           </h2>
-          
-          <button 
+
+          <button
             onClick={nextMonth}
             className="nav-btn"
             aria-label="Next month"
@@ -167,14 +167,14 @@ export default function Calendar() {
         <div className="calendar-grid">
           {/* Week day headers */}
           {weekDays.map((day, index) => (
-            <div 
+            <div
               key={`weekday-${index}`}
               className="weekday-header"
             >
               {day}
             </div>
           ))}
-          
+
           {/* Calendar days */}
           {calendarDays.map((dayObj, index) => (
             <button
@@ -188,7 +188,7 @@ export default function Calendar() {
           ))}
         </div>
 
-          {/* Events Section */}
+        {/* Events Section */}
         <div className="events-section">
           <h2 className="events-title">
             Events for {monthNames[currentDate.getMonth()]} {selectedDate}, {currentDate.getFullYear()}
@@ -196,8 +196,8 @@ export default function Calendar() {
           {currentEvents.length > 0 ? (
             <div className="events-list">
               {currentEvents.map((event) => (
-                <div 
-                  key={event.id} 
+                <div
+                  key={event.id}
                   className={`event-card ${event.isPast ? 'past-event' : ''}`}
                 >
                   <div className="event-image">
