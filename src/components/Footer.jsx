@@ -13,9 +13,9 @@ function Footer() {
                         Be the first to get updates on our latest content and new features.
                     </p>
                     <p className="legal">
-                        By signing up, you’re agreeing to receive marketing emails from
-                        Azure Haven. You can unsubscribe at any time. For more details,
-                        check out our <a href="#">Privacy Policy</a>.
+                        By signing up, you’re agreeing to receive updates and
+                        marketing emails from Azure Haven. You can unsubscribe at any time. For more information,
+                        please contact us.
                     </p>
 
                     <form className="subscribe-form">
@@ -35,13 +35,13 @@ function Footer() {
 
                 <div className="footer-links">
                     <div>
-                        <a href="#About" className="footer-link">About Us</a>
+                        <a href="about" className="footer-link">About Us</a>
                     </div>
                     <div>
-                        <a href="#Resources" className="footer-link">Resources</a>
+                        <a href="resources" className="footer-link">Resources</a>
                     </div>
                     <div>
-                        <a href="#Contact" className="footer-link">Contact Us</a>
+                        <a href="contactus" className="footer-link">Contact Us</a>
                     </div>
                 </div>
 

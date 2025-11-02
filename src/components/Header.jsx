@@ -1,12 +1,18 @@
 import React from "react";
-import { NavLink } from "react-router";
+import { NavLink, Link } from "react-router-dom";
 import "../index.css";
 
 export default function Header() {
   return (
     <header className="navbar">
       <div className="logo">
-        <img src="/img/N Logo.png" alt="Azure Haven Logo" style={{ width: "50px", height: "auto" }}/>
+        <Link to="/">
+          <img
+            src="/img/N Logo.png"
+            alt="Azure Haven Logo"
+            style={{ width: "50px", height: "auto" }}
+          />
+        </Link>
       </div>
 
       <nav>
