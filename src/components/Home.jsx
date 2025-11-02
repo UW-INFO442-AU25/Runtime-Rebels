@@ -10,10 +10,8 @@ export default function Home() {
         <div className="hero-text">
           <h1>Because life after work shouldn’t be faced alone.</h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-            minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-            ex ea commodo consequat.
+            Find community, purpose, and peace of mind in the next chapter of life. 
+            Connect with others, access trusted resources, and enjoy the freedom to live the way you choose, without feeling alone.
           </p>
           <div className="hero-buttons">
             <a href="/create">
