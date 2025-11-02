@@ -121,7 +121,7 @@ export default function Events() {
         </section>
 
         <section className="events-usa" aria-label="Explore events in other states">
-          <h2 className="events-usa__title">Looking for Events Outside of Your Location?</h2>
+          <h2 className="events-usa__title">Looking for events outside of your location?</h2>
           <div className="events-usa__card">
             <div className="usa-map-surface">
               <img src="/img/events/usamap.png" alt="" />

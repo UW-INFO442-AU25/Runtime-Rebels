@@ -2,17 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../index.css";
 
-export default function Create() {
+export default function Login() {
   return (
     <main className="signup-page">
       <section className="signup-card">
         <div className="signup-left">
           <h1 className="signup-title">
-            Create your account
+            Log in
           </h1>
-          <p className="signup-subtitle">
-            Because life after work shouldn’t be faced alone.
-          </p>
 
           <form
             className="signup-form"
@@ -21,10 +18,6 @@ export default function Create() {
               // Handle your submit flow here
             }}
           >
-            <div className="field">
-              <label htmlFor="name">Full name</label>
-              <input id="name" name="name" type="text" placeholder="Jane Doe" required />
-            </div>
 
             <div className="field">
               <label htmlFor="email">Email</label>
@@ -36,28 +29,16 @@ export default function Create() {
                 <label htmlFor="password">Password</label>
                 <input id="password" name="password" type="password" placeholder="••••••••" required />
               </div>
-              <div className="field">
-                <label htmlFor="confirm">Confirm</label>
-                <input id="confirm" name="confirm" type="password" placeholder="••••••••" required />
-              </div>
             </div>
 
-            {/* <div className="tos">
-            // If we are including a TOS then add this. Not sure if necessary tho.
-              <input id="tos" type="checkbox" required />
-              <label htmlFor="tos">
-                I agree to the <a href="/terms">Terms</a> and <a href="/privacy">Privacy Policy</a>.
-              </label>
-            </div> */}
-
-            <button className="btn-primary" type="submit">Create account</button>
+            <button className="btn-primary" type="submit">Log in</button>
 
             <div className="or">
               <span>or</span>
             </div>
 
             <p className="auth-switch">
-              Already have an account? <Link to="/login">Log in</Link>
+              Don't have an account? <Link to="/create">Sign up</Link>
             </p>
           </form>
         </div>

@@ -16,10 +16,15 @@ export default function Home() {
             ex ea commodo consequat.
           </p>
           <div className="hero-buttons">
-            <button className="primary-btn">Get Started</button>
-            <button className="secondary-btn">Log In</button>
+            <a href="/create">
+              <button className="primary-btn">Get Started</button>
+            </a>
+            <a href="/login">
+              <button className="secondary-btn">Log In</button>
+            </a>
           </div>
         </div>
+
         <div className="hero-image">
           <img src="../img/peopleonboat.png" alt="People on a boat" />
         </div>
