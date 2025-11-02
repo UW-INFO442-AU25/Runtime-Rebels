@@ -6,6 +6,7 @@ import Resources from "./components/Resources";
 import Events from "./components/Events";
 import Calendar from "./components/Calendar";
 import CommunityDiscussions from "./components/Discussion";
+import Create from "./components/Create";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/discussion" element={<CommunityDiscussions />} />
+        <Route path="/create" element={<Create />} />
       </Routes>
       <Footer />
     </>

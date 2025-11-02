@@ -62,8 +62,11 @@ export default function Header() {
 
       <div className="search-signup">
         <input type="text" placeholder="Search..." className="search-bar" />
-        <button className="signup-btn">Sign Up</button>
+        <Link to="/create">
+          <button className="signup-btn">Sign Up</button>
+        </Link>
       </div>
+      
     </header>
   );
 }
