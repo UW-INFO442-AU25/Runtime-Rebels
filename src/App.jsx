@@ -8,6 +8,7 @@ import Calendar from "./components/Calendar";
 import CommunityDiscussions from "./components/Discussion";
 import Create from "./components/Create";
 import Login from "./components/Login";
+import Profile from "./components/Profile";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/discussion" element={<CommunityDiscussions />} />
         <Route path="/create" element={<Create />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <Footer />
     </>

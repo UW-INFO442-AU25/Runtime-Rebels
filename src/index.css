@@ -1582,3 +1582,154 @@ a:hover {
     }
   }
 }
+
+/* ===== Profile Page ===== */
+.profile-container {
+  max-width: 900px;
+  margin: 4rem auto;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  font-family: "Inter", sans-serif;
+}
+
+/* Header */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.profile-email {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* Avatar with pencil icon overlay */
+.avatar-wrapper {
+  position: relative;
+  width: 90px;
+  height: 90px;
+}
+
+.profile-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Pencil icon overlay */
+.edit-avatar-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: var(--color-primary-2);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.edit-avatar-icon:hover {
+  background-color: #004d99;
+}
+
+/* Edit button */
+.edit-button {
+  background-color: var(--color-primary-2);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-button:hover {
+  background-color: var(--color-primary-2);
+}
+
+/* Form */
+.profile-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 2rem;
+  margin-top: 2rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  color: var(--color-grey);
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+
+.form-field input {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.form-field input:enabled {
+  background-color: white;
+  border-color: #cbd5e1;
+}
+
+.form-field input:focus {
+  outline: none;
+  border-color: var(--color-primary-2);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .profile-form {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .edit-button {
+    align-self: flex-end;
+  }
+}
