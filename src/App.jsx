@@ -9,6 +9,7 @@ import CommunityDiscussions from "./components/Discussion";
 import Create from "./components/Create";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
+import ContactUs from "./components/Contact";
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/create" element={<Create />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/contactus" element={<ContactUs />} />
       </Routes>
       <Footer />
     </>
