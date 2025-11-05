@@ -1840,3 +1840,99 @@ a:hover {
     align-self: flex-end;
   }
 }
+
+.contact-main {
+  padding: 60px 20px;
+  background: #f7f9fc;
+  color: #1f2d3d;
+}
+
+.contact-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.contact-header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.contact-header p {
+  font-size: 1.1rem;
+  color: #556;
+}
+
+/* ✅ Form centered */
+.contact-form-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.contact-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 550px;
+}
+
+.contact-card h3 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Form Elements */
+form label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccd3e0;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+form textarea {
+  height: 130px;
+  resize: none;
+}
+
+.privacy {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+/* Button */
+button {
+  width: 100%;
+  background: #2962ff;
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #1e47bb;
+}
+
+.status {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 12px;
+}
