@@ -11,7 +11,7 @@ export default function ContactUs() {
     setStatus("Sending...");
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("https://formspree.io/f/xkgkwwjo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,7 +24,7 @@ export default function ContactUs() {
         setSubject("");
         setMessage("");
       } else {
-        setStatus("Failed — try again.");
+        setStatus("Message did not send — try again.");
       }
     } catch {
       setStatus("Error sending message.");
