@@ -158,7 +158,9 @@ a:hover {
   background: var(--color-primary-2);
 }
 
-/* === HOME === */
+/* =================================================
+=                    HOME PAGE                    =
+================================================= */
 
 .home {
   font-family: var(--font-family-base);
@@ -231,6 +233,22 @@ a:hover {
   width: 400px;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-soft);
+}
+
+/* === MISSION SECTION === */
+  .mission {
+  padding: 3rem 1.5rem;
+  text-align: center;  
+  max-width: 900px; 
+  margin: 0 auto;
+}
+
+.mission p {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 720px; 
+  margin: 0.75rem auto 0;
+  color: #444;
 }
 
 /* =================================================
@@ -310,7 +328,8 @@ a:hover {
 .contact-card form input,
 .contact-card form textarea {
   width: 100%;
-  box-sizing: border-box;   /* ensures identical width */
+  box-sizing: border-box;
+  /* ensures identical width */
   border: 1px solid #e5e7eb;
   background: #fbfdff;
   border-radius: 12px;
@@ -1878,15 +1897,6 @@ a:hover {
     margin: 0 auto;
   }
 
-  /* === Mission Section === */
-  .mission {
-    padding: 2rem 1.5rem;
-  }
-
-  .mission p {
-    max-width: 100%;
-  }
-
   /* === Resources Section === */
   .resources {
     padding: 2rem 1.5rem;
@@ -1977,5 +1987,26 @@ a:hover {
   /* === Map === */
   .leaflet-map {
     min-height: 360px;
+  }
+
+  /* === Mission Section === */
+  .mission {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    /* centers heading + paragraph */
+    max-width: 900px;
+    /* prevents full-screen stretching */
+    margin: 0 auto;
+    /* centers the block itself */
+  }
+
+  .mission p {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 720px;
+    /* optional – improves text line length */
+    margin: 0.75rem auto 0;
+    /* centers text inside section */
+    color: #444;
   }
 }
