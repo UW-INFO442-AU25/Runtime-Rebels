@@ -1943,6 +1943,49 @@ a:hover {
   }
 }
 
+/* LOGOUT PAGE */
+
+.logout-page {
+  text-align: center;
+  padding: 40px;
+}
+
+.logout-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.logout-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  background-color: #d9534f;
+  color: #fff;
+  transition: 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #c9302c;
+}
+
+.cancel-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  border: 1px solid #999;
+  background-color: #eee;
+  transition: 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background-color: #ddd;
+}
+
 @media (max-width: 920px) {
   .signup-page .signup-card {
     grid-template-columns: 1fr;

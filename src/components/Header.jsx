@@ -1,8 +1,26 @@
-import React from "react";
-import { NavLink, Link } from "react-router";
+import React, { useEffect, useState } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../main";
 import "../index.css";
 
 export default function Header() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  // Track login status
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate("/"); // take user home after logout
+  };
+
   return (
     <header className="navbar">
       <div className="logo">
@@ -17,6 +35,7 @@ export default function Header() {
 
       <nav>
         <ul className="nav-links">
+          {/* Always show Home */}
           <li>
             <NavLink
               to="/"
@@ -25,30 +44,38 @@ export default function Header() {
               Home
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/events"
-              className={({ isActive }) => (isActive ? "active-link" : "")}
-            >
-              Events
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/calendar"
-              className={({ isActive }) => (isActive ? "active-link" : "")}
-            >
-              Calendar
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/discussion"
-              className={({ isActive }) => (isActive ? "active-link" : "")}
-            >
-              Discussion
-            </NavLink>
-          </li>
+
+          {/* Show these ONLY if logged in */}
+          {user && (
+            <>
+              <li>
+                <NavLink
+                  to="/events"
+                  className={({ isActive }) => (isActive ? "active-link" : "")}
+                >
+                  Events
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/calendar"
+                  className={({ isActive }) => (isActive ? "active-link" : "")}
+                >
+                  Calendar
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/discussion"
+                  className={({ isActive }) => (isActive ? "active-link" : "")}
+                >
+                  Discussion
+                </NavLink>
+              </li>
+            </>
+          )}
+
+          {/* Resources always available */}
           <li>
             <NavLink
               to="/resources"
@@ -62,11 +89,18 @@ export default function Header() {
 
       <div className="search-signup">
         <input type="text" placeholder="Search..." className="search-bar" />
-        <Link to="/create">
-          <button className="signup-btn">Sign Up</button>
-        </Link>
+
+        {!user ? (
+          <Link to="/login">
+            <button className="signup-btn">Login</button>
+          </Link>
+        ) : (
+          <Link to="/logout">
+            <button className="signup-btn">Log Out</button>
+          </Link>
+
+        )}
       </div>
-      
     </header>
   );
 }

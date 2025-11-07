@@ -10,6 +10,7 @@ import Create from "./components/Create";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
 import ContactUs from "./components/Contact";
+import Logout from "./components/Logout";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
       <Footer />
     </>
