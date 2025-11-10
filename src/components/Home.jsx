@@ -85,7 +85,7 @@ export default function Home() {
               aliquip ex ea commodo consequat.”
             </p>
             <div className="testimonial-profile">
-              <img src="/images/jane.jpg" alt="Jane Doe" />
+              <img src="/img/woman.jpg" alt="Jane Doe" />
               <div>
                 <h4>Jane Doe</h4>
                 <p>65 years old, Seattle, WA</p>
@@ -101,7 +101,7 @@ export default function Home() {
               aliquip ex ea commodo consequat.”
             </p>
             <div className="testimonial-profile">
-              <img src="/images/john.jpg" alt="John Doe" />
+              <img src="/img/robertbob.jpg" alt="John Doe" />
               <div>
                 <h4>John Doe</h4>
                 <p>60 years old, NYC, NY</p>
@@ -117,7 +117,7 @@ export default function Home() {
               aliquip ex ea commodo consequat.”
             </p>
             <div className="testimonial-profile">
-              <img src="/images/robert.jpg" alt="Robert Bob" />
+              <img src="/img/johndoe.jpg" alt="Robert Bob" />
               <div>
                 <h4>Robert Bob</h4>
                 <p>70 years old, Orlando, FL</p>

@@ -6,7 +6,6 @@ function Footer() {
         <footer className="footer">
             <div className="footer-content">
                 <div className="newsletter">
-
                 <hr className="divider" />
 
                 <div className="footer-links">
