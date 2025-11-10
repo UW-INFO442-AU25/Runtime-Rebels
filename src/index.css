@@ -1192,12 +1192,6 @@ a:hover {
   color: var(--color-gray);
 }
 
-.community-controls {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1rem;
-}
-
 .posts {
   padding: 1rem;
 }
