@@ -6,30 +6,6 @@ function Footer() {
         <footer className="footer">
             <div className="footer-content">
                 <div className="newsletter">
-                    <h2>
-                        Stay in the loop!
-                    </h2>
-                    <p className="description">
-                        Be the first to get updates on our latest content and new features.
-                    </p>
-                    <p className="legal">
-                        By signing up, you’re agreeing to receive updates and
-                        marketing emails from Azure Haven. You can unsubscribe at any time. For more information,
-                        please contact us.
-                    </p>
-
-                    <form className="subscribe-form">
-                        <input
-                            type="email"
-                            placeholder="Email address"
-                            required
-                            className="email-input"
-                        />
-                        <button type="submit" className="subscribe-btn">
-                            Subscribe
-                        </button>
-                    </form>
-                </div>
 
                 <hr className="divider" />
 
@@ -43,6 +19,7 @@ function Footer() {
                     <div>
                         <a href="contactus" className="footer-link">Contact Us</a>
                     </div>
+                </div>
                 </div>
 
                 <p className="tagline">
