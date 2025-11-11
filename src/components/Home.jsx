@@ -79,10 +79,10 @@ export default function Home() {
         <div className="testimonial-grid">
           <div className="testimonial-card">
             <p>
-              “Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat.”
+              “When I first retired, I wasn’t sure what to do with all the free time. 
+              Then I discovered this website — it opened a whole new world for me. 
+              I’ve joined an online art group, met wonderful people, and even signed up for a volunteer program I never knew existed. 
+              Every morning, I check the site for something new to learn or do. It’s made my retirement feel vibrant and meaningful..”
             </p>
             <div className="testimonial-profile">
               <img src="/img/woman.jpg" alt="Jane Doe" />
@@ -95,10 +95,10 @@ export default function Home() {
 
           <div className="testimonial-card">
             <p>
-              “Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat.”
+              “After leaving my job, I missed the daily interactions with coworkers. 
+              This community gave me that sense of belonging back. 
+              I’ve made friends from all over the country, and we share ideas, recipes, and laughter through the forums. 
+              The site is simple to use, even for someone like me who’s not too tech-savvy. It’s like having a friendly neighborhood online.”
             </p>
             <div className="testimonial-profile">
               <img src="/img/robertbob.jpg" alt="John Doe" />
@@ -111,10 +111,9 @@ export default function Home() {
 
           <div className="testimonial-card">
             <p>
-              “Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat.”
+              “I thought retiring meant stepping back, but this site reminded me it’s just the beginning of a new adventure. 
+              I’ve taken up photography again, joined a fitness group, and even started writing blogs with help from the online workshops. 
+              It’s like the site gave me a second wind!”
             </p>
             <div className="testimonial-profile">
               <img src="/img/johndoe.jpg" alt="Robert Bob" />
