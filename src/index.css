@@ -546,7 +546,21 @@ a:hover {
 .calendar-day.has-events.selected::after {
   background: var(--color-white);
 }
+.calendar-day { position: relative; }
 
+.calendar-day.has-events::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.calendar-day.selected.has-events::before {
+  opacity: 0.22;
+}
 /* =================================================
 =                     EVENTS.                     =
 ================================================= */
@@ -2046,4 +2060,33 @@ a:hover {
     /* centers text inside section */
     color: #444;
   }
+  .toast-container {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 9999;
+    pointer-events: none;
+  }
+  
+  .toast {
+    pointer-events: auto;
+    background: rgba(20, 20, 20, 0.92);
+    color: #fff;
+    padding: 12px 14px;
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    max-width: 340px;
+    animation: toast-in 200ms ease-out;
+  }
+  
+  .toast-title { font-weight: 600; }
+  .toast-desc  { opacity: 0.95; font-size: 0.92rem; margin-top: 2px; }
+  
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateY(-6px) translateX(6px); }
+    to   { opacity: 1; transform: translateY(0) translateX(0); }
+  }  
 }
