@@ -1,26 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../main";
 import "../index.css";
 
 export default function Home() {
+  const [user, setUser] = useState(null);
+
+  // Track login state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
   return (
     <div className="home">
-
       {/* === HERO SECTION === */}
       <section className="hero">
         <div className="hero-text">
           <h1>Because life after work shouldn’t be faced alone.</h1>
           <p>
             Find community, purpose, and peace of mind in the next chapter of life. 
-            Connect with others, access trusted resources, and enjoy the freedom to live the way you choose, without feeling alone.
+            Connect with others, access trusted resources, and enjoy the freedom to live the way you choose — without feeling alone.
           </p>
-          <div className="hero-buttons">
-            <a href="/create">
-              <button className="primary-btn">Get Started</button>
-            </a>
-            <a href="/login">
-              <button className="secondary-btn">Log In</button>
-            </a>
-          </div>
+
+          {!user ? (
+            <div className="hero-buttons">
+              <Link to="/create">
+                <button className="primary-btn">Get Started</button>
+              </Link>
+              <Link to="/login">
+                <button className="secondary-btn">Log In</button>
+              </Link>
+            </div>
+          ) : (
+            <div className="hero-welcome">
+              <h2>Welcome back, {user.displayName || user.email.split("@")[0]}!</h2>
+              <p>We’re glad to see you again. Check out what's new.</p>
+              <div className="hero-buttons">
+                <Link to="/inbox">
+                  <button className="primary-btn">Catch Up</button>
+                </Link>
+                <Link to="/events">
+                  <button className="secondary-btn">See Events</button>
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="hero-image">
@@ -66,7 +94,7 @@ export default function Home() {
           <div className="resource-card">
             <h3>Accessibility</h3>
             <p>
-              Navigate mental health resources with ease—large fonts, clear
+              Navigate mental health resources with ease — large fonts, clear
               instructions, and accessibility features make it simple for everyone.
             </p>
           </div>
@@ -82,7 +110,7 @@ export default function Home() {
               “When I first retired, I wasn’t sure what to do with all the free time. 
               Then I discovered this website — it opened a whole new world for me. 
               I’ve joined an online art group, met wonderful people, and even signed up for a volunteer program I never knew existed. 
-              Every morning, I check the site for something new to learn or do. It’s made my retirement feel vibrant and meaningful..”
+              Every morning, I check the site for something new to learn or do. It’s made my retirement feel vibrant and meaningful.”
             </p>
             <div className="testimonial-profile">
               <img src="/img/woman.jpg" alt="Jane Doe" />

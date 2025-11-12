@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../main";
 import "../index.css";
@@ -21,17 +21,25 @@ export default function Header() {
     navigate("/"); // Redirect after logout
   };
 
+  // Protect certain routes
+  const handleProtectedNav = (e, path) => {
+    if (!user) {
+      e.preventDefault();
+      navigate("/overview");
+    }
+  };
+
   return (
     <header className="navbar">
       {/* === LOGO === */}
       <div className="logo">
-        <Link to="/">
+        <NavLink to="/">
           <img
             src="/img/N Logo.png"
             alt="Azure Haven Logo"
             style={{ width: "50px", height: "auto" }}
           />
-        </Link>
+        </NavLink>
       </div>
 
       {/* === NAVIGATION === */}
@@ -40,40 +48,43 @@ export default function Header() {
           <li>
             <NavLink
               to="/"
+              end
               className={({ isActive }) => (isActive ? "active-link" : "")}
             >
               Home
             </NavLink>
           </li>
 
-          {user && (
-            <>
-              <li>
-                <NavLink
-                  to="/events"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
-                  Events
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/calendar"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
-                  Calendar
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/discussion"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
-                  Discussion
-                </NavLink>
-              </li>
-            </>
-          )}
+          {/* Protected routes */}
+          <li>
+            <NavLink
+              to="/events"
+              onClick={(e) => handleProtectedNav(e, "/events")}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Events
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/calendar"
+              onClick={(e) => handleProtectedNav(e, "/calendar")}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Calendar
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/discussion"
+              onClick={(e) => handleProtectedNav(e, "/discussion")}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Discussion
+            </NavLink>
+          </li>
 
           <li>
             <NavLink
@@ -86,27 +97,24 @@ export default function Header() {
         </ul>
       </nav>
 
-      {/* === RIGHT SIDE (Search, Inbox, Profile, Logout) === */}
+      {/* === RIGHT SIDE === */}
       <div className="search-signup">
         <input type="text" placeholder="Search..." className="search-bar" />
 
         {!user ? (
-          <Link to="/login">
+          <NavLink to="/login">
             <button className="signup-btn">Login</button>
-          </Link>
+          </NavLink>
         ) : (
           <div className="user-actions">
-            {/* Inbox Icon */}
-            <Link to="/inbox" className="icon-btn" title="Inbox">
+            <NavLink to="/inbox" className="icon-btn" title="Inbox">
               📩
-            </Link>
+            </NavLink>
 
-            {/* Profile Avatar (clickable) */}
-            <Link to="/profile" className="user-avatar" title="Profile">
+            <NavLink to="/profile" className="user-avatar" title="Profile">
               {user.email?.[0].toUpperCase()}
-            </Link>
+            </NavLink>
 
-            {/* Logout */}
             <button className="signup-btn logout" onClick={handleLogout}>
               Log Out
             </button>

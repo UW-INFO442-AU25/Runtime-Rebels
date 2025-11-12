@@ -14,6 +14,8 @@ import ContactUs from "./components/Contact";
 import Logout from "./components/Logout";
 import { ToastProvider } from "./components/Toast";
 import Inbox from "./components/Inbox";
+import Overview from "./components/Overview";
+
 
 export default function App() {
   return (
@@ -32,6 +34,7 @@ export default function App() {
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/inbox" element={<Inbox />} />
+          <Route path="/overview" element={<Overview />} />
         </Routes>
       </main>
       <Footer />
