@@ -15,6 +15,7 @@ import Logout from "./components/Logout";
 import { ToastProvider } from "./components/Toast";
 import Inbox from "./components/Inbox";
 import Overview from "./components/Overview";
+import About from "./components/About";
 
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/inbox" element={<Inbox />} />
           <Route path="/overview" element={<Overview />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </main>
       <Footer />
