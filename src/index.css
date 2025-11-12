@@ -252,6 +252,251 @@ a:hover {
 }
 
 /* =================================================
+=                     INBOX PAGE                  =
+================================================= */
+.inbox-page {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 20px;
+  background-color: #eaf2fe;
+  padding: 30px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* === SIDEBAR === */
+.inbox-page .inbox-sidebar {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Ensures space between header, search, and list */
+}
+
+/* === HEADER === */
+.inbox-page .inbox-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inbox-page .inbox-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #3b82f6;
+}
+
+.inbox-page .inbox-btn {
+  background-color: #3b82f6;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.inbox-page .inbox-btn:hover {
+  background-color: #3b82f6;
+}
+
+/* === SEARCH BAR === */
+.inbox-page .inbox-search-wrapper {
+  position: relative;
+}
+
+.inbox-page .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #3b82f6;
+}
+
+.inbox-page .inbox-search {
+  width: 100%;
+  height: 38px;
+  padding: 0 14px 0 38px;
+  border-radius: 10px;
+  border: 1px solid #dbe8ff;
+  font-size: 14px;
+  color: #1e293b;
+  background-color: #ffffff;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.inbox-page .inbox-search::placeholder {
+  color: #9ca3af;
+}
+
+.inbox-page .inbox-search:focus {
+  border-color: #5f8edb;
+  box-shadow: 0 0 0 2px rgba(95, 142, 219, 0.25);
+}
+
+/* === MESSAGE LIST === */
+.inbox-page .inbox-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.inbox-page .inbox-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #f1f5ff;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.inbox-page .inbox-item:hover {
+  background: #f8fbff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+.inbox-page .inbox-item.active {
+  background: #eaf2fe;
+  border-color: #8eb6f4;
+}
+
+.inbox-page .inbox-avatar {
+  background: #bdd6f6;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #1e3a8a;
+  font-size: 15px;
+}
+
+.inbox-page .inbox-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.inbox-page .inbox-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.inbox-page .inbox-subject {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.inbox-page .inbox-preview {
+  font-size: 12px;
+  color: #64748b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* === MAIN CONTENT === */
+.inbox-page .inbox-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inbox-page .inbox-message {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.inbox-page .inbox-message h3 {
+  margin-top: 0;
+  color: #0f172a;
+  font-size: 17px;
+  font-weight: 700;
+}
+.inbox-page .inbox-message p {
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* === UPCOMING EVENTS === */
+.inbox-page .inbox-upcoming {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.inbox-page .inbox-upcoming-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.inbox-page .inbox-upcoming-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+.inbox-page .inbox-upcoming-header a {
+  color: #3b82f6;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+}
+.inbox-page .inbox-upcoming-header a:hover {
+  text-decoration: underline;
+}
+
+.inbox-page .inbox-upcoming ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.inbox-page .inbox-upcoming li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid #f1f5ff;
+}
+.inbox-page .inbox-event-icon {
+  background: #bdd6f6;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: #1e3a8a;
+  font-size: 18px;
+}
+.inbox-page .inbox-event-title {
+  font-weight: 600;
+  margin: 0;
+  color: #1e293b;
+  font-size: 14px;
+}
+.inbox-page .inbox-event-date {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* =================================================
 =                     CONTACT PAGE                 =
 ================================================= */
 /* Page wrapper */
@@ -2010,6 +2255,11 @@ a:hover {
 
   .signup-page .field-row {
     grid-template-columns: 1fr;
+  }
+
+  .inbox-page {
+    grid-template-columns: 1fr;
+    padding: 20px;
   }
 }
 

@@ -13,6 +13,7 @@ import Profile from "./components/Profile";
 import ContactUs from "./components/Contact";
 import Logout from "./components/Logout";
 import { ToastProvider } from "./components/Toast";
+import Inbox from "./components/Inbox";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/inbox" element={<Inbox />} />
         </Routes>
       </main>
       <Footer />
