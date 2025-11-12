@@ -608,7 +608,7 @@ a:hover {
 }
 
 .event-card.past-event {
-  background: var(--color-secondary-3);
+  background-color: #3b82f6;
   opacity: 0.8;
 }
 
