@@ -8,7 +8,7 @@ export default function Header() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // Track login status
+  // Track Firebase login status
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -18,11 +18,12 @@ export default function Header() {
 
   const handleLogout = async () => {
     await signOut(auth);
-    navigate("/"); // take user home after logout
+    navigate("/"); // Redirect after logout
   };
 
   return (
     <header className="navbar">
+      {/* === LOGO === */}
       <div className="logo">
         <Link to="/">
           <img
@@ -33,9 +34,9 @@ export default function Header() {
         </Link>
       </div>
 
+      {/* === NAVIGATION === */}
       <nav>
         <ul className="nav-links">
-          {/* Always show Home */}
           <li>
             <NavLink
               to="/"
@@ -45,7 +46,6 @@ export default function Header() {
             </NavLink>
           </li>
 
-          {/* Show these ONLY if logged in */}
           {user && (
             <>
               <li>
@@ -75,7 +75,6 @@ export default function Header() {
             </>
           )}
 
-          {/* Resources always available */}
           <li>
             <NavLink
               to="/resources"
@@ -87,6 +86,7 @@ export default function Header() {
         </ul>
       </nav>
 
+      {/* === RIGHT SIDE (Search, Inbox, Profile, Logout) === */}
       <div className="search-signup">
         <input type="text" placeholder="Search..." className="search-bar" />
 
@@ -95,10 +95,22 @@ export default function Header() {
             <button className="signup-btn">Login</button>
           </Link>
         ) : (
-          <Link to="/logout">
-            <button className="signup-btn">Log Out</button>
-          </Link>
+          <div className="user-actions">
+            {/* Inbox Icon */}
+            <Link to="/inbox" className="icon-btn" title="Inbox">
+              📩
+            </Link>
 
+            {/* Profile Avatar (clickable) */}
+            <Link to="/profile" className="user-avatar" title="Profile">
+              {user.email?.[0].toUpperCase()}
+            </Link>
+
+            {/* Logout */}
+            <button className="signup-btn logout" onClick={handleLogout}>
+              Log Out
+            </button>
+          </div>
         )}
       </div>
     </header>

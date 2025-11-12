@@ -86,7 +86,6 @@ a:hover {
 /* =================================================
 =                     HEADER                      =
 ================================================= */
-
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -156,6 +155,51 @@ a:hover {
 
 .signup-btn:hover {
   background: var(--color-primary-2);
+}
+
+/* === USER AREA EXTENSIONS === */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* Icon buttons (Inbox, Profile) */
+.icon-btn {
+  font-size: 1.25rem;
+  text-decoration: none;
+  color: var(--color-primary-3);
+  transition: color 0.2s;
+}
+
+.icon-btn:hover {
+  color: var(--color-primary-2);
+}
+
+/* Avatar Circle */
+.user-avatar {
+  background: var(--color-primary-3);
+  color: var(--color-white);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+/* Log out button (styled like your signup button) */
+.logout {
+  background: var(--color-secondary-2);
+  color: var(--color-primary-3);
+  font-weight: 600;
+}
+
+.logout:hover {
+  background: var(--color-secondary-3);
+  color: var(--color-primary-2);
 }
 
 /* =================================================
