@@ -48,24 +48,22 @@ export default function Header() {
           <li>
             <NavLink
               to="/"
-              end
               className={({ isActive }) => (isActive ? "active-link" : "")}
             >
               Home
             </NavLink>
           </li>
 
-          {/* Protected routes */}
           <li>
             <NavLink
               to="/events"
-              onClick={(e) => handleProtectedNav(e, "/events")}
               className={({ isActive }) => (isActive ? "active-link" : "")}
             >
               Events
             </NavLink>
           </li>
 
+          {/* Protected routes */}
           <li>
             <NavLink
               to="/calendar"
