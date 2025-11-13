@@ -27,7 +27,7 @@ const events = [
     img: "/img/Pickleball_Pros 1.png",
     coords: [47.6062, -122.3321],
     startsAt: "2025-10-20T17:30:00-07:00",
-    endsAt:   "2025-10-20T19:00:00-07:00",
+    endsAt: "2025-10-20T19:00:00-07:00",
   },
   {
     id: 2,
@@ -37,14 +37,18 @@ const events = [
     img: "/img/reading-before-bed-3x2 4.png",
     coords: [47.6101, -122.2015],
     startsAt: "2025-10-20T19:30:00-07:00",
-    endsAt:   "2025-10-20T21:00:00-07:00",
+    endsAt: "2025-10-20T21:00:00-07:00",
   },
 ];
 
 function BellIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm6-6V11a6 6 0 0 0-12 0v5l-2 2v1h16v-1l-2-2Z" fill="#ffffff" opacity=".92"/>
+      <path
+        d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm6-6V11a6 6 0 0 0-12 0v5l-2 2v1h16v-1l-2-2Z"
+        fill="#ffffff"
+        opacity=".92"
+      />
     </svg>
   );
 }
@@ -64,16 +68,14 @@ function HeartIcon({ filled }) {
 
 function formatEventDate(iso) {
   const d = new Date(iso);
-  return d.toLocaleString([], {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-  });
+  return d.toLocaleString([], { weekday: "short", month: "short", day: "numeric" });
 }
+
 function formatEventTime(iso) {
   const d = new Date(iso);
   return d.toLocaleString([], { hour: "numeric", minute: "2-digit" });
 }
+
 function formatDateTimeLine(iso) {
   return `${formatEventDate(iso)} • ${formatEventTime(iso)}`;
 }
@@ -82,25 +84,17 @@ function EventCard({ e, saved, onToggleSave }) {
   const dateLine = formatDateTimeLine(e.startsAt);
 
   return (
-    <article
-      className="event-card"
-      role="article"
-      aria-label={`${e.title} on ${dateLine} in ${e.city}`}
-    >
+    <article className="event-card">
       <div className="event-card__media">
-        <img src={e.img} alt="" />
+        <img src={e.img} alt={e.title} />
       </div>
 
       <div className="event-card__body">
-        <div className="event-card__time" aria-label={`Starts ${dateLine}`}>
-          {dateLine}
-        </div>
-
+        <div className="event-card__time">{dateLine}</div>
         <div className="event-card__content">
           <h3 className="event-card__title">{e.title}</h3>
           <p className="event-card__city">{e.city}</p>
         </div>
-
         <div className="event-card__actions">
           <button className="icon-btn" aria-label="Notify me"><BellIcon /></button>
           <button
@@ -118,21 +112,14 @@ function EventCard({ e, saved, onToggleSave }) {
 
 function MapPanel({ items }) {
   const center = [47.6088, -122.27];
-
   return (
-    <aside className="events-map" aria-label="Map showing event locations">
-      <MapContainer
-        center={center}
-        zoom={11}
-        scrollWheelZoom={false}
-        style={{ height: 420, width: "100%" }}
-        className="leaflet-rounded"
-      >
+    <aside className="events-map">
+      <MapContainer center={center} zoom={11} scrollWheelZoom={false} style={{ height: 420, width: "100%" }}>
         <TileLayer
           attribution="&copy; OpenStreetMap"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {items.map(e => (
+        {items.map((e) => (
           <Marker key={e.id} position={e.coords}>
             <Popup>
               <strong>{e.title}</strong><br />
@@ -148,9 +135,16 @@ function MapPanel({ items }) {
 
 export default function Events() {
   const { show } = useToast();
-  const [savedIds, setSavedIds] = useState(
-    () => new Set(getSavedEvents().map(e => String(e.id)))
-  );
+  const [savedIds, setSavedIds] = useState(() => new Set(getSavedEvents().map(e => String(e.id))));
+  const [query, setQuery] = useState("");
+  const [filterCity, setFilterCity] = useState("all");
+
+  // Live filter logic
+  const filteredEvents = events.filter((e) => {
+    const matchesQuery = e.title.toLowerCase().includes(query.toLowerCase()) || e.city.toLowerCase().includes(query.toLowerCase());
+    const matchesCity = filterCity === "all" || e.city.includes(filterCity);
+    return matchesQuery && matchesCity;
+  });
 
   useEffect(() => {
     const onStorage = (e) => {
@@ -164,10 +158,9 @@ export default function Events() {
 
   function toggleSave(e) {
     const key = String(e.id);
-
     if (savedIds.has(key)) {
       removeEvent(e.id);
-      setSavedIds(prev => {
+      setSavedIds((prev) => {
         const next = new Set(prev);
         next.delete(key);
         return next;
@@ -176,26 +169,10 @@ export default function Events() {
       return;
     }
 
-    saveEvent({
-      id: e.id,
-      title: e.title,
-      city: e.city,
-      img: e.img,
-      startsAt: e.startsAt,
-      endsAt: e.endsAt
-    });
-    setSavedIds(prev => {
-      const next = new Set(prev);
-      next.add(key);
-      return next;
-    });
+    saveEvent(e);
+    setSavedIds((prev) => new Set(prev).add(key));
 
-    const blob = buildIcs({
-      title: e.title,
-      location: e.city,
-      startsAt: e.startsAt,
-      endsAt: e.endsAt
-    });
+    const blob = buildIcs(e);
     downloadIcsFile(blob, e.title);
 
     show({
@@ -207,11 +184,32 @@ export default function Events() {
   return (
     <div className="events-page">
       <div className="events-wrap">
-        <h1 className="events-title">Events</h1>
+        <div className="events-header">
+          <h1 className="events-title">Events</h1>
 
-        <section className="events-grid" aria-label="Upcoming events near you">
+          <div className="events-controls">
+            <input
+              type="text"
+              placeholder="Search events..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="events-search"
+            />
+            <select
+              value={filterCity}
+              onChange={(e) => setFilterCity(e.target.value)}
+              className="events-filter"
+            >
+              <option value="all">All Cities</option>
+              <option value="Seattle, WA">Seattle</option>
+              <option value="Bellevue, WA">Bellevue</option>
+            </select>
+          </div>
+        </div>
+
+        <section className="events-grid">
           <div className="events-list">
-            {events.map((e) => (
+            {filteredEvents.map((e) => (
               <EventCard
                 key={e.id}
                 e={e}
@@ -219,23 +217,14 @@ export default function Events() {
                 onToggleSave={toggleSave}
               />
             ))}
+            {filteredEvents.length === 0 && (
+              <p className="no-events">No events match your search.</p>
+            )}
           </div>
 
           <aside>
-            <MapPanel items={events} />
+            <MapPanel items={filteredEvents} />
           </aside>
-        </section>
-
-        <section className="events-usa" aria-label="Explore events in other states">
-          <h2 className="events-usa__title">Looking for events outside of your location?</h2>
-          <div className="events-usa__card">
-            <div className="usa-map-surface">
-              <img src="/img/events/usamap.png" alt="" />
-              <span className="usa-pin" style={{ left: "18%", top: "25%" }} />
-              <span className="usa-pin" style={{ left: "74%", top: "36%" }} />
-              <span className="usa-pin" style={{ left: "52%", top: "63%" }} />
-            </div>
-          </div>
         </section>
       </div>
     </div>
