@@ -4,8 +4,9 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
 import "leaflet/dist/leaflet.css";
+import { getDatabase } from "firebase/database";
 
-// Firebase
+// Firebase configuration
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
@@ -18,8 +19,13 @@ const firebaseConfig = {
   appId: "1:595483024183:web:71035dda1825ba3cde58b2",
 };
 
+//Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+export { auth, db };
+
 
 const root = createRoot(document.getElementById("root"));
 
