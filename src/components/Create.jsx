@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import "../index.css";
 import { auth } from "../main";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+import { db } from "../main.jsx";
+
 
 export default function Create() {
   const navigate = useNavigate();
@@ -26,6 +29,17 @@ export default function Create() {
       const userCred = await createUserWithEmailAndPassword(auth, email, password);
 
       await updateProfile(userCred.user, { displayName: name });
+
+       // **Write user info to Realtime Database**
+    await set(ref(db, `users/${userCred.user.uid}`), {
+      name: name,
+      email: email,
+      phoneNumber: "",
+      country: "",
+      language: "",
+      timeZone: "",
+      avatar: ""
+    });
 
       navigate("/"); 
     } catch (err) {

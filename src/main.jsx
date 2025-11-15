@@ -13,6 +13,7 @@ import { getAuth } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyBKGR4cAExstfn9CgkUDESOsHNXEOdqHtc",
   authDomain: "azure--haven.firebaseapp.com",
+  databaseURL: "https://azure--haven-default-rtdb.firebaseio.com/",
   projectId: "azure--haven",
   storageBucket: "azure--haven.firebasestorage.app",
   messagingSenderId: "595483024183",
