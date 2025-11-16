@@ -9,8 +9,17 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
 import { buildIcs, downloadIcsFile } from "../util/ics";
-import { getSavedEvents, saveEvent, removeEvent } from "../util/savedEvents";
 import { useToast } from "./Toast";
+
+import { auth, db1 } from "../main.jsx";
+import { onAuthStateChanged } from "firebase/auth";
+import {
+  collection,
+  doc,
+  setDoc,
+  deleteDoc,
+  onSnapshot,
+} from "firebase/firestore";
 
 L.Icon.Default.mergeOptions({
   iconUrl: markerIcon,
@@ -68,12 +77,19 @@ function HeartIcon({ filled }) {
 
 function formatEventDate(iso) {
   const d = new Date(iso);
-  return d.toLocaleString([], { weekday: "short", month: "short", day: "numeric" });
+  return d.toLocaleString([], {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
 }
 
 function formatEventTime(iso) {
   const d = new Date(iso);
-  return d.toLocaleString([], { hour: "numeric", minute: "2-digit" });
+  return d.toLocaleString([], {
+    hour: "numeric",
+    minute: "2-digit",
+  });
 }
 
 function formatDateTimeLine(iso) {
@@ -84,19 +100,29 @@ function EventCard({ e, saved, onToggleSave }) {
   const dateLine = formatDateTimeLine(e.startsAt);
 
   return (
-    <article className="event-card">
+    <article
+      className="event-card"
+      role="article"
+      aria-label={`${e.title} on ${dateLine} in ${e.city}`}
+    >
       <div className="event-card__media">
-        <img src={e.img} alt={e.title} />
+        <img src={e.img} alt="" />
       </div>
 
       <div className="event-card__body">
-        <div className="event-card__time">{dateLine}</div>
+        <div className="event-card__time" aria-label={`Starts ${dateLine}`}>
+          {dateLine}
+        </div>
+
         <div className="event-card__content">
           <h3 className="event-card__title">{e.title}</h3>
           <p className="event-card__city">{e.city}</p>
         </div>
+
         <div className="event-card__actions">
-          <button className="icon-btn" aria-label="Notify me"><BellIcon /></button>
+          <button className="icon-btn" aria-label="Notify me">
+            <BellIcon />
+          </button>
           <button
             className="icon-btn"
             aria-label={saved ? "Remove from calendar" : "Save to calendar"}
@@ -112,9 +138,16 @@ function EventCard({ e, saved, onToggleSave }) {
 
 function MapPanel({ items }) {
   const center = [47.6088, -122.27];
+
   return (
-    <aside className="events-map">
-      <MapContainer center={center} zoom={11} scrollWheelZoom={false} style={{ height: 420, width: "100%" }}>
+    <aside className="events-map" aria-label="Map showing event locations">
+      <MapContainer
+        center={center}
+        zoom={11}
+        scrollWheelZoom={false}
+        style={{ height: 420, width: "100%" }}
+        className="leaflet-rounded"
+      >
         <TileLayer
           attribution="&copy; OpenStreetMap"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -122,8 +155,10 @@ function MapPanel({ items }) {
         {items.map((e) => (
           <Marker key={e.id} position={e.coords}>
             <Popup>
-              <strong>{e.title}</strong><br />
-              {formatEventDate(e.startsAt)} • {formatEventTime(e.startsAt)}<br />
+              <strong>{e.title}</strong>
+              <br />
+              {formatEventDate(e.startsAt)} • {formatEventTime(e.startsAt)}
+              <br />
               {e.city}
             </Popup>
           </Marker>
@@ -135,81 +170,95 @@ function MapPanel({ items }) {
 
 export default function Events() {
   const { show } = useToast();
-  const [savedIds, setSavedIds] = useState(() => new Set(getSavedEvents().map(e => String(e.id))));
-  const [query, setQuery] = useState("");
-  const [filterCity, setFilterCity] = useState("all");
-
-  // Live filter logic
-  const filteredEvents = events.filter((e) => {
-    const matchesQuery = e.title.toLowerCase().includes(query.toLowerCase()) || e.city.toLowerCase().includes(query.toLowerCase());
-    const matchesCity = filterCity === "all" || e.city.includes(filterCity);
-    return matchesQuery && matchesCity;
-  });
+  const [uid, setUid] = useState(null);
+  const [savedIds, setSavedIds] = useState(new Set());
 
   useEffect(() => {
-    const onStorage = (e) => {
-      if (e.key && e.key.startsWith("azurehaven:savedEvents")) {
-        setSavedIds(new Set(getSavedEvents().map(ev => String(ev.id))));
-      }
-    };
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
+    const unsub = onAuthStateChanged(auth, (user) => {
+      setUid(user ? user.uid : null);
+    });
+    return () => unsub();
   }, []);
 
-  function toggleSave(e) {
-    const key = String(e.id);
-    if (savedIds.has(key)) {
-      removeEvent(e.id);
-      setSavedIds((prev) => {
-        const next = new Set(prev);
-        next.delete(key);
-        return next;
-      });
-      show({ title: "Removed from your calendar", description: e.title });
+  useEffect(() => {
+    if (!uid) {
+      setSavedIds(new Set());
       return;
     }
 
-    saveEvent(e);
-    setSavedIds((prev) => new Set(prev).add(key));
-
-    const blob = buildIcs(e);
-    downloadIcsFile(blob, e.title);
-
-    show({
-      title: "RSVP saved",
-      description: `${e.title} • ${formatEventDate(e.startsAt)} ${formatEventTime(e.startsAt)}`
+    const colRef = collection(db1, "users", uid, "savedEvents");
+    const unsub = onSnapshot(colRef, (snap) => {
+      const ids = new Set();
+      snap.forEach((docSnap) => {
+        ids.add(String(docSnap.id));
+      });
+      setSavedIds(ids);
     });
+
+    return () => unsub();
+  }, [uid]);
+
+  async function toggleSave(e) {
+    if (!uid) {
+      show({
+        title: "Sign in required",
+        description: "Please log in to save events to your calendar.",
+      });
+      return;
+    }
+
+    const key = String(e.id);
+    const isSaved = savedIds.has(key);
+    const docRef = doc(db1, "users", uid, "savedEvents", key);
+
+    try {
+      if (isSaved) {
+        await deleteDoc(docRef);
+        show({
+          title: "Removed from your calendar",
+          description: e.title,
+        });
+      } else {
+        await setDoc(docRef, {
+          title: e.title,
+          city: e.city,
+          img: e.img,
+          startsAt: e.startsAt,
+          endsAt: e.endsAt,
+          coords: e.coords,
+          createdAt: Date.now(),
+        });
+
+        const blob = buildIcs({
+          title: e.title,
+          location: e.city,
+          startsAt: e.startsAt,
+          endsAt: e.endsAt,
+        });
+        downloadIcsFile(blob, e.title);
+
+        show({
+          title: "RSVP saved",
+          description: `${e.title} • ${formatEventDate(e.startsAt)} ${formatEventTime(e.startsAt)}`,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      show({
+        title: "Something went wrong",
+        description: "Could not update your RSVP.",
+      });
+    }
   }
 
   return (
     <div className="events-page">
       <div className="events-wrap">
-        <div className="events-header">
-          <h1 className="events-title">Events</h1>
+        <h1 className="events-title">Events</h1>
 
-          <div className="events-controls">
-            <input
-              type="text"
-              placeholder="Search events..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="events-search"
-            />
-            <select
-              value={filterCity}
-              onChange={(e) => setFilterCity(e.target.value)}
-              className="events-filter"
-            >
-              <option value="all">All Cities</option>
-              <option value="Seattle, WA">Seattle</option>
-              <option value="Bellevue, WA">Bellevue</option>
-            </select>
-          </div>
-        </div>
-
-        <section className="events-grid">
+        <section className="events-grid" aria-label="Upcoming events near you">
           <div className="events-list">
-            {filteredEvents.map((e) => (
+            {events.map((e) => (
               <EventCard
                 key={e.id}
                 e={e}
@@ -217,14 +266,25 @@ export default function Events() {
                 onToggleSave={toggleSave}
               />
             ))}
-            {filteredEvents.length === 0 && (
-              <p className="no-events">No events match your search.</p>
-            )}
           </div>
 
           <aside>
-            <MapPanel items={filteredEvents} />
+            <MapPanel items={events} />
           </aside>
+        </section>
+
+        <section className="events-usa" aria-label="Explore events in other states">
+          <h2 className="events-usa__title">
+            Looking for events outside of your location?
+          </h2>
+          <div className="events-usa__card">
+            <div className="usa-map-surface">
+              <img src="/img/events/usamap.png" alt="" />
+              <span className="usa-pin" style={{ left: "18%", top: "25%" }} />
+              <span className="usa-pin" style={{ left: "74%", top: "36%" }} />
+              <span className="usa-pin" style={{ left: "52%", top: "63%" }} />
+            </div>
+          </div>
         </section>
       </div>
     </div>
