@@ -360,7 +360,7 @@ export default function Events() {
         </div>
 
         <p style={{ 
-          margin: 1, 
+          margin: "0 0 1.5rem 0", 
           fontSize: "var(--text-size)", 
           color: "var(--color-gray)",
           fontFamily: "var(--font-family-base)"
