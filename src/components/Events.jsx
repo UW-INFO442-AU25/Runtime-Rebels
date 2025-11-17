@@ -360,10 +360,11 @@ export default function Events() {
         </div>
 
         <p style={{ 
-          margin: "0 0 1rem", 
+          margin: 1, 
+          fontSize: "var(--text-size)", 
           color: "var(--color-gray)",
-          fontSize: "0.95rem"
-          }}>
+          fontFamily: "var(--font-family-base)"
+        }}>
           {filteredEvents.length === 0 ? (
             "No events found matching your search."
           ) : filteredEvents.length === 1 ? (
@@ -399,21 +400,17 @@ export default function Events() {
                 textAlign: "center",
                 boxShadow: "var(--shadow-soft)",
               }}>
-                <p style={{ margin: 0, fontSize: "1.1rem", color: "var(--color-gray)" }}>
+                <p style={{ 
+                  margin: 0, 
+                  fontSize: "var(--text-size)", 
+                  color: "var(--color-gray)",
+                  fontFamily: "var(--font-family-base)"
+                }}>
                   No events match your search criteria.
                 </p>
                 <button
                   onClick={clearFilters}
-                  style={{
-                    marginTop: "1rem",
-                    background: "var(--color-primary-3)",
-                    color: "white",
-                    border: "none",
-                    padding: "0.6rem 1.2rem",
-                    borderRadius: "var(--radius-md)",
-                    fontWeight: "600",
-                    cursor: "pointer",
-                  }}
+                  className="primary-btn"
                 >
                   Show All Events
                 </button>

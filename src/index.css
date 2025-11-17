@@ -987,6 +987,7 @@ a:hover {
   background-color: var(--color-white);
   color: var(--color-gray);
   font-size: var(--text-size);
+  font-family: var(--font-family-base);
   transition: all 0.2s ease-in-out;
 }
 
@@ -1008,6 +1009,7 @@ a:hover {
   background-color: var(--color-white);
   color: var(--color-gray);
   font-size: var(--text-size);
+  font-family: var(--font-family-base);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
