@@ -150,7 +150,7 @@ function MapPanel({ items }) {
     <aside className="events-map" aria-label="Map showing event locations">
       <MapContainer
         center={center}
-        zoom={11}
+        zoom={items.length === 1 ? 13 : 10}
         scrollWheelZoom={false}
         style={{ height: 420, width: "100%" }}
         className="leaflet-rounded"
@@ -180,7 +180,8 @@ export default function Events() {
   const { show } = useToast();
   const [uid, setUid] = useState(null);
   const [savedIds, setSavedIds] = useState(new Set());
-  
+
+  const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCity, setSelectedCity] = useState("all");
 
@@ -188,6 +189,12 @@ export default function Events() {
     const cities = [...new Set(events.map((e) => e.city))];
     return cities.sort();
   }, []);
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      setSearchQuery(searchInput);
+    }
+  };
 
   const filteredEvents = useMemo(() => {
     return events.filter((event) => {
@@ -284,6 +291,7 @@ export default function Events() {
   }
 
   function clearFilters() {
+    setSearchInput("");
     setSearchQuery("");
     setSelectedCity("all");
   }
@@ -299,6 +307,7 @@ export default function Events() {
             placeholder="Search by event name or location..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyPress}
             aria-label="Search events by name or location"
           />
 
@@ -315,6 +324,21 @@ export default function Events() {
               </option>
             ))}
           </select>
+          <button
+            onClick={() => setSearchQuery(searchInput)}
+            style={{
+              background: "rgba(255,255,255,0.95)",
+              border: "none",
+              padding: "0.7rem 1.2rem",
+              borderRadius: "var(--radius-md)",
+              fontWeight: "600",
+              cursor: "pointer",
+              color: "var(--color-primary-1)",
+            }}
+            aria-label="Search"
+          >
+            Search
+          </button>
 
           {(searchQuery || selectedCity !== "all") && (
             <button
