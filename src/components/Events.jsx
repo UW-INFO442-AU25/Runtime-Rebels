@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "../index.css";
 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -305,8 +305,8 @@ export default function Events() {
             type="text"
             className="events-search"
             placeholder="Search by event name or location..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={handleKeyPress}
             aria-label="Search events by name or location"
           />
