@@ -137,7 +137,14 @@ function EventCard({ e, saved, onToggleSave }) {
 }
 
 function MapPanel({ items }) {
-  const center = [47.6088, -122.27];
+  const center = useMemo(() => {
+    if (items.length === 0) {
+      return [47.6088, -122.27];
+    }
+    const avgLat = items.reduce((sum, e) => sum + e.coords[0], 0) / items.length;
+    const avgLng = items.reduce((sum, e) => sum + e.coords[1], 0) / items.length;
+    return [avgLat, avgLng];
+  }, [items]);
 
   return (
     <aside className="events-map" aria-label="Map showing event locations">
@@ -147,6 +154,7 @@ function MapPanel({ items }) {
         scrollWheelZoom={false}
         style={{ height: 420, width: "100%" }}
         className="leaflet-rounded"
+        key={`${center[0]}-${center[1]}`}
       >
         <TileLayer
           attribution="&copy; OpenStreetMap"
@@ -172,6 +180,30 @@ export default function Events() {
   const { show } = useToast();
   const [uid, setUid] = useState(null);
   const [savedIds, setSavedIds] = useState(new Set());
+  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCity, setSelectedCity] = useState("all");
+
+  const uniqueCities = useMemo(() => {
+    const cities = [...new Set(events.map((e) => e.city))];
+    return cities.sort();
+  }, []);
+
+  const filteredEvents = useMemo(() => {
+    return events.filter((event) => {
+      const query = searchQuery.toLowerCase().trim();
+      
+      const matchesSearch =
+        query === "" ||
+        event.title.toLowerCase().includes(query) ||
+        event.city.toLowerCase().includes(query);
+
+      const matchesCity =
+        selectedCity === "all" || event.city === selectedCity;
+
+      return matchesSearch && matchesCity;
+    });
+  }, [searchQuery, selectedCity]);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -251,25 +283,122 @@ export default function Events() {
     }
   }
 
+  function clearFilters() {
+    setSearchQuery("");
+    setSelectedCity("all");
+  }
+
   return (
     <div className="events-page">
       <div className="events-wrap">
         <h1 className="events-title">Events</h1>
+        <div className="events-controls">
+          <input
+            type="text"
+            className="events-search"
+            placeholder="Search by event name or location..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            aria-label="Search events by name or location"
+          />
+
+          <select
+            className="events-filter"
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
+            aria-label="Filter by city"
+          >
+            <option value="all">All Locations</option>
+            {uniqueCities.map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
+          </select>
+
+          {(searchQuery || selectedCity !== "all") && (
+            <button
+              onClick={clearFilters}
+              style={{
+                background: "rgba(255,255,255,0.9)",
+                border: "none",
+                padding: "0.7rem 1rem",
+                borderRadius: "var(--radius-md)",
+                fontWeight: "600",
+                cursor: "pointer",
+                color: "var(--color-primary-1)",
+              }}
+              aria-label="Clear all filters"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+
+        <p style={{ 
+          margin: "0 0 1rem", 
+          color: "var(--color-gray)",
+          fontSize: "0.95rem"
+          }}>
+          {filteredEvents.length === 0 ? (
+            "No events found matching your search."
+          ) : filteredEvents.length === 1 ? (
+            "1 event found"
+          ) : (
+            `${filteredEvents.length} events found`
+          )}
+          {(searchQuery || selectedCity !== "all") && (
+            <span style={{ marginLeft: "0.5rem", opacity: 0.8 }}>
+              {searchQuery && `for "${searchQuery}"`}
+              {searchQuery && selectedCity !== "all" && " in "}
+              {selectedCity !== "all" && selectedCity}
+            </span>
+          )}
+        </p>
 
         <section className="events-grid" aria-label="Upcoming events near you">
           <div className="events-list">
-            {events.map((e) => (
-              <EventCard
-                key={e.id}
-                e={e}
-                saved={savedIds.has(String(e.id))}
-                onToggleSave={toggleSave}
-              />
-            ))}
+            {filteredEvents.length > 0 ? (
+              filteredEvents.map((e) => (
+                <EventCard
+                  key={e.id}
+                  e={e}
+                  saved={savedIds.has(String(e.id))}
+                  onToggleSave={toggleSave}
+                />
+              ))
+            ) : (
+              <div style={{
+                background: "var(--color-white)",
+                borderRadius: "var(--radius-lg)",
+                padding: "2rem",
+                textAlign: "center",
+                boxShadow: "var(--shadow-soft)",
+              }}>
+                <p style={{ margin: 0, fontSize: "1.1rem", color: "var(--color-gray)" }}>
+                  No events match your search criteria.
+                </p>
+                <button
+                  onClick={clearFilters}
+                  style={{
+                    marginTop: "1rem",
+                    background: "var(--color-primary-3)",
+                    color: "white",
+                    border: "none",
+                    padding: "0.6rem 1.2rem",
+                    borderRadius: "var(--radius-md)",
+                    fontWeight: "600",
+                    cursor: "pointer",
+                  }}
+                >
+                  Show All Events
+                </button>
+              </div>
+            )}
           </div>
 
           <aside>
-            <MapPanel items={events} />
+            <MapPanel items={filteredEvents} />
           </aside>
         </section>
 
