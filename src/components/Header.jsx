@@ -97,8 +97,6 @@ export default function Header() {
 
       {/* === RIGHT SIDE === */}
       <div className="search-signup">
-        <input type="text" placeholder="Search..." className="search-bar" />
-
         {!user ? (
           <NavLink to="/login">
             <button className="signup-btn">Login</button>
