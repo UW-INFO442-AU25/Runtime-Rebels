@@ -111,9 +111,10 @@ export default function Header() {
               {user.email?.[0].toUpperCase()}
             </NavLink>
 
-            <button className="signup-btn logout" onClick={handleLogout}>
-              Log Out
-            </button>
+            <NavLink to="/logout" className="signup-btn logout">
+            Log Out
+            </NavLink>
+
           </div>
         )}
       </div>

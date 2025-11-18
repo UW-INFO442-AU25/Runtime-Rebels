@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <div className="home">
       {/* === HERO SECTION === */}
-      <section className="hero">
+      <div className="hero">
         <div className="hero-text">
           <h1>Because life after work shouldn’t be faced alone.</h1>
           <p>
@@ -54,20 +54,20 @@ export default function Home() {
         <div className="hero-image">
           <img src="../img/peopleonboat.png" alt="People on a boat" />
         </div>
-      </section>
+      </div>
 
       {/* === MISSION SECTION === */}
-      <section className="mission">
+      <div className="mission">
         <h2>Our Mission</h2>
         <p>
           We want to bridge the gap in mental health support for retired adults by
           offering accessible tools, guidance, and community resources that
           enhance well-being and reduce isolation.
         </p>
-      </section>
+      </div>
 
       {/* === RESOURCES SECTION === */}
-      <section className="resources">
+      <div className="resources">
         <h2>Resources</h2>
         <div className="resource-grid">
           <div className="resource-card">
@@ -99,10 +99,10 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* === TESTIMONIAL SECTION === */}
-      <section className="testimonials">
+      <div className="testimonials">
         <h2>What Our Community Says</h2>
         <div className="testimonial-grid">
           <div className="testimonial-card">
@@ -152,7 +152,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

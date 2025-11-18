@@ -236,6 +236,7 @@ a:hover {
   align-items: center;
   padding: 4rem 3rem;
   background: var(--color-bg);
+  border-bottom: 30px solid white;
 }
 
 .hero-text {
@@ -2412,7 +2413,7 @@ a:hover {
 
 .logout-page {
   text-align: center;
-  padding: 40px;
+  padding: 200px;
 }
 
 .logout-buttons {
