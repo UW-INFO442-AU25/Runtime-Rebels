@@ -422,20 +422,6 @@ export default function Events() {
             <MapPanel items={filteredEvents} />
           </aside>
         </section>
-
-        <section className="events-usa" aria-label="Explore events in other states">
-          <h2 className="events-usa__title">
-            Looking for events outside of your location?
-          </h2>
-          <div className="events-usa__card">
-            <div className="usa-map-surface">
-              <img src="/img/events/usamap.png" alt="" />
-              <span className="usa-pin" style={{ left: "18%", top: "25%" }} />
-              <span className="usa-pin" style={{ left: "74%", top: "36%" }} />
-              <span className="usa-pin" style={{ left: "52%", top: "63%" }} />
-            </div>
-          </div>
-        </section>
       </div>
     </div>
   );
