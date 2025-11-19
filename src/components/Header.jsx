@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../main";
+import { Mail } from 'lucide-react';
 import "../index.css";
 
 export default function Header() {
@@ -104,7 +105,7 @@ export default function Header() {
         ) : (
           <div className="user-actions">
             <NavLink to="/inbox" className="icon-btn" title="Inbox">
-              📩
+              <Mail />
             </NavLink>
 
             <NavLink to="/profile" className="user-avatar" title="Profile">
@@ -114,7 +115,6 @@ export default function Header() {
             <NavLink to="/logout" className="signup-btn logout">
             Log Out
             </NavLink>
-
           </div>
         )}
       </div>

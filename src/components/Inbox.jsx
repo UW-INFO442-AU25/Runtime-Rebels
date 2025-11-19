@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Calendar } from "lucide-react";
 import "../index.css";
 
 export default function Inbox() {
@@ -67,7 +68,7 @@ export default function Inbox() {
           <ul>
             {events.map((event, i) => (
               <li key={i}>
-                <div className="inbox-event-icon">📅</div>
+                <div className="inbox-event-icon"><Calendar/></div>
                 <div>
                   <p className="inbox-event-title">{event.title}</p>
                   <p className="inbox-event-date">{event.date}</p>
