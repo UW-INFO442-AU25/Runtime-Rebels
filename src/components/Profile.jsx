@@ -46,31 +46,31 @@ export default function Profile() {
 
   // Handle file selection (preview immediately)
   const handleFileSelect = async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+    const file = e.target.files[0];
+    if (!file) return;
 
-  // Preview immediately
-  const previewUrl = URL.createObjectURL(file);
-  setUserData((prev) => ({ ...prev, avatar: previewUrl }));
-  setSelectedFile(file);
+    // Preview immediately
+    const previewUrl = URL.createObjectURL(file);
+    setUserData((prev) => ({ ...prev, avatar: previewUrl }));
+    setSelectedFile(file);
 
-  try {
-    setUploading(true);
+    try {
+      setUploading(true);
 
-    // Convert to Base64 and save immediately
-    const base64Data = await fileToBase64(file);
-    const userRef = ref(db, `users/${auth.currentUser.uid}`);
-    await update(userRef, { avatar: base64Data });
+      // Convert to Base64 and save immediately
+      const base64Data = await fileToBase64(file);
+      const userRef = ref(db, `users/${auth.currentUser.uid}`);
+      await update(userRef, { avatar: base64Data });
 
-    // Update local state to the Base64 data so it's persistent
-    setUserData((prev) => ({ ...prev, avatar: base64Data }));
-    setSelectedFile(null);
-  } catch (error) {
-    console.error("Error saving profile picture:", error);
-  } finally {
-    setUploading(false);
-  }
-};
+      // Update local state to the Base64 data so it's persistent
+      setUserData((prev) => ({ ...prev, avatar: base64Data }));
+      setSelectedFile(null);
+    } catch (error) {
+      console.error("Error saving profile picture:", error);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   // Save profile (fields + avatar) to Realtime Database
   const handleSave = async () => {

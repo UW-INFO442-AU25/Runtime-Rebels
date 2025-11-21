@@ -7,7 +7,7 @@ export default function Overview() {
     <section className="overview">
       <div className="overview-container">
         <div className="overview-text">
-          <h1>Because Life After Work Should Not Be Faced Alone.</h1>
+          <h1>Because life after work should not be faced alone.</h1>
           <p className="overview-subtitle">
             Welcome to <strong>AzureHaven</strong>! A platform designed to bring 
             individuals who are retiring into communities closer together. 

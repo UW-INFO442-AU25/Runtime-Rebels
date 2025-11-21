@@ -30,7 +30,6 @@ export default function Create() {
 
       await updateProfile(userCred.user, { displayName: name });
 
-       // **Write user info to Realtime Database**
     await set(ref(db, `users/${userCred.user.uid}`), {
       name: name,
       email: email,

@@ -30,7 +30,6 @@ export const db1 = getFirestore(app);
 
 export { auth, db };
 
-
 const root = createRoot(document.getElementById("root"));
 
 root.render(
