@@ -14,6 +14,7 @@ import {
   collection,
   doc,
   getDoc,
+  getDocs,
   setDoc,
   onSnapshot,
   query,
@@ -22,7 +23,7 @@ import {
   addDoc,
   increment,
   updateDoc,
-  deleteDoc   // ✅ YOU FORGOT THIS
+  deleteDoc
 } from "firebase/firestore";
 
 import { auth, db1 } from "../main";
@@ -37,26 +38,24 @@ export default function CommunityDiscussions() {
   const [newPostTags, setNewPostTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
 
-  /* -------------------------
-       AUTH TRACKING
-  -------------------------- */
+  const [openComments, setOpenComments] = useState({});
+  const [commentsByPost, setCommentsByPost] = useState({});
+  const [newCommentText, setNewCommentText] = useState({});
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
+      setCurrentUser(user || null);
     });
     return () => unsubscribe();
   }, []);
 
-  /* -------------------------
-       LOAD POSTS
-  -------------------------- */
   useEffect(() => {
     const q = query(collection(db1, "posts"), orderBy("createdAt", "desc"));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const postsList = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
+      const postsList = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data()
       }));
       setPosts(postsList);
     });
@@ -64,9 +63,6 @@ export default function CommunityDiscussions() {
     return () => unsubscribe();
   }, []);
 
-  /* -------------------------
-       CREATE POST
-  -------------------------- */
   const handlePost = async () => {
     if (!currentUser || newPostContent.trim() === "") return;
 
@@ -87,31 +83,27 @@ export default function CommunityDiscussions() {
       setTagInput("");
       setShowForm(false);
     } catch (err) {
-      console.error(err);
+      console.error("Error creating post:", err);
     }
   };
 
-  /* -------------------------
-       DELETE POST (NEW)
-  -------------------------- */
   const handleDelete = async (postId) => {
     if (!currentUser) return;
     if (!window.confirm("Are you sure you want to delete this post?")) return;
 
     try {
       await deleteDoc(doc(db1, "posts", postId));
-      // No need to update state manually — the listener refreshes UI
     } catch (err) {
       console.error("Error deleting post:", err);
     }
   };
 
-  /* -------------------------
-       LIKE A POST
-  -------------------------- */
   const handleLike = async (post) => {
     if (!currentUser) return;
-    if (post.uid === currentUser.uid) return alert("You cannot like your own post!");
+    if (post.uid === currentUser.uid) {
+      alert("You cannot like your own post!");
+      return;
+    }
 
     const likeRef = doc(db1, "posts", post.id, "likes", currentUser.uid);
     const likeSnap = await getDoc(likeRef);
@@ -127,50 +119,116 @@ export default function CommunityDiscussions() {
         likes: increment(1)
       });
     } catch (err) {
-      console.error(err);
+      console.error("Error liking post:", err);
     }
   };
 
-  /* -------------------------
-       JSX
-  -------------------------- */
+  const loadComments = async (postId) => {
+    try {
+      const q = query(
+        collection(db1, "posts", postId, "comments"),
+        orderBy("createdAt", "asc")
+      );
+      const snap = await getDocs(q);
+      const list = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+      setCommentsByPost((prev) => ({ ...prev, [postId]: list }));
+    } catch (err) {
+      console.error("Error loading comments:", err);
+    }
+  };
+
+  const toggleComments = async (postId) => {
+    const isOpen = !!openComments[postId];
+
+    if (!isOpen && !commentsByPost[postId]) {
+      await loadComments(postId);
+    }
+
+    setOpenComments((prev) => ({ ...prev, [postId]: !isOpen }));
+  };
+
+  const handleAddComment = async (postId) => {
+    if (!currentUser) return;
+
+    const text = (newCommentText[postId] || "").trim();
+    if (!text) return;
+
+    const comment = {
+      uid: currentUser.uid,
+      author: currentUser.displayName || currentUser.email,
+      text,
+      createdAt: serverTimestamp()
+    };
+
+    try {
+      const commentsRef = collection(db1, "posts", postId, "comments");
+      const docRef = await addDoc(commentsRef, comment);
+
+      setNewCommentText((prev) => ({ ...prev, [postId]: "" }));
+
+      setCommentsByPost((prev) => ({
+        ...prev,
+        [postId]: [
+          ...(prev[postId] || []),
+          { id: docRef.id, ...comment }
+        ]
+      }));
+
+      await updateDoc(doc(db1, "posts", postId), {
+        comments: increment(1)
+      });
+    } catch (err) {
+      console.error("Error adding comment:", err);
+    }
+  };
+
   return (
     <div className="community-page">
-      {/* HERO */}
       <section className="community-hero">
-        <img src="./img/community.jpg" alt="Community Background" className="community-bg" />
+        <img
+          src="./img/community.jpg"
+          alt="Community Background"
+          className="community-bg"
+        />
         <div className="community-overlay">
           <h1>Community Discussions</h1>
           <div className="community-meta">
-            <p className="meta-item"><MapPin size={16} /> Seattle</p>
-            <p className="meta-item"><Info size={16} /> About Community</p>
+            <p className="meta-item">
+              <MapPin size={16} /> Seattle
+            </p>
+            <p className="meta-item">
+              <Info size={16} /> About Community
+            </p>
           </div>
         </div>
       </section>
 
-      {/* CONTROLS */}
       <div className="community-controls">
         <div className="tabs">
-          <button className="tab active"><Clock size={16} /> Recent</button>
-          <button className="tab"><TrendingUp size={16} /> Trending</button>
+          <button className="tab active">
+            <Clock size={16} /> Recent
+          </button>
+          <button className="tab">
+            <TrendingUp size={16} /> Trending
+          </button>
         </div>
         <button className="add-post" onClick={() => setShowForm(true)}>
           <Plus size={18} /> Add Post
         </button>
       </div>
 
-      {/* CREATE POST MODAL */}
       {showForm && (
         <div className="form-overlay">
           <div className="add-post-form">
             <h3>Create a Post</h3>
 
-            {/* TAG INPUT */}
             <div className="tag-field">
               <label>Tags:</label>
               <div className="tags-container">
                 {newPostTags.map((tag, idx) => (
-                  <span key={idx} className="tag-pill">{tag}</span>
+                  <span key={idx} className="tag-pill modal-tag">
+                    {tag}
+                  </span>
                 ))}
               </div>
 
@@ -206,7 +264,6 @@ export default function CommunityDiscussions() {
         </div>
       )}
 
-      {/* POSTS */}
       <div className="posts">
         {posts.map((post) => (
           <div key={post.id} className="post-card">
@@ -219,13 +276,14 @@ export default function CommunityDiscussions() {
 
             <div className="category-row">
               {post.category?.map((tag, idx) => (
-                <span key={idx} className="tag-pill">{tag}</span>
+                <span key={idx} className="tag-pill">
+                  {tag}
+                </span>
               ))}
             </div>
 
             <p className="post-content">{post.content}</p>
 
-            {/* DELETE BUTTON — only for post owner */}
             {currentUser?.uid === post.uid && (
               <button
                 className="delete-post-btn"
@@ -239,10 +297,55 @@ export default function CommunityDiscussions() {
               <div className="icon-group" onClick={() => handleLike(post)}>
                 <ThumbsUp size={16} /> {post.likes} likes
               </div>
-              <div className="icon-group">
-                <MessageCircle size={16} /> {post.comments} comments
+              <div className="icon-group" onClick={() => toggleComments(post.id)}>
+                <MessageCircle size={16} /> {post.comments || 0} comments
               </div>
             </div>
+
+            {openComments[post.id] && (
+              <div className="comments-section">
+                <div className="comments-list">
+                  {(commentsByPost[post.id] || []).length === 0 && (
+                    <p className="no-comments">
+                      No comments yet. Be the first to comment!
+                    </p>
+                  )}
+
+                  {(commentsByPost[post.id] || []).map((c) => (
+                    <div key={c.id} className="comment">
+                      <div className="comment-avatar">
+                        {c.author ? c.author[0].toUpperCase() : "U"}
+                      </div>
+                      <div className="comment-body">
+                        <span className="comment-author">{c.author}</span>
+                        <span className="comment-text">{c.text}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="comment-input-row">
+                  <input
+                    type="text"
+                    className="comment-input"
+                    placeholder="Write a comment..."
+                    value={newCommentText[post.id] || ""}
+                    onChange={(e) =>
+                      setNewCommentText((prev) => ({
+                        ...prev,
+                        [post.id]: e.target.value
+                      }))
+                    }
+                  />
+                  <button
+                    className="comment-send-btn"
+                    onClick={() => handleAddComment(post.id)}
+                  >
+                    Post
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>
