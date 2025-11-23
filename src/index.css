@@ -1500,7 +1500,7 @@ nav {
 }
 
 /* =================================================
-=                      FOOTER.                    =
+=                      FOOTER                     =
 ================================================= */
 .footer {
   background-color: #1d4ed8;
@@ -1509,109 +1509,52 @@ nav {
   padding: 60px 20px;
 }
 
-.newsletter h2,
-.footer-links h3 {
-  color: #ffffff;
-}
-
 .footer-content {
   max-width: 900px;
   margin: 0 auto;
   text-align: center;
 }
 
-.legal {
-  font-size: 13px;
-  line-height: 1.4;
-  margin-top: 8px;
-  color: #e0e7ff;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+
+.name {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #ffffff;
 }
 
-/* Newsletter section */
-.newsletter h2 {
-  font-size: 28px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.smile {
-  font-size: 30px;
-}
 
 .description {
   font-size: 18px;
   margin-top: 10px;
+  color: #e0e7ff;
 }
 
-.legal {
-  font-size: 14px;
-  margin-top: 10px;
-  color: #ffffff;
-}
-
-.legal a {
-  color: #ffffff;
-  text-decoration: underline;
-}
-
-.subscribe-form {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.email-input {
-  padding: 10px 14px;
-  border: none;
-  border-radius: 6px;
-  width: 90%;
-  max-width: 400px;
-  font-size: 15px;
-}
-
-.subscribe-btn {
-  background-color: white;
-  color: #1d4ed8;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.subscribe-btn:hover {
-  background-color: #f1f5f9;
-}
 
 .divider {
   border: none;
   border-top: 1px solid rgba(255, 255, 255, 0.4);
-  margin: 40px 0;
+  margin: 40px auto;
+  width: 80%;
 }
 
-.footer-link {
-  color: #ffffff;
-  text-decoration: none;
-  position: relative;
-  transition: color 0.2s ease;
-  text-align: center;
-  flex-direction: column;
-}
 
 .footer-links {
   font-size: 20px;
   font-weight: 600;
   display: flex;
   flex-direction: column;
+  gap: 12px;
   align-items: center;
+  margin-bottom: 25px;
+}
+
+
+.footer-link {
+  color: #ffffff;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s ease;
 }
 
 .footer-link::after {
@@ -1630,6 +1573,13 @@ nav {
 }
 
 .footer-link:hover {
+  color: #e0e7ff;
+}
+
+
+.legal {
+  font-size: 14px;
+  margin-top: 10px;
   color: #e0e7ff;
 }
 
