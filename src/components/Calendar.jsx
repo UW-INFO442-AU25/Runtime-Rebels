@@ -11,6 +11,7 @@ export default function Calendar() {
     new Date(now.getFullYear(), now.getMonth(), 1)
   );
   const [selectedDate, setSelectedDate] = useState(now.getDate());
+  const [expandedId, setExpandedId] = useState(null);
 
   const [uid, setUid] = useState(null);
   const [savedEvents, setSavedEvents] = useState([]);
@@ -135,6 +136,8 @@ export default function Calendar() {
         title: ev.title,
         location: ev.city || ev.location || "",
         image: ev.img || ev.image,
+        address: ev.address || "",
+        description: ev.description || "",
         time,
         isPast,
         startsAt: ev.startsAt,
@@ -154,6 +157,10 @@ export default function Calendar() {
   }, [savedEvents, currentDate]);
 
   const currentEvents = eventsByDay[selectedDate] || [];
+
+  const handleExpand = (id) => {
+    setExpandedId(expandedId === id ? null : id);
+  };
 
   return (
     <div className="calendar-container">
@@ -198,6 +205,73 @@ export default function Calendar() {
               strokeWidth="2"
             />
           </svg>
+        </div>
+
+        {/* Events for selected day - MOVED TO TOP */}
+        <div className="events-section">
+          <h2 className="events-title">
+            Events for {monthNames[currentDate.getMonth()]} {selectedDate},{" "}
+            {currentDate.getFullYear()}
+          </h2>
+
+          {currentEvents.length > 0 ? (
+            <div className="events-list">
+              {currentEvents.map((event) => (
+                <article
+                  key={event.id}
+                  className={`calendar-event-card ${
+                    event.isPast ? "past-event" : ""
+                  } ${expandedId === event.id ? "expanded" : ""}`}
+                  onClick={() => handleExpand(event.id)}
+                >
+                  <div className="calendar-event-card__body">
+                    {/* Image - Left */}
+                    <div className="calendar-event-card__media">
+                      {event.image ? (
+                        <img src={event.image} alt={event.title} />
+                      ) : (
+                        <div className="image-fallback" />
+                      )}
+                    </div>
+
+                    {/* Title + Location - Center */}
+                    <div className="calendar-event-card__content">
+                      <h3 className="calendar-event-card__title">{event.title}</h3>
+                      <p className="calendar-event-card__city">{event.location}</p>
+                    </div>
+
+                    {/* Time - Top Right */}
+                    <div className="calendar-event-card__right-column">
+                      <div className="calendar-event-card__time">{event.time}</div>
+                    </div>
+                  </div>
+
+                  {/* Accordion Drawer */}
+                  {expandedId === event.id && event.address && (
+                    <div className="calendar-event-card__details">
+                      <div className="calendar-event-card__row">
+                        <div className="calendar-event-card__address">
+                          📍 {event.address}
+                        </div>
+
+                        {event.description && (
+                          <div className="calendar-event-card__description">
+                            {event.description}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </article>
+              ))}
+            </div>
+          ) : (
+            <p className="no-events">
+              {uid
+                ? "No events scheduled for this day."
+                : "Log in to see your saved events here."}
+            </p>
+          )}
         </div>
 
         {/* Month navigation */}
@@ -278,46 +352,6 @@ export default function Calendar() {
               </button>
             );
           })}
-        </div>
-
-        {/* Events for selected day */}
-        <div className="events-section">
-          <h2 className="events-title">
-            Events for {monthNames[currentDate.getMonth()]} {selectedDate},{" "}
-            {currentDate.getFullYear()}
-          </h2>
-
-          {currentEvents.length > 0 ? (
-            <div className="events-list">
-              {currentEvents.map((event) => (
-                <div
-                  key={event.id}
-                  className={`event-card ${
-                    event.isPast ? "past-event" : ""
-                  }`}
-                >
-                  <div className="event-image">
-                    {event.image ? (
-                      <img src={event.image} alt={event.title} />
-                    ) : (
-                      <div className="image-fallback" />
-                    )}
-                  </div>
-                  <div className="event-info">
-                    <h3 className="event-title">{event.title}</h3>
-                    <p className="event-location">{event.location}</p>
-                  </div>
-                  <div className="event-time">{event.time}</div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="no-events">
-              {uid
-                ? "No events scheduled for this day."
-                : "Log in to see your saved events here."}
-            </p>
-          )}
         </div>
       </div>
     </div>

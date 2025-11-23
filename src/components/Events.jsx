@@ -20,8 +20,8 @@ const events = [
     description: "Beginner and intermediate casual matches. Paddles provided.",
     image: "/img/Pickleball_Pros 1.png",
     coords: [47.61058, -122.33191],
-    startsAt: "2025-10-20T17:30:00-07:00",
-    endsAt: "2025-10-20T19:00:00-07:00",
+    startsAt: "2025-11-20T17:30:00-07:00",
+    endsAt: "2025-11-20T19:00:00-07:00",
   },
   {
     id: 2,
@@ -31,8 +31,8 @@ const events = [
     description: "Quiet evening reading session. Bring your favorite book.",
     image: "/img/reading-before-bed-3x2 4.png",
     coords: [47.6102, -122.2014],
-    startsAt: "2025-10-20T19:30:00-07:00",
-    endsAt: "2025-10-20T21:00:00-07:00",
+    startsAt: "2025-11-20T19:30:00-07:00",
+    endsAt: "2025-11-20T21:00:00-07:00",
   },
   {
     id: 3,
@@ -42,8 +42,8 @@ const events = [
     description: "Join fellow retirees for a relaxed morning of coffee and meaningful conversation. Share stories, make new friends, and enjoy good company in a welcoming atmosphere.",
     image: "/img/coffee.jpg",
     coords: [47.6815, -122.2087],
-    startsAt: "2025-10-21T09:00:00-07:00",
-    endsAt: "2025-10-21T11:00:00-07:00",
+    startsAt: "2025-12-21T09:00:00-07:00",
+    endsAt: "2025-12-21T11:00:00-07:00",
   },
   {
     id: 4,
@@ -53,8 +53,8 @@ const events = [
     description: "Gentle 2-mile walking group around the beautiful Seward Park trail. Perfect pace for all fitness levels. Enjoy nature, fresh air, and friendly conversation with peers.",
     image: "/img/sewardpark.jpg",
     coords: [47.5506, -122.2575],
-    startsAt: "2025-10-22T10:30:00-07:00",
-    endsAt: "2025-10-22T12:00:00-07:00",
+    startsAt: "2025-12-22T10:30:00-07:00",
+    endsAt: "2025-12-22T12:00:00-07:00",
   }
 ];
 
