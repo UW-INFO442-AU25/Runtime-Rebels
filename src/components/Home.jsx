@@ -1,23 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../main";
+import { ref, onValue } from "firebase/database";
+import { auth, db } from "../main";
 import "../index.css";
 
 export default function Home() {
   const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
 
-  // Track login state
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    let dbUnsubscribe = null;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+
+      if (currentUser) {
+        const userRef = ref(db, `users/${currentUser.uid}`);
+
+        dbUnsubscribe = onValue(userRef, (snapshot) => {
+          setUserData(snapshot.val());
+        });
+      } else {
+        setUserData(null);
+      }
     });
-    return () => unsubscribe();
+
+    return () => {
+      unsubscribeAuth();
+      if (dbUnsubscribe) dbUnsubscribe();
+    };
   }, []);
+
+  const displayName =
+    userData?.name || user?.displayName || user?.email?.split("@")[0];
 
   return (
     <div className="home">
-      {/* === HERO SECTION === */}
+      {/* HERO SECTION */}
       <div className="hero">
         <div className="hero-text">
           <h1>Because life after work shouldn’t be faced alone.</h1>
@@ -37,7 +57,7 @@ export default function Home() {
             </div>
           ) : (
             <div className="hero-welcome">
-              <h2>Welcome back, {user.displayName || user.email.split("@")[0]}!</h2>
+              <h2>Welcome back, {displayName}!</h2>
               <p>We’re glad to see you again. Check out what's new.</p>
               <div className="hero-buttons">
                 <Link to="/inbox">

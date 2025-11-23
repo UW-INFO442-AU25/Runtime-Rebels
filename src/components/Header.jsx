@@ -1,20 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../main";
+import { ref, onValue } from "firebase/database";
+import { auth, db } from "../main";
 import { Mail, Menu, X } from "lucide-react";
 import "../index.css";
 
 export default function Header() {
   const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Track user login
+  // Listen for auth state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+
+      if (currentUser) {
+        const userRef = ref(db, `users/${currentUser.uid}`);
+        onValue(userRef, (snapshot) => {
+          setProfile(snapshot.val());
+        });
+      } else {
+        setProfile(null);
+      }
     });
+
     return () => unsubscribe();
   }, []);
 
@@ -28,6 +40,13 @@ export default function Header() {
       e.preventDefault();
       navigate("/overview");
     }
+  };
+
+  const getInitials = (name) => {
+    if (!name) return "U";
+    const parts = name.trim().split(" ");
+    if (parts.length === 1) return parts[0][0].toUpperCase();
+    return (parts[0][0] + parts[1][0]).toUpperCase();
   };
 
   return (
@@ -47,35 +66,19 @@ export default function Header() {
       {/* DESKTOP NAV */}
       <nav>
         <ul className="nav-links">
+          <li><NavLink to="/">Home</NavLink></li>
+          <li><NavLink to="/events">Events</NavLink></li>
           <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
-
-          <li>
-            <NavLink to="/events">Events</NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to="/calendar"
-              onClick={(e) => handleProtectedNav(e, "/calendar")}
-            >
+            <NavLink to="/calendar" onClick={(e) => handleProtectedNav(e, "/calendar")}>
               Calendar
             </NavLink>
           </li>
-
           <li>
-            <NavLink
-              to="/discussion"
-              onClick={(e) => handleProtectedNav(e, "/discussion")}
-            >
+            <NavLink to="/discussion" onClick={(e) => handleProtectedNav(e, "/discussion")}>
               Discussion
             </NavLink>
           </li>
-
-          <li>
-            <NavLink to="/resources">Resources</NavLink>
-          </li>
+          <li><NavLink to="/resources">Resources</NavLink></li>
         </ul>
       </nav>
 
@@ -92,7 +95,7 @@ export default function Header() {
             </NavLink>
 
             <NavLink to="/profile" className="user-avatar">
-              {user.email?.[0].toUpperCase()}
+              {profile ? getInitials(profile.name) : "U"}
             </NavLink>
 
             <NavLink to="/logout" className="signup-btn logout">
@@ -111,7 +114,6 @@ export default function Header() {
         <ul className="mobile-links">
           <li><NavLink to="/" onClick={() => setMenuOpen(false)}>Home</NavLink></li>
           <li><NavLink to="/events" onClick={() => setMenuOpen(false)}>Events</NavLink></li>
-
           <li>
             <NavLink
               to="/calendar"
@@ -123,7 +125,6 @@ export default function Header() {
               Calendar
             </NavLink>
           </li>
-
           <li>
             <NavLink
               to="/discussion"
@@ -135,7 +136,6 @@ export default function Header() {
               Discussion
             </NavLink>
           </li>
-
           <li><NavLink to="/resources" onClick={() => setMenuOpen(false)}>Resources</NavLink></li>
 
           {!user ? (
@@ -146,23 +146,9 @@ export default function Header() {
             </li>
           ) : (
             <>
-              <li>
-                <NavLink to="/inbox" onClick={() => setMenuOpen(false)}>
-                  Inbox
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink to="/profile" onClick={() => setMenuOpen(false)}>
-                  Profile
-                </NavLink>
-              </li>
-
-              <li>
-                <button className="logout-btn-mobile" onClick={handleLogout}>
-                  Log Out
-                </button>
-              </li>
+              <li><NavLink to="/inbox" onClick={() => setMenuOpen(false)}>Inbox</NavLink></li>
+              <li><NavLink to="/profile" onClick={() => setMenuOpen(false)}>Profile</NavLink></li>
+              <li><button className="logout-btn-mobile" onClick={handleLogout}>Log Out</button></li>
             </>
           )}
         </ul>
