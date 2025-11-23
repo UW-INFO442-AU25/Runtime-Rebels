@@ -7,7 +7,6 @@ function Footer() {
             <div className="footer-content">
                 <div className="newsletter">
 
-
                     <p className="tagline">
                         “Accessible tools, guidance, and community resources to help you
                         thrive.”

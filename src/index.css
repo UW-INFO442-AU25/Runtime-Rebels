@@ -1499,6 +1499,32 @@ nav {
   box-shadow: var(--shadow-soft);
 }
 
+.signup-page textarea {
+  width: 100%;
+  appearance: none;
+  border: 1px solid #E5E7EB;
+  background: var(--color-white);
+  border-radius: var(--radius-md); /* same as inputs for consistency */
+  padding: 12px 14px;
+  font-size: 16px;
+  font-family: var(--font-family-base);
+  min-height: 100px; /* makes it comfortably large */
+  resize: vertical; /* let users expand vertically */
+  transition: box-shadow .15s ease, border-color .15s ease, transform .02s ease;
+}
+
+.signup-page textarea::placeholder {
+  color: #9AA5B1;
+}
+
+/* Same focus glow as inputs */
+.signup-page textarea:focus {
+  outline: none;
+  border-color: var(--color-primary-3);
+  box-shadow: 0 0 0 6px rgba(59, 130, 246, .35);
+}
+
+
 /* =================================================
 =                      FOOTER                     =
 ================================================= */

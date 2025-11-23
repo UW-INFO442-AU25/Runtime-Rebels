@@ -16,6 +16,7 @@ import { ToastProvider } from "./components/Toast";
 import Inbox from "./components/Inbox";
 import Overview from "./components/Overview";
 import About from "./components/About";
+import Quiz from "./components/Quiz";
 
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/inbox" element={<Inbox />} />
           <Route path="/overview" element={<Overview />} />
           <Route path="/about" element={<About />} />
+          <Route path="/quiz" element={<Quiz />} />
         </Routes>
       </main>
       <Footer />

@@ -6,7 +6,6 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 import { db } from "../main.jsx";
 
-
 export default function Create() {
   const navigate = useNavigate();
 
@@ -30,17 +29,19 @@ export default function Create() {
 
       await updateProfile(userCred.user, { displayName: name });
 
-    await set(ref(db, `users/${userCred.user.uid}`), {
-      name: name,
-      email: email,
-      phoneNumber: "",
-      country: "",
-      language: "",
-      timeZone: "",
-      avatar: ""
-    });
+      await set(ref(db, `users/${userCred.user.uid}`), {
+        name: name,
+        email: email,
+        phoneNumber: "",
+        country: "",
+        language: "",
+        timeZone: "",
+        avatar: ""
+      });
 
-      navigate("/"); 
+      // ⬅️ Redirect user to quiz page after signup
+      navigate("/quiz");
+
     } catch (err) {
       console.error("Signup error:", err);
       setError("Failed to create account — try again.");
