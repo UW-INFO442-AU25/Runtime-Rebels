@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ref, onValue, update } from "firebase/database";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, updateProfile } from "firebase/auth";
 import { auth, db } from "../main";
 import "../index.css";
 
@@ -44,10 +44,19 @@ export default function Profile() {
 
   const handleSave = async () => {
     try {
+      // 1️⃣ Update Realtime Database
       await update(ref(db, `users/${auth.currentUser.uid}`), {
         ...userData,
-        avatar: null, // ensure avatar is always initials
+        avatar: null,
       });
+
+      // 2️⃣ Update Firebase Auth displayName
+      if (auth.currentUser.displayName !== userData.name) {
+        await updateProfile(auth.currentUser, {
+          displayName: userData.name,
+        });
+      }
+
       setIsEditing(false);
     } catch (err) {
       console.error("Error saving profile:", err);

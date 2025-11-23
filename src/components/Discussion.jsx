@@ -71,6 +71,8 @@ export default function CommunityDiscussions() {
 
  const handlePost = async () => {
   if (!currentUser || newPostContent.trim() === "") return;
+  
+  console.log(currentUser.displayName);
 
   const newPost = {
     category: ["General", ...newPostTags],
