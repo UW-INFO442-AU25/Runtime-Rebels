@@ -1765,26 +1765,19 @@ nav {
 /* =================================================
 =                  COMMUNITY PAGE                 =
 ================================================= */
-
 .community-page {
   font-family: var(--font-family-base);
   background-color: var(--color-bg);
   color: var(--color-gray);
 }
 
-.posts {
-  padding: 1rem;
-}
-
-.community-hero {
-  height: 220px;
-}
-
-/* COMMUNITY HEROS */
+/* ===========================
+   HERO SECTION
+=========================== */
 .community-hero {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 450px;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -1795,42 +1788,44 @@ nav {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-
-.community-bg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
   filter: brightness(70%);
 }
 
 .community-overlay {
   position: absolute;
   text-align: center;
-  color: var(--color-white);
+  color: white;
 }
 
 .community-overlay h1 {
   font-size: var(--h1-size);
+  color: white;
+
   font-weight: 700;
-  color: var(--color-white);
 }
 
-.community-location,
-.community-about {
-  margin-top: 8px;
+.community-meta {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: var(--text-size);
 }
 
-/* =================================================
-=                     CONTROLS (?).               =
-================================================= */
+/* ===========================
+   CONTROLS
+=========================== */
 .community-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
+  padding: 1.3rem 2rem;
   background-color: var(--color-white);
   box-shadow: var(--shadow-soft);
 }
@@ -1844,11 +1839,11 @@ nav {
   border: none;
   background-color: var(--color-secondary-3);
   color: var(--color-primary-1);
-  padding: 0.5rem 1.2rem;
+  padding: 0.55rem 1.3rem;
   border-radius: var(--radius-md);
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.25s;
 }
 
 .tab:hover {
@@ -1867,11 +1862,14 @@ nav {
   font-weight: 600;
   cursor: pointer;
   font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-/* =================================================
-=                     POSTS (?).                  =
-================================================= */
+/* ===========================
+   POSTS LIST
+=========================== */
 .posts {
   padding: 2rem;
   display: flex;
@@ -1879,25 +1877,15 @@ nav {
   gap: 1.5rem;
 }
 
-
-.category-tags {
+.tag-pill {
+  display: inline-block;
   background-color: var(--color-secondary-3);
   color: var(--color-primary-1);
-  display: inline-block;
-  padding: 0.3rem 1rem;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.tag-pill {
-  background-color:var(--color-secondary-3);
-  color: var(--color-primary-1);;
   padding: 0.3rem 1rem;
   border-radius: 999px;
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
-
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-right: 0.5rem;
 }
 
 .post-card {
@@ -1919,11 +1907,12 @@ nav {
   height: 40px;
   border-radius: 50%;
   background-color: var(--color-secondary-2);
-  color: var(--color-gray);
+  color: var(--color-black);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1rem;
 }
 
 .author {
@@ -1934,93 +1923,176 @@ nav {
 .post-content {
   line-height: 1.6;
   margin-bottom: 1rem;
+  color: var(--color-gray);
 }
 
 .post-footer {
   display: flex;
   gap: 1.5rem;
-  color: var(--color-gray);
   font-size: 0.95rem;
   font-weight: 500;
+  color: var(--color-gray);
 }
-/* =================================================
-=                     CREATING POSTS                  =
-================================================= */
-/* Dark semi-transparent background covering the page */
+
+.icon-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.icon-group:hover {
+  color: var(--color-primary-2);
+}
+
+/* ===========================
+   CREATE POST POPUP
+=========================== */
 .form-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* dark overlay */
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 2000;
 }
 
-/* White box in the center */
+.form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Modal Box */
 .add-post-form {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 12px;
-  width: 400px;
+  background: white;
+  padding: 2rem 2.2rem;
+  border-radius: 16px;
+  width: 480px;
   max-width: 90%;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  gap: 1.2rem;
+}
+
+/* Title */
+.add-post-form h3 {
+  text-align: center;
+  color: #2563eb;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* Tag Section */
+.tag-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.25rem 0;
+}
+
+.add-post-form .tag-pill {
+  background: #e0e7ff;
+  color: #4338ca;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .tag-input {
-  width: 100%;
-  max-width: 200px;   /* limit so it doesn’t stretch too far */
-  padding: 0.5rem 1rem;
-  border-radius: 999px; /* makes it pill-shaped */
-  border: 1px solid #ccc;
-  font-size: 1rem;
+  width: 93%;
+  padding: 0.55rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: white;
+  font-size: 0.95rem;
   outline: none;
-  transition: border 0.2s, box-shadow 0.2s;
 }
 
 .tag-input:focus {
-  border-color: var(--color-primary-2); /* purple outline on focus */
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+  border-color: #6366f1;
 }
 
-/* Big textarea */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Text Area */
 .add-post-form textarea {
-  width: 100%;
-  height: 120px;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  width: 94%;
+  height: 140px;
+  padding: 0.75rem;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  font-size: 0.95rem;
   resize: none;
-  font-size: 1rem;
 }
 
-/* Buttons side by side */
+/* Buttons */
 .form-buttons {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
+  margin-top: 0.5rem;
 }
 
 .form-buttons button {
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  padding: 0.55rem 1.3rem;
+  border-radius: 10px;
   border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
   cursor: pointer;
 }
 
 .form-buttons button:first-child {
-  background-color: var(--color-primary-2); /* purple-ish Post button */
+  background: #2563eb;
   color: white;
 }
 
 .form-buttons button:last-child {
-  background-color: #e5e7eb; /* gray Cancel button */
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.delete-post-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 0.8rem;
+}
+
+.delete-post-btn:hover {
+  background: #dc2626;
 }
 
 
