@@ -53,40 +53,36 @@ export default function CommunityDiscussions() {
   }, []);
 
   /* ------------------------- LOAD POSTS ------------------------- */
-useEffect(() => {
-  if (!currentUser) return;
+  useEffect(() => {
+    if (!currentUser) return;
 
-  const q =
-    sortMode === "recent"
-      ? query(collection(db1, "posts"), orderBy("createdAt", "desc"))
-      : query(collection(db1, "posts"), orderBy("likes", "desc"));
+    const q =
+      sortMode === "recent"
+        ? query(collection(db1, "posts"), orderBy("createdAt", "desc"))
+        : query(collection(db1, "posts"), orderBy("likes", "desc"));
 
-  const unsubscribe = onSnapshot(q, async (snapshot) => {
-    const postsList = await Promise.all(
-      snapshot.docs.map(async (docSnap) => {
-        const data = docSnap.data();
+    const unsubscribe = onSnapshot(q, async (snapshot) => {
+      const postsList = await Promise.all(
+        snapshot.docs.map(async (docSnap) => {
+          const data = docSnap.data();
 
-        const likeSnap = await getDoc(
-          doc(db1, "posts", docSnap.id, "likes", currentUser.uid)
-        );
+          const likeSnap = await getDoc(
+            doc(db1, "posts", docSnap.id, "likes", currentUser.uid)
+          );
 
-        return {
-          id: docSnap.id,
-          ...data,
-          likedByCurrentUser: likeSnap.exists(),
-        };
-      })
-    );
+          return {
+            id: docSnap.id,
+            ...data,
+            likedByCurrentUser: likeSnap.exists(),
+          };
+        })
+      );
 
-    setPosts(postsList);
-  });
+      setPosts(postsList);
+    });
 
-  return () => unsubscribe();
-}, [sortMode, currentUser]);
-
-
-
-
+    return () => unsubscribe();
+  }, [sortMode, currentUser]);
 
   /* ------------------------- CREATE POST ------------------------- */
   const handlePost = async () => {
@@ -126,119 +122,119 @@ useEffect(() => {
   };
 
   /* ------------------------- TOGGLE LIKE ------------------------- */
-const handleLike = async (post) => {
-  if (!currentUser) return;
-  if (post.uid === currentUser.uid) return alert("You cannot like your own post!");
+  const handleLike = async (post) => {
+    if (!currentUser) return;
+    if (post.uid === currentUser.uid) return alert("You cannot like your own post!");
 
-  const postRef = doc(db1, "posts", post.id);
-  const likeRef = doc(db1, "posts", post.id, "likes", currentUser.uid);
+    const postRef = doc(db1, "posts", post.id);
+    const likeRef = doc(db1, "posts", post.id, "likes", currentUser.uid);
 
-  try {
-    if (post.likedByCurrentUser) {
-      // Only decrement if likes > 0
-      const newLikes = Math.max(post.likes - 1, 0);
+    try {
+      if (post.likedByCurrentUser) {
+        // Only decrement if likes > 0
+        const newLikes = Math.max(post.likes - 1, 0);
 
-      await deleteDoc(likeRef);
-      await updateDoc(postRef, { likes: newLikes });
+        await deleteDoc(likeRef);
+        await updateDoc(postRef, { likes: newLikes });
 
-      setPosts((prev) =>
-        prev.map((p) =>
-          p.id === post.id
-            ? { ...p, likes: newLikes, likedByCurrentUser: false }
-            : p
-        )
-      );
-    } else {
-      await setDoc(likeRef, { likedAt: serverTimestamp() });
-      await updateDoc(postRef, { likes: increment(1) });
+        setPosts((prev) =>
+          prev.map((p) =>
+            p.id === post.id
+              ? { ...p, likes: newLikes, likedByCurrentUser: false }
+              : p
+          )
+        );
+      } else {
+        await setDoc(likeRef, { likedAt: serverTimestamp() });
+        await updateDoc(postRef, { likes: increment(1) });
 
-      setPosts((prev) =>
-        prev.map((p) =>
-          p.id === post.id
-            ? { ...p, likes: p.likes + 1, likedByCurrentUser: true }
-            : p
-        )
-      );
+        setPosts((prev) =>
+          prev.map((p) =>
+            p.id === post.id
+              ? { ...p, likes: p.likes + 1, likedByCurrentUser: true }
+              : p
+          )
+        );
+      }
+    } catch (err) {
+      console.error("Error toggling like:", err);
     }
-  } catch (err) {
-    console.error("Error toggling like:", err);
-  }
-};
+  };
 
 
 
   /* ------------------------- COMMENTS ------------------------- */
   const loadComments = async (postId) => {
-  try {
-    const q = query(
-      collection(db1, "posts", postId, "comments"),
-      orderBy("createdAt", "asc")
-    );
-    const snap = await getDocs(q);
-    const list = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-    setCommentsByPost((prev) => ({ ...prev, [postId]: list }));
-  } catch (err) {
-    console.error("Error loading comments:", err);
-  }
-};
-
-const toggleComments = async (postId) => {
-  const isOpen = !!openComments[postId];
-  if (!isOpen && !commentsByPost[postId]) {
-    await loadComments(postId);
-  }
-  setOpenComments((prev) => ({ ...prev, [postId]: !isOpen }));
-};
-
-const handleAddComment = async (postId) => {
-  if (!currentUser) return;
-
-  const text = (newCommentText[postId] || "").trim();
-  if (!text) return;
-
-  const comment = {
-    uid: currentUser.uid,
-    author: currentUser.displayName || currentUser.email,
-    text,
-    createdAt: serverTimestamp(),
+    try {
+      const q = query(
+        collection(db1, "posts", postId, "comments"),
+        orderBy("createdAt", "asc")
+      );
+      const snap = await getDocs(q);
+      const list = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+      setCommentsByPost((prev) => ({ ...prev, [postId]: list }));
+    } catch (err) {
+      console.error("Error loading comments:", err);
+    }
   };
 
-  try {
-    const commentsRef = collection(db1, "posts", postId, "comments");
-    const docRef = await addDoc(commentsRef, comment);
+  const toggleComments = async (postId) => {
+    const isOpen = !!openComments[postId];
+    if (!isOpen && !commentsByPost[postId]) {
+      await loadComments(postId);
+    }
+    setOpenComments((prev) => ({ ...prev, [postId]: !isOpen }));
+  };
 
-    // Update local state
-    setNewCommentText((prev) => ({ ...prev, [postId]: "" }));
-    setCommentsByPost((prev) => ({
-      ...prev,
-      [postId]: [...(prev[postId] || []), { id: docRef.id, ...comment }],
-    }));
+  const handleAddComment = async (postId) => {
+    if (!currentUser) return;
 
-    // Increment comment count on the post itself
-    await updateDoc(doc(db1, "posts", postId), { comments: increment(1) });
-  } catch (err) {
-    console.error("Error adding comment:", err);
-  }
-};
+    const text = (newCommentText[postId] || "").trim();
+    if (!text) return;
 
-/* Deleting a comment */
-const handleDeleteComment = async (postId, commentId) => {
-  if (!currentUser) return;
-  if (!window.confirm("Delete this comment?")) return;
+    const comment = {
+      uid: currentUser.uid,
+      author: currentUser.displayName || currentUser.email,
+      text,
+      createdAt: serverTimestamp(),
+    };
 
-  try {
-    await deleteDoc(doc(db1, "posts", postId, "comments", commentId));
+    try {
+      const commentsRef = collection(db1, "posts", postId, "comments");
+      const docRef = await addDoc(commentsRef, comment);
 
-    setCommentsByPost((prev) => ({
-      ...prev,
-      [postId]: prev[postId].filter((c) => c.id !== commentId),
-    }));
+      // Update local state
+      setNewCommentText((prev) => ({ ...prev, [postId]: "" }));
+      setCommentsByPost((prev) => ({
+        ...prev,
+        [postId]: [...(prev[postId] || []), { id: docRef.id, ...comment }],
+      }));
 
-    await updateDoc(doc(db1, "posts", postId), { comments: increment(-1) });
-  } catch (err) {
-    console.error("Error deleting comment:", err);
-  }
-};
+      // Increment comment count on the post itself
+      await updateDoc(doc(db1, "posts", postId), { comments: increment(1) });
+    } catch (err) {
+      console.error("Error adding comment:", err);
+    }
+  };
+
+  /* Deleting a comment */
+  const handleDeleteComment = async (postId, commentId) => {
+    if (!currentUser) return;
+    if (!window.confirm("Delete this comment?")) return;
+
+    try {
+      await deleteDoc(doc(db1, "posts", postId, "comments", commentId));
+
+      setCommentsByPost((prev) => ({
+        ...prev,
+        [postId]: prev[postId].filter((c) => c.id !== commentId),
+      }));
+
+      await updateDoc(doc(db1, "posts", postId), { comments: increment(-1) });
+    } catch (err) {
+      console.error("Error deleting comment:", err);
+    }
+  };
 
   /* ------------------------- JSX ------------------------- */
   return (
@@ -381,19 +377,19 @@ const handleDeleteComment = async (postId, commentId) => {
                         <span className="comment-author">{c.author}</span>
                         <span className="comment-text">{c.text}</span>
                       </div>
-                     {/* DELETE COMMENT BUTTON */}
-          {currentUser?.uid === c.uid && (
-            <button
-              className="delete-post-btn"
-              onClick={() => handleDeleteComment(post.id, c.id)}
-            >
-              Delete
-            </button>
-          )}
-        </div>
-      ))}
-    </div>
-                  
+                      {/* DELETE COMMENT BUTTON */}
+                      {currentUser?.uid === c.uid && (
+                        <button
+                          className="delete-post-btn"
+                          onClick={() => handleDeleteComment(post.id, c.id)}
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
 
                 <div className="comment-input-row">
                   <input
