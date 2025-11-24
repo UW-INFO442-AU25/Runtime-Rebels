@@ -7,6 +7,8 @@ function Footer() {
             <div className="footer-content">
                 <div className="newsletter">
 
+                    <h2 className="name">Azure Haven</h2>
+
                     <p className="tagline">
                         “Accessible tools, guidance, and community resources to help you
                         thrive.”
