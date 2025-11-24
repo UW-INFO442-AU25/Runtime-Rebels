@@ -38,15 +38,13 @@ export default function CommunityDiscussions() {
   const [newPostTags, setNewPostTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
 
-  const [sortMode, setSortMode] = useState("recent"); // ⭐ NEW: recent | trending
-
+  const [sortMode, setSortMode] = useState("recent"); // recent | trending
   const [openComments, setOpenComments] = useState({});
   const [commentsByPost, setCommentsByPost] = useState({});
   const [newCommentText, setNewCommentText] = useState({});
 
-  /* -------------------------
-       AUTH TRACKING
-  -------------------------- */
+
+  /* ------------------------- AUTH TRACKING ------------------------- */
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user || null);
@@ -54,32 +52,43 @@ export default function CommunityDiscussions() {
     return () => unsub();
   }, []);
 
-  /* -------------------------
-       LOAD POSTS
-  -------------------------- */
-  useEffect(() => {
-    let q;
+  /* ------------------------- LOAD POSTS ------------------------- */
+useEffect(() => {
+  if (!currentUser) return;
 
-    if (sortMode === "recent") {
-      q = query(collection(db1, "posts"), orderBy("createdAt", "desc"));
-    } else if (sortMode === "trending") {
-      q = query(collection(db1, "posts"), orderBy("likes", "desc"));
-    }
+  const q =
+    sortMode === "recent"
+      ? query(collection(db1, "posts"), orderBy("createdAt", "desc"))
+      : query(collection(db1, "posts"), orderBy("likes", "desc"));
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const postsList = snapshot.docs.map((docSnap) => ({
-        id: docSnap.id,
-        ...docSnap.data(),
-      }));
-      setPosts(postsList);
-    });
+  const unsubscribe = onSnapshot(q, async (snapshot) => {
+    const postsList = await Promise.all(
+      snapshot.docs.map(async (docSnap) => {
+        const data = docSnap.data();
 
-    return () => unsubscribe();
-  }, [sortMode]);
+        const likeSnap = await getDoc(
+          doc(db1, "posts", docSnap.id, "likes", currentUser.uid)
+        );
 
-  /* -------------------------
-       CREATE POST
-  -------------------------- */
+        return {
+          id: docSnap.id,
+          ...data,
+          likedByCurrentUser: likeSnap.exists(),
+        };
+      })
+    );
+
+    setPosts(postsList);
+  });
+
+  return () => unsubscribe();
+}, [sortMode, currentUser]);
+
+
+
+
+
+  /* ------------------------- CREATE POST ------------------------- */
   const handlePost = async () => {
     if (!currentUser || newPostContent.trim() === "") return;
 
@@ -104,9 +113,7 @@ export default function CommunityDiscussions() {
     }
   };
 
-  /* -------------------------
-       DELETE POST
-  -------------------------- */
+  /* ------------------------- DELETE POST ------------------------- */
   const handleDelete = async (postId) => {
     if (!currentUser) return;
     if (!window.confirm("Delete this post?")) return;
@@ -118,93 +125,122 @@ export default function CommunityDiscussions() {
     }
   };
 
-  /* -------------------------
-       LIKE POST
-  -------------------------- */
-  const handleLike = async (post) => {
-    if (!currentUser) return;
-    if (post.uid === currentUser.uid)
-      return alert("You cannot like your own post!");
+  /* ------------------------- TOGGLE LIKE ------------------------- */
+const handleLike = async (post) => {
+  if (!currentUser) return;
+  if (post.uid === currentUser.uid) return alert("You cannot like your own post!");
 
-    const likeRef = doc(db1, "posts", post.id, "likes", currentUser.uid);
-    const likeSnap = await getDoc(likeRef);
+  const postRef = doc(db1, "posts", post.id);
+  const likeRef = doc(db1, "posts", post.id, "likes", currentUser.uid);
 
-    if (likeSnap.exists()) return alert("You already liked this post!");
+  try {
+    if (post.likedByCurrentUser) {
+      // Only decrement if likes > 0
+      const newLikes = Math.max(post.likes - 1, 0);
 
-    try {
-      await setDoc(likeRef, { likedAt: serverTimestamp() });
-      await updateDoc(doc(db1, "posts", post.id), {
-        likes: increment(1),
-      });
-    } catch (err) {
-      console.error("Error liking post:", err);
-    }
-  };
+      await deleteDoc(likeRef);
+      await updateDoc(postRef, { likes: newLikes });
 
-  /* -------------------------
-       COMMENTS
-  -------------------------- */
-  const loadComments = async (postId) => {
-    try {
-      const q = query(
-        collection(db1, "posts", postId, "comments"),
-        orderBy("createdAt", "asc")
+      setPosts((prev) =>
+        prev.map((p) =>
+          p.id === post.id
+            ? { ...p, likes: newLikes, likedByCurrentUser: false }
+            : p
+        )
       );
+    } else {
+      await setDoc(likeRef, { likedAt: serverTimestamp() });
+      await updateDoc(postRef, { likes: increment(1) });
 
-      const snap = await getDocs(q);
-      const list = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-
-      setCommentsByPost((prev) => ({ ...prev, [postId]: list }));
-    } catch (err) {
-      console.error("Error loading comments:", err);
+      setPosts((prev) =>
+        prev.map((p) =>
+          p.id === post.id
+            ? { ...p, likes: p.likes + 1, likedByCurrentUser: true }
+            : p
+        )
+      );
     }
+  } catch (err) {
+    console.error("Error toggling like:", err);
+  }
+};
+
+
+
+  /* ------------------------- COMMENTS ------------------------- */
+  const loadComments = async (postId) => {
+  try {
+    const q = query(
+      collection(db1, "posts", postId, "comments"),
+      orderBy("createdAt", "asc")
+    );
+    const snap = await getDocs(q);
+    const list = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    setCommentsByPost((prev) => ({ ...prev, [postId]: list }));
+  } catch (err) {
+    console.error("Error loading comments:", err);
+  }
+};
+
+const toggleComments = async (postId) => {
+  const isOpen = !!openComments[postId];
+  if (!isOpen && !commentsByPost[postId]) {
+    await loadComments(postId);
+  }
+  setOpenComments((prev) => ({ ...prev, [postId]: !isOpen }));
+};
+
+const handleAddComment = async (postId) => {
+  if (!currentUser) return;
+
+  const text = (newCommentText[postId] || "").trim();
+  if (!text) return;
+
+  const comment = {
+    uid: currentUser.uid,
+    author: currentUser.displayName || currentUser.email,
+    text,
+    createdAt: serverTimestamp(),
   };
 
-  const toggleComments = async (postId) => {
-    const isOpen = !!openComments[postId];
+  try {
+    const commentsRef = collection(db1, "posts", postId, "comments");
+    const docRef = await addDoc(commentsRef, comment);
 
-    if (!isOpen && !commentsByPost[postId]) {
-      await loadComments(postId);
-    }
+    // Update local state
+    setNewCommentText((prev) => ({ ...prev, [postId]: "" }));
+    setCommentsByPost((prev) => ({
+      ...prev,
+      [postId]: [...(prev[postId] || []), { id: docRef.id, ...comment }],
+    }));
 
-    setOpenComments((prev) => ({ ...prev, [postId]: !isOpen }));
-  };
+    // Increment comment count on the post itself
+    await updateDoc(doc(db1, "posts", postId), { comments: increment(1) });
+  } catch (err) {
+    console.error("Error adding comment:", err);
+  }
+};
 
-  const handleAddComment = async (postId) => {
-    if (!currentUser) return;
+/* Deleting a comment */
+const handleDeleteComment = async (postId, commentId) => {
+  if (!currentUser) return;
+  if (!window.confirm("Delete this comment?")) return;
 
-    const text = (newCommentText[postId] || "").trim();
-    if (!text) return;
+  try {
+    await deleteDoc(doc(db1, "posts", postId, "comments", commentId));
 
-    const comment = {
-      uid: currentUser.uid,
-      author: currentUser.displayName || currentUser.email,
-      text,
-      createdAt: serverTimestamp(),
-    };
+    setCommentsByPost((prev) => ({
+      ...prev,
+      [postId]: prev[postId].filter((c) => c.id !== commentId),
+    }));
 
-    try {
-      const commentsRef = collection(db1, "posts", postId, "comments");
-      const docRef = await addDoc(commentsRef, comment);
+    await updateDoc(doc(db1, "posts", postId), { comments: increment(-1) });
+  } catch (err) {
+    console.error("Error deleting comment:", err);
+  }
+};
 
-      setNewCommentText((prev) => ({ ...prev, [postId]: "" }));
-
-      setCommentsByPost((prev) => ({
-        ...prev,
-        [postId]: [...(prev[postId] || []), { id: docRef.id, ...comment }],
-      }));
-
-      await updateDoc(doc(db1, "posts", postId), {
-        comments: increment(1),
-      });
-    } catch (err) {
-      console.error("Error adding comment:", err);
-    }
-  };
-
-  /* -------------------------
-       JSX
-  -------------------------- */
+  /* ------------------------- JSX ------------------------- */
   return (
     <div className="community-page">
       {/* HERO */}
@@ -228,7 +264,6 @@ export default function CommunityDiscussions() {
           >
             <Clock size={16} /> Recent
           </button>
-
           <button
             className={`tab ${sortMode === "trending" ? "active" : ""}`}
             onClick={() => setSortMode("trending")}
@@ -236,7 +271,6 @@ export default function CommunityDiscussions() {
             <TrendingUp size={16} /> Trending
           </button>
         </div>
-
         <button className="add-post" onClick={() => setShowForm(true)}>
           <Plus size={18} /> Add Post
         </button>
@@ -253,12 +287,9 @@ export default function CommunityDiscussions() {
               <label>Tags:</label>
               <div className="tags-container">
                 {newPostTags.map((tag, idx) => (
-                  <span key={idx} className="tag-pill">
-                    {tag}
-                  </span>
+                  <span key={idx} className="tag-pill">{tag}</span>
                 ))}
               </div>
-
               <input
                 className="tag-input"
                 placeholder="Type tag + press Enter"
@@ -304,15 +335,12 @@ export default function CommunityDiscussions() {
 
             <div className="category-row">
               {post.category?.map((tag, idx) => (
-                <span key={idx} className="tag-pill">
-                  {tag}
-                </span>
+                <span key={idx} className="tag-pill">{tag}</span>
               ))}
             </div>
 
             <p className="post-content">{post.content}</p>
 
-            {/* DELETE ONLY FOR OWN POSTS */}
             {currentUser?.uid === post.uid && (
               <button
                 className="delete-post-btn"
@@ -323,11 +351,20 @@ export default function CommunityDiscussions() {
             )}
 
             <div className="post-footer">
-              <div className="icon-group" onClick={() => handleLike(post)}>
-                <ThumbsUp size={16} /> {post.likes} likes
+              <div
+                className="icon-group"
+                onClick={() => handleLike(post)}
+              >
+                <ThumbsUp
+                  size={16}
+                  fill={post.likedByCurrentUser ? "currentColor" : "none"}
+                />{" "}
+                {post.likes} likes
               </div>
-
-              <div className="icon-group" onClick={() => toggleComments(post.id)}>
+              <div
+                className="icon-group"
+                onClick={() => toggleComments(post.id)}
+              >
                 <MessageCircle size={16} /> {post.comments || 0} comments
               </div>
             </div>
@@ -344,9 +381,19 @@ export default function CommunityDiscussions() {
                         <span className="comment-author">{c.author}</span>
                         <span className="comment-text">{c.text}</span>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                     {/* DELETE COMMENT BUTTON */}
+          {currentUser?.uid === c.uid && (
+            <button
+              className="delete-post-btn"
+              onClick={() => handleDeleteComment(post.id, c.id)}
+            >
+              Delete
+            </button>
+          )}
+        </div>
+      ))}
+    </div>
+                  
 
                 <div className="comment-input-row">
                   <input
@@ -360,7 +407,6 @@ export default function CommunityDiscussions() {
                       }))
                     }
                   />
-
                   <button
                     className="comment-send-btn"
                     onClick={() => handleAddComment(post.id)}
@@ -370,7 +416,6 @@ export default function CommunityDiscussions() {
                 </div>
               </div>
             )}
-
           </div>
         ))}
       </div>
