@@ -161,8 +161,6 @@ export default function CommunityDiscussions() {
     }
   };
 
-
-
   /* ------------------------- COMMENTS ------------------------- */
   const loadComments = async (postId) => {
     try {
@@ -245,8 +243,7 @@ export default function CommunityDiscussions() {
         <div className="community-overlay">
           <h1>Community Discussions</h1>
           <div className="community-meta">
-            <p className="meta-item"><MapPin size={16} /> Seattle</p>
-            <p className="meta-item"><Info size={16} /> About</p>
+            <p className="meta-item"><MapPin size={16} /> Washington</p>
           </div>
         </div>
       </section>
