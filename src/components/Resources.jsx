@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import "../index.css";
 const heroImg = "/img/resourcesbanner.png";
+const img1 = "/img/samhsa.png"
+const img2 = "/img/nimh.webp"
+const img3 = "img/who.png"
+const img4 = "/img/cdc.png"
+const img5 = "/img/nami.png"
+const img6 = "/img/forbes.jpg"
+const img7 = "img/psychologytoday.png"
+const img8 = "/img/harvard.png"
+const img9 = "/img/mha.webp"
 
 // ======================
 // RESOURCE DATA ARRAY
@@ -10,6 +19,7 @@ const resourcesData = [
   // External links
   {
     title: "SAMHSA: Resources for Older Adults",
+    img: img1, 
     description: "Support for older adults with mental and substance use disorders.",
     link: "https://www.samhsa.gov/communities/older-adults",
     category: "Mental Health",
@@ -18,6 +28,7 @@ const resourcesData = [
   },
   {
     title: "NIMH: Older Adults & Mental Health",
+    img: img2,
     description: "Mental health information specifically for older adults.",
     link: "https://www.nimh.nih.gov/health/topics/older-adults-and-mental-health",
     category: "Mental Health",
@@ -26,6 +37,7 @@ const resourcesData = [
   },
   {
     title: "NIMH: Caring for Your Mental Health",
+    img: img2,
     description: "Simple steps and practices to maintain mental well-being.",
     link: "https://www.nimh.nih.gov/health/topics/caring-for-your-mental-health",
     category: "Mental Health",
@@ -34,6 +46,7 @@ const resourcesData = [
   },
   {
     title: "WHO: Mental Health of Older Adults",
+    img: img3,
     description: "Global statistics and key risk factors affecting mental health later in life.",
     link: "https://www.who.int/news-room/fact-sheets/detail/mental-health-of-older-adults",
     category: "Mental Health",
@@ -42,6 +55,7 @@ const resourcesData = [
   },
   {
     title: "CDC Mental Health Resources",
+    img: img4,
     description: "Evidence-based guidance on caring for mental health.",
     link: "https://www.cdc.gov/mental-health/caring/index.html",
     category: "Mental Health",
@@ -50,6 +64,7 @@ const resourcesData = [
   },
   {
     title: "National Alliance on Mental Illness (NAMI)",
+    img: img5,
     description: "Support, education, and advocacy for mental health.",
     link: "https://www.nami.org/",
     category: "Community",
@@ -58,6 +73,7 @@ const resourcesData = [
   },
   {
     title: "Best Online Therapy Services",
+    img: img6,
     description: "Independent review of top online therapy platforms.",
     link: "https://www.forbes.com/health/l/best-online-therapy/",
     category: "Mental Health",
@@ -66,6 +82,7 @@ const resourcesData = [
   },
   {
     title: "Psychology Today: Find a Therapist",
+    img: img7,
     description: "Search tool to find therapists by location and specialty.",
     link: "https://www.psychologytoday.com/us",
     category: "Community",
@@ -74,6 +91,7 @@ const resourcesData = [
   },
   {
     title: "Harvard: Importance of Social Connection",
+    img: img8,
     description: "How social ties support healthier, longer lives.",
     link: "https://hsph.harvard.edu/news/the-importance-of-connections-ways-to-live-a-longer-healthier-life/",
     category: "Lifestyle",
@@ -82,6 +100,7 @@ const resourcesData = [
   },
   {
     title: "Mental Health America: Connect With Others",
+    img: img9,
     description: "Steps to build meaningful connection and support networks.",
     link: "https://mhanational.org/resources/connect-with-others/",
     category: "Community",
@@ -162,20 +181,22 @@ export default function Resources() {
 
             {filteredResources.map((res, index) => (
               <article className="resource-card" key={index}>
-                <div className="thumb" />
-
-                {res.link ? (
-                  <h3>
-                    <a href={res.link} target="_blank" rel="noopener noreferrer">
-                      {res.title}
-                    </a>
-                  </h3>
-                ) : (
-                  <h3>{res.title}</h3>
-                )}
-
-                {res.description && <p>{res.description}</p>}
-              </article>
+              <div className="thumb">
+                {res.img && <img src={res.img} alt={res.title} />}
+              </div>
+            
+              {res.link ? (
+                <h3>
+                  <a href={res.link} target="_blank" rel="noopener noreferrer">
+                    {res.title}
+                  </a>
+                </h3>
+              ) : (
+                <h3>{res.title}</h3>
+              )}
+            
+              {res.description && <p>{res.description}</p>}
+            </article>            
             ))}
 
             {filteredResources.length === 0 && (
