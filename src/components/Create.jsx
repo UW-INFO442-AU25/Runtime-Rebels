@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../index.css";
-import { auth } from "../main";
+import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
-import { db } from "../main.jsx";
+import { db } from "../firebase";
 
 export default function Create() {
   const navigate = useNavigate();

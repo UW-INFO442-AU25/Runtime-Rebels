@@ -4,7 +4,7 @@ import "../index.css";
 import { buildIcs, downloadIcsFile } from "../util/ics";
 import { useToast } from "./Toast";
 
-import { auth, db1 } from "../main.jsx";
+import { auth, db1 } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, doc, setDoc, deleteDoc, onSnapshot } from "firebase/firestore";
 

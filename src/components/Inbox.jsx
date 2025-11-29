@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Calendar, Send, Trash2, X, Inbox as InboxIcon, Mail } from "lucide-react";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, onValue } from "firebase/database";
-import { auth, db } from "../main";
+import { auth, db } from "../firebase";
 import {
   subscribeToInbox,
   subscribeToSent,

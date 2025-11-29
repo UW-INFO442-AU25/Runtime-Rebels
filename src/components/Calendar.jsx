@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "../index.css";
 
-import { auth, db1 } from "../main.jsx";
+import { auth, db1 } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, onSnapshot } from "firebase/firestore";
 

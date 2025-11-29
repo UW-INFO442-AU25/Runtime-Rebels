@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../main";
-import { db } from "../main.jsx";
+import { auth } from "../firebase";
+import { db } from "../firebase";
 import { ref, update } from "firebase/database";
 import "../index.css";
 

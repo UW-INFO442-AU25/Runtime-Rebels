@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, onValue } from "firebase/database";
-import { auth, db } from "../main";
+import { auth, db } from "../firebase";
 import "../index.css";
 
 export default function Home() {

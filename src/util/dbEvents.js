@@ -1,4 +1,4 @@
-import { db1 } from "../main.jsx";
+import { db1 } from "../firebase";
 import {
   collection,
   doc,

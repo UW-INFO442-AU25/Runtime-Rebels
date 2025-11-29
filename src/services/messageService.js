@@ -11,10 +11,9 @@ import {
   serverTimestamp,
   getDoc,
 } from "firebase/firestore";
-import { db1 } from "../main";
+import { db1 } from "../firebase";
 
 const messagesRef = collection(db1, "messages");
-
 
 export async function sendMessage({ senderId, senderName, recipientId, recipientName, subject, body }) {
   return await addDoc(messagesRef, {
@@ -71,12 +70,10 @@ export async function markAsRead(messageId) {
   return await updateDoc(messageDoc, { read: true });
 }
 
-
 export async function deleteMessage(messageId) {
   const messageDoc = doc(db1, "messages", messageId);
   return await deleteDoc(messageDoc);
 }
-
 
 export async function getMessage(messageId) {
   const messageDoc = doc(db1, "messages", messageId);

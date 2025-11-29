@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { ref, onValue } from "firebase/database";
-import { auth, db } from "../main";
+import { auth, db } from "../firebase";
 import { Mail, Menu, X } from "lucide-react";
 import "../index.css";
 

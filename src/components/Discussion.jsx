@@ -26,7 +26,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
-import { auth, db1 } from "../main";
+import { auth, db1 } from "../firebase";
 import "../index.css";
 
 export default function CommunityDiscussions() {
