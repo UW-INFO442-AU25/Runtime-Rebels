@@ -1,4 +1,5 @@
 import React from "react";
+import { MapPin } from "lucide-react"; 
 import { formatEventDate, formatEventTime, formatDateTimeLine } from "../util/format";
 
 export default function EventCard({
@@ -55,7 +56,8 @@ export default function EventCard({
                 onFocusLocation(e.coords);
               }}
             >
-              📍 {e.address}
+              <MapPin size={16} className="inline-block mr-1" />
+              {e.address}
             </div>
 
             <div className="event-card__description">

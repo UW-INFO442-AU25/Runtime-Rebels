@@ -8,35 +8,35 @@ export default function About() {
       role: "Runtime Rebels",
       img: "./public/img/insert.jpg",
       bio: "Senior studying Informatics at the University of Washington.",
-      links: { linkedin: "https://www.linkedin.com/in/celinechenn/", github: "https://github.com/celine0610c" },
+      links: { linkedin: "https://www.linkedin.com/in/celinechenn/"},
     },
     {
       name: "Mia (Yoonsoo) Cho",
       role: "Runtime Rebels",
       img: "./public/img/insert.jpg",
       bio: "Senior studying Informatics at the University of Washington.",
-      links: { linkedin: "#", github: "#" },
+      links: { linkedin: "https://www.linkedin.com/in/yoonsoo-cho-a15106236/", github: "#" },
     },
     {
       name: "Ben Nguyen",
       role: "Runtime Rebels",
       img: "./public/img/insert.jpg",
       bio: "Senior studying Informatics and Economics at the University of Washington.",
-      links: { linkedin: "#", github: "#" },
+      links: { linkedin: "https://www.linkedin.com/in/akben/", github: "#" },
     },
     {
       name: "Gabi Schwartz",
       role: "Runtime Rebels",
       img: "./public/img/insert.jpg",
       bio: "Senior studying Informatics and Public Health at the University of Washington.",
-      links: { linkedin: "#", github: "#" },
+      links: { linkedin: "https://www.linkedin.com/in/gabi-schwartz22/", github: "#" },
     },
     {
       name: "Cassidy Wong",
       role: "Runtime Rebels",
       img: "./public/img/insert.jpg",
       bio: "Junior studying Informatics at the University of Washington.",
-      links: { linkedin: "#", github: "#" },
+      links: { linkedin: "https://www.linkedin.com/in/cassidyawong/", github: "#" },
     },
   ];
 
@@ -64,9 +64,7 @@ export default function About() {
       <section className="about-hero">
         <h1>About Azure Haven</h1>
         <p>
-          We’re a small team building tools that help retired adults find
-          community, purpose, and peace of mind, without complexity.
-        </p>
+        We’re a small team developing tools to help retired adults find community, purpose, and peace of mind without added complexity as part of our INFO 442 software development course. Our goal is to support the mental health of retired adults and help them build meaningful connections.        </p>
       </section>
 
       {/* Team */}
@@ -93,17 +91,7 @@ export default function About() {
                       rel="noreferrer"
                       aria-label={`${m.name} on LinkedIn`}
                     >
-                      🔗 LinkedIn
-                    </a>
-                  )}
-                  {m.links?.github && (
-                    <a
-                      href={m.links.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`${m.name} on GitHub`}
-                    >
-                      💻 GitHub
+                      LinkedIn
                     </a>
                   )}
                 </div>
