@@ -32,46 +32,58 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="contact-main">
-      <div className="contact-header">
-        <h1>Contact Azure Haven</h1>
+    <main className="contact-main">
+      <header className="contact-header" aria-labelledby="contact-title">
+        <h1 id="contact-title">Contact Azure Haven</h1>
         <p>Have questions about your mental health, retirement, or our platform?</p>
-      </div>
+      </header>
 
-      <div className="contact-form-container">
+      <section className="contact-form-container" aria-labelledby="form-title">
         <div className="contact-card form-col">
-          <h3>Send a Message</h3>
+          <h2 id="form-title">Send a Message</h2>
 
           <form onSubmit={handleSubmit}>
-            <label>Subject</label>
-            <input
-              type="text"
-              placeholder="Brief description"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              required
-            />
+            <div className="form-group">
+              <label htmlFor="subject">Subject</label>
+              <input
+                id="subject"
+                type="text"
+                placeholder="Brief description"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                required
+              />
+            </div>
 
-            <label>Message</label>
-            <textarea
-              placeholder="How can we help you?"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-            />
+            <div className="form-group">
+              <label htmlFor="message">Message</label>
+              <textarea
+                id="message"
+                placeholder="How can we help you?"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                required
+              />
+            </div>
 
             <p className="privacy">
-              <strong>Privacy Notice: </strong>Your personal information is protected.
+              <strong>Privacy Notice: </strong>
+              Your personal information is protected.
             </p>
 
             <button type="submit">
-              Send Message <FaPaperPlane />
+              Send Message <FaPaperPlane aria-hidden="true" />
             </button>
-          </form>
 
-          {status && <p className="status">{status}</p>}
+            {/* Status messages announced by screen readers */}
+            {status && (
+              <p className="status" role="status" aria-live="polite">
+                {status}
+              </p>
+            )}
+          </form>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
