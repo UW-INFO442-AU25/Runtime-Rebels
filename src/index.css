@@ -3202,7 +3202,7 @@ nav {
 =========================================== */
 .event-card__body {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 150px minmax(0, 1fr) 170px;
   align-items: start;
   gap: 1.5rem;
 }
