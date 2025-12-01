@@ -3614,6 +3614,14 @@ nav {
   .contact-card form {
     max-width: 100%;
   }
+
+  .events-search,
+  .events-filter,
+  .events-controls .primary-btn,
+  .events-controls .secondary-btn {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
