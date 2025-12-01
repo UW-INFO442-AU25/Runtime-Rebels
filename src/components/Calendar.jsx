@@ -207,7 +207,7 @@ export default function Calendar() {
           </svg>
         </div>
 
-        {/* Events for selected day - MOVED TO TOP */}
+        {/* Events for selected day */}
         <div className="events-section">
           <h2 className="events-title">
             Events for {monthNames[currentDate.getMonth()]} {selectedDate},{" "}
@@ -225,7 +225,7 @@ export default function Calendar() {
                   onClick={() => handleExpand(event.id)}
                 >
                   <div className="calendar-event-card__body">
-                    {/* Image - Left */}
+                    {/* Image */}
                     <div className="calendar-event-card__media">
                       {event.image ? (
                         <img src={event.image} alt={event.title} />
@@ -234,13 +234,13 @@ export default function Calendar() {
                       )}
                     </div>
 
-                    {/* Title + Location - Center */}
+                    {/* Title + Location */}
                     <div className="calendar-event-card__content">
                       <h3 className="calendar-event-card__title">{event.title}</h3>
                       <p className="calendar-event-card__city">{event.location}</p>
                     </div>
 
-                    {/* Time - Top Right */}
+                    {/* Time */}
                     <div className="calendar-event-card__right-column">
                       <div className="calendar-event-card__time">{event.time}</div>
                     </div>
@@ -251,7 +251,29 @@ export default function Calendar() {
                     <div className="calendar-event-card__details">
                       <div className="calendar-event-card__row">
                         <div className="calendar-event-card__address">
-                          📍 {event.address}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="location-icon"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            width={16}
+                            height={16}
+                            style={{ marginRight: "0.25rem" }}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 11c1.104 0 2-.896 2-2s-.896-2-2-2-2 .896-2 2 .896 2 2 2z"
+                            />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 22s8-7.333 8-12c0-4.418-3.582-8-8-8s-8 3.582-8 8c0 4.667 8 12 8 12z"
+                            />
+                          </svg>
+                          {event.address}
                         </div>
 
                         {event.description && (
