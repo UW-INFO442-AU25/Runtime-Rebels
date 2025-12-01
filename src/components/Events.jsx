@@ -388,12 +388,18 @@ export default function Events() {
   }
 
   return (
-    <div className="events-page">
+    <div className="events-page" role="main" aria-labelledby="events-title">
       <div className="events-wrap">
-        <h1 className="events-title">Events</h1>
+        <h1 className="events-title" id="events-title">
+          Events
+        </h1>
 
         {/* SEARCH + FILTER UI */}
-        <div className="events-controls">
+        <div
+          className="events-controls"
+          role="search"
+          aria-label="Search and filter events"
+        >
           <input
             type="text"
             className="events-search"
@@ -408,7 +414,7 @@ export default function Events() {
             className="events-filter"
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
-            aria-label="Filter by city"
+            aria-label="Filter events by city"
           >
             <option value="all">All Locations</option>
             {uniqueCities.map((city) => (
@@ -421,7 +427,7 @@ export default function Events() {
           <button
             onClick={applySearch}
             className="primary-btn"
-            aria-label="Search"
+            aria-label="Apply search"
           >
             Search
           </button>
@@ -438,7 +444,11 @@ export default function Events() {
         </div>
 
         {/* RESULTS TEXT */}
-        <p className="events-result">
+        <p
+          className="events-result"
+          id="events-result-text"
+          aria-live="polite"
+        >
           {filteredEvents.length === 0
             ? "No events found matching your search."
             : filteredEvents.length === 1
@@ -454,8 +464,15 @@ export default function Events() {
         </p>
 
         {/* GRID */}
-        <section className="events-grid">
-          <div className="events-list">
+        <section
+          className="events-grid"
+          aria-label="Event list and map"
+        >
+          <div
+            className="events-list"
+            aria-label="Events"
+            aria-describedby="events-result-text"
+          >
             {filteredEvents.map((e) => (
               <EventCard
                 key={e.id}
@@ -469,7 +486,9 @@ export default function Events() {
             ))}
           </div>
 
-          <aside>
+          <aside
+            aria-label="Map of event locations"
+          >
             <MapPanel items={filteredEvents} focus={focusedCoords} />
           </aside>
         </section>
