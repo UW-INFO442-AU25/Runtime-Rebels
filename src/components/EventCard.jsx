@@ -1,5 +1,5 @@
 import React from "react";
-import { MapPin } from "lucide-react"; 
+import { MapPin } from "lucide-react";
 import { formatEventDate, formatEventTime, formatDateTimeLine } from "../util/format";
 
 export default function EventCard({
@@ -12,10 +12,29 @@ export default function EventCard({
 }) {
   const dateLine = formatDateTimeLine(e.startsAt);
 
+  const handleKeyExpand = (evt) => {
+    if (evt.key === "Enter" || evt.key === " ") {
+      evt.preventDefault();
+      onExpand();
+    }
+  };
+
+  const handleKeyFocusLocation = (evt) => {
+    if (evt.key === "Enter" || evt.key === " ") {
+      evt.preventDefault();
+      onFocusLocation(e.coords);
+    }
+  };
+
   return (
     <article
       className={`event-card ${expanded ? "expanded" : ""}`}
+      role="button"
+      tabIndex={0}
+      aria-expanded={expanded}
+      aria-label={`${e.title} in ${e.location}, ${dateLine}${saved ? ", RSVP saved" : ""}`}
       onClick={onExpand}
+      onKeyDown={handleKeyExpand}
     >
       <div className="event-card__body">
         {/* Image - Left */}
@@ -32,13 +51,15 @@ export default function EventCard({
         {/* Date + Actions - Top Right */}
         <div className="event-card__right-column">
           <div className="event-card__time">{dateLine}</div>
-          
+
           <button
             className={`rsvp-btn ${saved ? "rsvp-btn--saved" : ""}`}
             onClick={(evt) => {
               evt.stopPropagation();
               onToggleSave(e);
             }}
+            aria-pressed={saved}
+            aria-label={saved ? "Remove RSVP for this event" : "RSVP to this event"}
           >
             {saved ? "RSVP'd" : "RSVP"}
           </button>
@@ -51,12 +72,21 @@ export default function EventCard({
           <div className="event-card__row">
             <div
               className="event-card__address"
+              role="button"
+              tabIndex={0}
+              aria-label={`Focus map on ${e.address || "event location"}`}
               onClick={(evt) => {
                 evt.stopPropagation();
                 onFocusLocation(e.coords);
               }}
+              onKeyDown={handleKeyFocusLocation}
             >
-              <MapPin size={16} className="inline-block mr-1" />
+              <MapPin
+                size={16}
+                className="inline-block mr-1"
+                aria-hidden="true"
+                focusable="false"
+              />
               {e.address}
             </div>
 
