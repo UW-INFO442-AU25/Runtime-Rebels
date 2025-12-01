@@ -30,10 +30,10 @@ export default function Header() {
     return () => unsubscribe();
   }, []);
 
-  const handleLogout = async () => {
-    await signOut(auth);
-    navigate("/");
-  };
+const handleLogout = async () => {
+  setMenuOpen(false); // Close mobile menu first
+  navigate("/logout"); // Navigate to logout confirmation page
+};
 
   const handleProtectedNav = (e, path) => {
     if (!user) {
