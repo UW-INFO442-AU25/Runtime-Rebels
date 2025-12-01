@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { ref, onValue } from "firebase/database";
 import { auth, db } from "../firebase";
 import { Mail, Menu, X } from "lucide-react";
@@ -12,7 +12,6 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Listen for auth state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -30,10 +29,10 @@ export default function Header() {
     return () => unsubscribe();
   }, []);
 
-const handleLogout = async () => {
-  setMenuOpen(false); // Close mobile menu first
-  navigate("/logout"); // Navigate to logout confirmation page
-};
+  const handleLogout = async () => {
+    setMenuOpen(false);
+    navigate("/logout");
+  };
 
   const handleProtectedNav = (e, path) => {
     if (!user) {
@@ -52,61 +51,98 @@ const handleLogout = async () => {
   return (
     <header className="navbar">
       {/* LOGO */}
-      <div className="logo" >
-        <NavLink to="/" aria-label="Azure Haven Home">
-          <img src="/img/N Logo.png" alt="Azure Haven Home Logo" />
+      <div className="logo">
+        <NavLink to="/">
+          <img src="/img/N Logo.png" alt="Logo" />
         </NavLink>
       </div>
 
       {/* HAMBURGER */}
-      <button 
-        className="hamburger-btn" 
-        onClick={() => setMenuOpen(true)}
-        aria-label="Open navigation menu"
-        aria-expanded={menuOpen}>
-        <Menu size={30} aria-hidden="true" />
+      <button className="hamburger-btn" onClick={() => setMenuOpen(true)}>
+        <Menu size={30} />
       </button>
 
       {/* DESKTOP NAV */}
-      <nav aria-label="Main navigation">
+      <nav>
         <ul className="nav-links">
-          <li><NavLink to="/">Home</NavLink></li>
-          <li><NavLink to="/events">Events</NavLink></li>
           <li>
-            <NavLink to="/calendar" onClick={(e) => handleProtectedNav(e, "/calendar")}>
+            <NavLink
+              to="/"
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Home
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/events"
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Events
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/calendar"
+              onClick={(e) => handleProtectedNav(e, "/calendar")}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
               Calendar
             </NavLink>
           </li>
+
           <li>
-            <NavLink to="/discussion" onClick={(e) => handleProtectedNav(e, "/discussion")}>
+            <NavLink
+              to="/discussion"
+              onClick={(e) => handleProtectedNav(e, "/discussion")}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
               Discussion
             </NavLink>
           </li>
-          <li><NavLink to="/resources">Resources</NavLink></li>
+
+          <li>
+            <NavLink
+              to="/resources"
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Resources
+            </NavLink>
+          </li>
         </ul>
       </nav>
 
       {/* DESKTOP RIGHT SIDE */}
       <div className="desktop-actions">
         {!user ? (
-          <NavLink to="/login">
+          <NavLink
+            to="/login"
+            className={({ isActive }) => (isActive ? "active-link" : "")}
+          >
             <button className="signup-btn">Login</button>
           </NavLink>
         ) : (
           <div className="user-actions">
-            <NavLink to="/inbox" className="icon-btn" aria-label="View inbox">
-              <Mail aria-hidden="true" />
+            <NavLink
+              to="/inbox"
+              className={({ isActive }) => `icon-btn ${isActive ? "active-link" : ""}`}
+            >
+              <Mail />
             </NavLink>
 
-            <NavLink 
-              to="/profile" 
-              className="user-avatar"
-              aria-label={`View profile for ${profile?.name || 'user'}`}
+            <NavLink
+              to="/profile"
+              className={({ isActive }) => `user-avatar ${isActive ? "active-link" : ""}`}
             >
               {profile ? getInitials(profile.name) : "U"}
             </NavLink>
 
-            <NavLink to="/logout" className="signup-btn logout">
+            <NavLink
+              to="/logout"
+              className={({ isActive }) => `signup-btn logout ${isActive ? "active-link" : ""}`}
+            >
               Log Out
             </NavLink>
           </div>
@@ -114,58 +150,108 @@ const handleLogout = async () => {
       </div>
 
       {/* FULLSCREEN MOBILE MENU */}
-      <div className={`mobile-menu-overlay ${menuOpen ? "open" : ""}`}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Mobile navigation menu"
-      
-      >
-        <button className="close-btn" onClick={() => setMenuOpen(false)} aria-label="Close navigation menu">
-          <X size={34} aria-hidden="true" />
+      <div className={`mobile-menu-overlay ${menuOpen ? "open" : ""}`}>
+        <button className="close-btn" onClick={() => setMenuOpen(false)}>
+          <X size={34} />
         </button>
-        <nav aria-label="Mobile navigation">
-          <ul className="mobile-links">
-            <li><NavLink to="/" onClick={() => setMenuOpen(false)}>Home</NavLink></li>
-            <li><NavLink to="/events" onClick={() => setMenuOpen(false)}>Events</NavLink></li>
-            <li>
-              <NavLink
-                to="/calendar"
-                onClick={(e) => {
-                  handleProtectedNav(e, "/calendar");
-                  setMenuOpen(false);
-                }}
-              >
-                Calendar
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/discussion"
-                onClick={(e) => {
-                  handleProtectedNav(e, "/discussion");
-                  setMenuOpen(false);
-                }}
-              >
-                Discussion
-              </NavLink>
-            </li>
-            <li><NavLink to="/resources" onClick={() => setMenuOpen(false)}>Resources</NavLink></li>
 
-            {!user ? (
+        <ul className="mobile-links">
+          <li>
+            <NavLink
+              to="/"
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Home
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/events"
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Events
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/calendar"
+              onClick={(e) => {
+                handleProtectedNav(e, "/calendar");
+                setMenuOpen(false);
+              }}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Calendar
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/discussion"
+              onClick={(e) => {
+                handleProtectedNav(e, "/discussion");
+                setMenuOpen(false);
+              }}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Discussion
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/resources"
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Resources
+            </NavLink>
+          </li>
+
+          {!user ? (
+            <li>
+              <NavLink
+                to="/login"
+                onClick={() => setMenuOpen(false)}
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                Login
+              </NavLink>
+            </li>
+          ) : (
+            <>
               <li>
-                <NavLink to="/login" onClick={() => setMenuOpen(false)}>
-                  Login
+                <NavLink
+                  to="/inbox"
+                  onClick={() => setMenuOpen(false)}
+                  className={({ isActive }) => (isActive ? "active-link" : "")}
+                >
+                  Inbox
                 </NavLink>
               </li>
-            ) : (
-              <>
-                <li><NavLink to="/inbox" onClick={() => setMenuOpen(false)}>Inbox</NavLink></li>
-                <li><NavLink to="/profile" onClick={() => setMenuOpen(false)}>Profile</NavLink></li>
-                <li><button className="logout-btn-mobile" onClick={handleLogout}>Log Out</button></li>
-              </>
-            )}
-          </ul>
-        </nav>
+
+              <li>
+                <NavLink
+                  to="/profile"
+                  onClick={() => setMenuOpen(false)}
+                  className={({ isActive }) => (isActive ? "active-link" : "")}
+                >
+                  Profile
+                </NavLink>
+              </li>
+
+              <li>
+                <button className="logout-btn-mobile" onClick={handleLogout}>
+                  Log Out
+                </button>
+              </li>
+            </>
+          )}
+        </ul>
       </div>
     </header>
   );

@@ -40,6 +40,7 @@ export default function Login() {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
                 required
               />
             </div>
@@ -48,12 +49,13 @@ export default function Login() {
               <div className="field">
                 <label htmlFor="login-password">Password</label>
                 <input
-                  id="password"
+                  id="login-password"
                   name="password"
                   type="password"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
                   required
                 />
               </div>
