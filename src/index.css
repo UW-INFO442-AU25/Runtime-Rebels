@@ -3853,9 +3853,11 @@ nav {
     animation: toast-in 200ms ease-out;
   }
 
+  @media (min-width: 769px) and (max-width: 1024px) {
   .about-page .team-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
   
   .toast-title { font-weight: 600; }
   .toast-desc  { opacity: 0.95; font-size: 0.92rem; margin-top: 2px; }
