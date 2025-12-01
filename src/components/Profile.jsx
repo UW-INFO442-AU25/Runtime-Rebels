@@ -99,10 +99,19 @@ export default function Profile() {
           <div className="form-field" key={field}>
             <label>{labelMap[field]}</label>
             <input
+              id={`profile-${field}`}
               name={field}
+              type={field === "email" ? "email" : "text"}
               value={userData[field] || ""}
               onChange={handleChange}
-              disabled={!isEditing}
+              disabled={!isEditing || field === "email"}
+              autoComplete={
+                field === "name" ? "name" :
+                field === "email" ? "email" :
+                field === "phoneNumber" ? "tel" :
+                field === "zipcode" ? "postal-code" :
+                "off"
+              }
             />
           </div>
         ))}
