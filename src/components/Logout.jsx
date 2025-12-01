@@ -16,11 +16,6 @@ export default function Logout() {
     navigate(-1);
   };
 
-  const handleLogoutClick = () => {
-  setMobileMenuOpen(false); // Close mobile menu
-  navigate('/logout');
-  };
-
   return (
     <main className="logout-page">
       <h2>Are you sure you want to log out?</h2>
