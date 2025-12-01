@@ -11,6 +11,49 @@ import { collection, doc, setDoc, deleteDoc, onSnapshot } from "firebase/firesto
 import EventCard from "./EventCard";
 import MapPanel from "./MapPanel";
 
+function isZip(value) {
+  return /^\d{5}$/.test(value.trim());
+}
+
+async function geocodeZip(zip) {
+  const lookup = {
+    "98101": [47.61058, -122.33191],
+    "98118": [47.5512, -122.2770],
+    "98004": [47.6102, -122.2014],
+    "98033": [47.6762, -122.2051],
+    "98052": [47.6736, -122.1215],
+    "98057": [47.4751, -122.2060],
+    "98011": [47.7701, -122.1843],
+    "98107": [47.6728, -122.3924],
+    "98004": [47.6102, -122.2014],
+    "98033": [47.6762, -122.2051],
+    "98052": [47.6736, -122.1215],
+    "98011": [47.7701, -122.1843],
+    "98057": [47.4751, -122.2060],
+    "99201": [47.6614, -117.4231],
+    "99202": [47.6525, -117.3855],
+    "99203": [47.6316, -117.4087],
+  };
+
+  return lookup[zip] || null;
+}
+
+function distanceInMiles([lat1, lon1], [lat2, lon2]) {
+  const R = 3958.8;
+  const toRad = (v) => (v * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) ** 2;
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
 const events = [
   {
     id: 1,
@@ -39,7 +82,8 @@ const events = [
     title: "Coffee Chats",
     location: "Kirkland, WA",
     address: "Kirkland Community Center, 340 Kirkland Ave",
-    description: "Join fellow retirees for a relaxed morning of coffee and meaningful conversation. Share stories, make new friends, and enjoy good company in a welcoming atmosphere.",
+    description:
+      "Join fellow retirees for a relaxed morning of coffee and meaningful conversation. Share stories, make new friends, and enjoy good company in a welcoming atmosphere.",
     image: "/img/coffee.jpg",
     coords: [47.6815, -122.2087],
     startsAt: "2025-12-21T09:00:00-07:00",
@@ -50,7 +94,8 @@ const events = [
     title: "Walking Group",
     location: "Seattle, WA",
     address: "Seward Park, 5900 Lake Washington Blvd S",
-    description: "Gentle 2-mile walking group around the beautiful Seward Park trail. Perfect pace for all fitness levels. Enjoy nature, fresh air, and friendly conversation with peers.",
+    description:
+      "Gentle 2-mile walking group around the beautiful Seward Park trail. Perfect pace for all fitness levels. Enjoy nature, fresh air, and friendly conversation with peers.",
     image: "/img/sewardpark.jpg",
     coords: [47.5506, -122.2575],
     startsAt: "2025-12-22T10:30:00-07:00",
@@ -61,7 +106,8 @@ const events = [
     title: "Tai Chi in the Park",
     location: "Redmond, WA",
     address: "Downtown Redmond Park, 16101 NE Redmond Way",
-    description: "Gentle outdoor Tai Chi session led by local instructors. Perfect for balance, mobility, and relaxation.",
+    description:
+      "Gentle outdoor Tai Chi session led by local instructors. Perfect for balance, mobility, and relaxation.",
     image: "/img/taichi.jpg",
     coords: [47.6736, -122.1215],
     startsAt: "2025-12-03T09:30:00-07:00",
@@ -72,7 +118,8 @@ const events = [
     title: "Arts and Crafts",
     location: "Renton, WA",
     address: "Renton Community Center, 1715 Maple Valley Hwy",
-    description: "Relaxed indoor craft session. Supplies for acrylic painting, knitting, and scrapbooking provided.",
+    description:
+      "Relaxed indoor craft session. Supplies for acrylic painting, knitting, and scrapbooking provided.",
     image: "/img/crafts.jpg",
     coords: [47.4751, -122.206],
     startsAt: "2025-12-10T13:00:00-07:00",
@@ -83,9 +130,10 @@ const events = [
     title: "Movie Afternoon",
     location: "Seattle, WA",
     address: "Greenwood Senior Center, 525 N 85th St",
-    description: "Community film screening of a classic movie. Popcorn and soft drinks included.",
+    description:
+      "Community film screening of a classic movie. Popcorn and soft drinks included.",
     image: "/img/movie.jpg",
-    coords: [47.6900, -122.3554],
+    coords: [47.69, -122.3554],
     startsAt: "2025-12-14T14:00:00-07:00",
     endsAt: "2025-12-14T16:30:00-07:00",
   },
@@ -94,7 +142,8 @@ const events = [
     title: "Yoga for Beginners",
     location: "Bothell, WA",
     address: "Bothell YMCA, 11811 NE 195th St",
-    description: "A gentle yoga class focused on stretching and mindfulness. Mats available on site.",
+    description:
+      "A gentle yoga class focused on stretching and mindfulness. Mats available on site.",
     image: "/img/yoga.jpg",
     coords: [47.7701, -122.1843],
     startsAt: "2025-12-18T11:00:00-07:00",
@@ -105,7 +154,8 @@ const events = [
     title: "Holiday Potluck",
     location: "Bellevue, WA",
     address: "Crossroads Community Center, 16000 NE 10th St",
-    description: "Seasonal gathering. Bring your favorite dish and meet new friends. Board games available.",
+    description:
+      "Seasonal gathering. Bring your favorite dish and meet new friends. Board games available.",
     image: "/img/potluck.jpg",
     coords: [47.6223, -122.141],
     startsAt: "2025-12-23T17:00:00-07:00",
@@ -116,7 +166,8 @@ const events = [
     title: "Board Games Club",
     location: "Seattle, WA",
     address: "Capitol Hill Library, 425 Harvard Ave E",
-    description: "Casual board game afternoon. Chess, Scrabble, Rummikub, and card games provided. Beginners welcome.",
+    description:
+      "Casual board game afternoon. Chess, Scrabble, Rummikub, and card games provided. Beginners welcome.",
     image: "/img/boardgames.jpg",
     coords: [47.6225, -122.3224],
     startsAt: "2026-01-05T14:00:00-07:00",
@@ -127,7 +178,8 @@ const events = [
     title: "Photography Walk",
     location: "Kirkland, WA",
     address: "Marina Park Pavilion, 25 Lakeshore Plaza",
-    description: "Slow paced waterfront photo walk. Learn phone camera basics and composition tips.",
+    description:
+      "Slow paced waterfront photo walk. Learn phone camera basics and composition tips.",
     image: "/img/photowalk.jpg",
     coords: [47.6762, -122.2051],
     startsAt: "2026-01-09T10:00:00-07:00",
@@ -138,35 +190,54 @@ const events = [
     title: "Cooking Together",
     location: "Seattle, WA",
     address: "Ballard Community Center, 6020 28th Ave NW",
-    description: "Learn a simple seasonal recipe in a relaxed group setting. All ingredients included.",
+    description:
+      "Learn a simple seasonal recipe in a relaxed group setting. All ingredients included.",
     image: "/img/cooking.jpg",
     coords: [47.6728, -122.3924],
     startsAt: "2026-01-15T16:00:00-07:00",
     endsAt: "2026-01-15T18:00:00-07:00",
+  },
+  {
+    id: 13,
+    title: "Spokane Nature Walk",
+    location: "Spokane, WA",
+    address: "Riverfront Park, 507 N Howard St",
+    description: "Casual morning walk along the Spokane River. Great for photos and fresh air. Gentle pace.",
+    image: "/img/spokane-riverwalk.jpg",
+    coords: [47.6625, -117.4220],
+    startsAt: "2026-02-02T09:30:00-07:00",
+    endsAt: "2026-02-02T11:00:00-07:00",
+  },
+  {
+    id: 14,
+    title: "Community Coffee Meetup",
+    location: "Spokane, WA",
+    address: "Atticus Coffee & Gifts, 222 N Howard St",
+    description: "Friendly meetup for conversation, warm drinks, and relaxed social time. Everyone welcome.",
+    image: "/img/coffee.jpg",
+    coords: [47.6608, -117.4214],
+    startsAt: "2026-02-10T10:00:00-07:00",
+    endsAt: "2026-02-10T11:30:00-07:00",
   }
 ];
 
 export default function Events() {
   const { show } = useToast();
 
-  // auth
   const [uid, setUid] = useState(null);
 
-  // saved state
   const [savedIds, setSavedIds] = useState(new Set());
 
-  // expanded card
   const [expandedId, setExpandedId] = useState(null);
 
-  // map focus coords
   const [focusedCoords, setFocusedCoords] = useState(null);
 
-  // search and filters
   const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCity, setSelectedCity] = useState("all");
 
-  // on mount
+  const [zipCenter, setZipCenter] = useState(null);
+
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       setUid(user ? user.uid : null);
@@ -174,7 +245,6 @@ export default function Events() {
     return () => unsub();
   }, []);
 
-  // listener for saved events
   useEffect(() => {
     if (!uid) {
       setSavedIds(new Set());
@@ -190,7 +260,6 @@ export default function Events() {
     return () => unsub();
   }, [uid]);
 
-  // save and unsave
   async function toggleSave(e) {
     if (!uid) {
       show({
@@ -245,10 +314,34 @@ export default function Events() {
     }
   }
 
-  // search logic
+  async function applySearch() {
+    const raw = searchInput.trim();
+
+    if (isZip(raw)) {
+      const coords = await geocodeZip(raw);
+
+      if (!coords) {
+        show({
+          title: "Zip code not found",
+          description: "Try a nearby zip code or search by city name instead.",
+        });
+        return;
+      }
+
+      setZipCenter(coords);
+      setFocusedCoords(coords);
+      setSearchQuery(raw);
+      return;
+    }
+
+    setZipCenter(null);
+    setSearchQuery(raw);
+    setFocusedCoords(null);
+  }
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      setSearchQuery(searchInput);
+      applySearch();
     }
   };
 
@@ -258,25 +351,36 @@ export default function Events() {
   }, []);
 
   const filteredEvents = useMemo(() => {
-    const query = searchQuery.toLowerCase().trim();
+    const rawQuery = searchQuery.trim();
+    const query = rawQuery.toLowerCase();
+    const treatAsZip = isZip(rawQuery);
+    const radiusMiles = 50;
 
     return events.filter((event) => {
+      const matchesCity =
+        selectedCity === "all" || event.location === selectedCity;
+
+      if (treatAsZip && zipCenter) {
+        const dist = distanceInMiles(zipCenter, event.coords);
+        const matchesZip = dist <= radiusMiles;
+        return matchesZip && matchesCity;
+      }
+
       const matchesSearch =
         query === "" ||
         event.title.toLowerCase().includes(query) ||
         event.location.toLowerCase().includes(query);
 
-      const matchesCity =
-        selectedCity === "all" || event.location === selectedCity;
-
       return matchesSearch && matchesCity;
     });
-  }, [searchQuery, selectedCity]);
+  }, [searchQuery, selectedCity, zipCenter]);
 
   function clearFilters() {
     setSearchInput("");
     setSearchQuery("");
     setSelectedCity("all");
+    setZipCenter(null);
+    setFocusedCoords(null);
   }
 
   function handleExpand(id) {
@@ -290,15 +394,14 @@ export default function Events() {
 
         {/* SEARCH + FILTER UI */}
         <div className="events-controls">
-
           <input
             type="text"
             className="events-search"
-            placeholder="Search by event name or location..."
+            placeholder="Search by event name, city, or ZIP..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={handleKeyPress}
-            aria-label="Search events by name or location"
+            aria-label="Search events by name, location, or ZIP code"
           />
 
           <select
@@ -316,7 +419,7 @@ export default function Events() {
           </select>
 
           <button
-            onClick={() => setSearchQuery(searchInput)}
+            onClick={applySearch}
             className="primary-btn"
             aria-label="Search"
           >
@@ -336,13 +439,11 @@ export default function Events() {
 
         {/* RESULTS TEXT */}
         <p className="events-result">
-          {filteredEvents.length === 0 ? (
-            "No events found matching your search."
-          ) : filteredEvents.length === 1 ? (
-            "1 event found"
-          ) : (
-            `${filteredEvents.length} events found`
-          )}
+          {filteredEvents.length === 0
+            ? "No events found matching your search."
+            : filteredEvents.length === 1
+            ? "1 event found"
+            : `${filteredEvents.length} events found`}
           {(searchQuery || selectedCity !== "all") && (
             <span className="events-result-filter">
               {searchQuery && ` for "${searchQuery}"`}

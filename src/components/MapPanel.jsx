@@ -48,7 +48,7 @@ function MapFocus({ coords }) {
 
   useEffect(() => {
     if (!coords) return;
-    map.flyTo(coords, 14, { animate: true });
+    map.flyTo(coords, 12, { animate: true });
   }, [coords, map]);
 
   return null;
