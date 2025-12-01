@@ -3416,30 +3416,32 @@ nav {
 ================================================= */
 .logout-page {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   background-color: var(--color-bg);
   font-family: var(--font-family-base);
   padding: 2rem;
+  text-align: center;
 }
 
 .logout-page h1 {
   font-size: var(--h1-size);
   font-weight: 700;
   color: var(--color-primary-1);
-  margin-bottom: 1rem;
+  margin: 0 0 2rem 0;
 }
 
 .logout-buttons {
-  margin-top: 2rem;
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 1rem;
 }
 
 .logout-btn {
-  padding: 0.7rem 1.5rem;
+  padding: 0.7rem 2rem;
   border-radius: var(--radius-lg);
   border: none;
   cursor: pointer;
@@ -3448,15 +3450,17 @@ nav {
   font-family: var(--font-family-base);
   background-color: var(--color-primary-3);
   color: var(--color-white);
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: var(--shadow-soft);
 }
 
 .logout-btn:hover {
   background-color: var(--color-primary-2);
+  transform: translateY(-2px);
 }
 
 .cancel-btn {
-  padding: 0.7rem 1.5rem;
+  padding: 0.7rem 2rem;
   border-radius: var(--radius-lg);
   cursor: pointer;
   font-size: var(--text-size);
@@ -3465,11 +3469,12 @@ nav {
   border: 1px solid var(--color-secondary-2);
   background-color: var(--color-secondary-3);
   color: var(--color-primary-1);
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .cancel-btn:hover {
   background-color: var(--color-secondary-2);
+  transform: translateY(-2px);
 }
 /* =================================================
 =                     RESPONSIVE                  =
