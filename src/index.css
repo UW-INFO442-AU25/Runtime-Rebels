@@ -3424,6 +3424,12 @@ nav {
   font-family: var(--font-family-base);
   padding: 2rem;
   text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 6000;
 }
 
 .logout-page h1 {
