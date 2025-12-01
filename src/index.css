@@ -1354,6 +1354,11 @@ nav {
   line-height: 1.65;
 }
 
+.icon-group--disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
 /* =================================================
    RESPONSIVENESS (Mobile Fixes)
 ================================================= */
