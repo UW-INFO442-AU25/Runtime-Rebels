@@ -1067,9 +1067,8 @@ nav {
 .contact-card button:active {
   transform: translateY(1px);
 }
-
 /* =================================================
-=                     CALENDAR.                   =
+=                     CALENDAR                    =
 ================================================= */
 .calendar-container {
   display: flex;
@@ -1079,6 +1078,7 @@ nav {
   background-color: var(--color-bg);
   font-family: var(--font-family-base);
   padding: 2rem;
+  box-sizing: border-box; /* Ensures padding doesn't break width */
 }
 
 .calendar-card {
@@ -1088,6 +1088,7 @@ nav {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
   padding: 3rem;
+  box-sizing: border-box;
 }
 
 /* Header */
@@ -1147,10 +1148,11 @@ nav {
   margin: 0;
 }
 
+/* Grid Layout */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 0.75rem;
+  gap: 0.5rem; /* Reduced slightly for better fit */
 }
 
 .weekday-header {
@@ -1162,8 +1164,12 @@ nav {
   opacity: 0.7;
 }
 
+/* FIX 1: Calendar Day 
+   Removed min-height so it doesn't squash on mobile.
+   Added aspect-ratio: 1 to ensure it stays a circle.
+*/
 .calendar-day {
-  aspect-ratio: 1;
+  aspect-ratio: 1 / 1; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1175,7 +1181,8 @@ nav {
   cursor: pointer;
   transition: all 0.2s;
   font-family: var(--font-family-base);
-  min-height: 50px;
+  width: 100%; /* Allows it to fill the grid cell */
+  position: relative;
 }
 
 .calendar-day:not(.other-month):hover {
@@ -1198,14 +1205,11 @@ nav {
   background: var(--color-primary-2);
 }
 
-.calendar-day.has-events {
-  position: relative;
-}
-
+/* Event Dots */
 .calendar-day.has-events::after {
   content: '';
   position: absolute;
-  bottom: 6px;
+  bottom: 15%; /* Used % so it scales with the circle size */
   left: 50%;
   transform: translateX(-50%);
   width: 6px;
@@ -1217,7 +1221,6 @@ nav {
 .calendar-day.has-events.selected::after {
   background: var(--color-white);
 }
-.calendar-day { position: relative; }
 
 .calendar-day.has-events::before {
   content: "";
@@ -1233,7 +1236,9 @@ nav {
   opacity: 0.22;
 }
 
-/* Calendar Event Cards with Dropdown */
+/* =================================================
+   EVENT CARDS
+================================================= */
 .calendar-event-card {
   background: #4d7cff !important;
   border-radius: 20px;
@@ -1255,7 +1260,7 @@ nav {
 .calendar-event-card__body {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  align-items: start;
+  align-items: center; /* Changed from start to center for better alignment */
   gap: 1.25rem;
 }
 
@@ -1271,6 +1276,7 @@ nav {
   object-fit: cover;
   border-radius: 12px;
   flex-shrink: 0;
+  display: block;
 }
 
 .calendar-event-card__media .image-fallback {
@@ -1291,6 +1297,7 @@ nav {
   font-weight: 700;
   margin: 0;
   color: white !important;
+  line-height: 1.2;
 }
 
 .calendar-event-card__city {
@@ -1337,28 +1344,94 @@ nav {
   line-height: 1.65;
 }
 
+/* =================================================
+   RESPONSIVENESS (Mobile Fixes)
+================================================= */
+
+/* 1. Fix Calendar Numbers Squashing */
+@media (max-width: 600px) {
+  .calendar-container {
+    padding: 1rem;
+  }
+  
+  .calendar-card {
+    padding: 1.5rem; /* Reduce padding to give grid more room */
+  }
+
+  .calendar-grid {
+    gap: 4px;
+  }
+  
+  .calendar-day {
+    font-size: 14px; /* Slightly smaller text */
+  }
+
+  .calendar-day.has-events::after {
+    width: 4px;
+    height: 4px; /* Smaller dots */
+  }
+}
+
+/* 2. Fix Event Card & Time Placement */
 @media (max-width: 680px) {
+  .calendar-event-card {
+    padding: 1.25rem;
+  }
+
   .calendar-event-card__body {
-    grid-template-columns: 1fr;
+    /* Change grid to 2 columns: 
+       Row 1: Image (Full Width)
+       Row 2: Title (Left) | Time (Right)
+    */
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
     gap: 1rem;
+    align-items: start;
+  }
+
+  /* Image takes full width of top row */
+  .calendar-event-card__media {
+    grid-column: 1 / -1;
+    width: 100%;
   }
 
   .calendar-event-card__media img,
   .calendar-event-card__media .image-fallback {
     width: 100%;
-    height: 150px;
+    height: 150px; /* Taller image looks better on mobile */
   }
 
-  .calendar-event-card__right-column {
+  /* Content (Title) stays left on Row 2 */
+  .calendar-event-card__content {
     grid-column: 1;
-    align-items: flex-start;
+    grid-row: 2;
   }
 
+  /* Right Col (Time) moves to right of Row 2 */
+  .calendar-event-card__right-column {
+    grid-column: 2;
+    grid-row: 2;
+    /* Align time to bottom so it lines up with title text */
+    justify-content: flex-end; 
+    height: 100%;
+  }
+  
+  /* Add a pill background to time on mobile for clarity */
+  .calendar-event-card__time {
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 10px;
+    border-radius: 8px;
+  }
+
+  /* Stack the address and description */
   .calendar-event-card__row {
     grid-template-columns: 1fr;
     gap: 1.25rem;
   }
 }
+
+
 /* =================================================
 =                    ABOUT PAGE                   =
 ================================================= */
