@@ -1359,387 +1359,6 @@ nav {
     gap: 1.25rem;
   }
 }
-
-/* =================================================
-=                     EVENTS                      =
-================================================= */
-.events-section {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--color-secondary-3);
-  font-family: var(--font-family-base);
-}
-
-.events-title {
-  font-size: var(--h2-size);
-  font-weight: 700;
-  color: var(--color-primary-3);
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.no-events {
-  text-align: center;
-  padding: 2rem;
-  color: var(--color-gray);
-  font-size: 1rem;
-  font-style: italic;
-}
-
-.events-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.event-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-strong);
-}
-
-.event-card.past-event {
-  background-color: var(--color-secondary-2);
-  opacity: 0.85;
-  filter: grayscale(10%);
-}
-
-.event-image {
-  width: 120px;
-  height: 80px;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.event-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.event-info {
-  flex: 1;
-}
-
-.event-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-white);
-  margin-bottom: 0.25rem;
-}
-
-.event-location {
-  font-size: 1rem;
-  color: var(--color-white);
-  opacity: 0.9;
-}
-
-.event-time {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--color-white);
-  margin-left: auto;
-  text-align: right;
-}
-/* =================================================
-=               EVENTS SEARCH & FILTER              =
-================================================= */
-
-.events-controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  justify-content: flex-start;
-  margin-bottom: 1.5rem;
-  background-color: var(--color-primary-3);
-  padding: 1rem 1.25rem;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-soft);
-}
-
-/* Search input */
-.events-search {
-  flex: 1;
-  min-width: 240px;
-  padding: 0.7rem 1rem;
-  border: 1px solid var(--color-secondary-2);
-  border-radius: var(--radius-md);
-  background-color: var(--color-white);
-  color: var(--color-gray);
-  font-size: var(--text-size);
-  font-family: var(--font-family-base);
-  transition: all 0.2s ease-in-out;
-}
-
-.events-search::placeholder {
-  color: var(--color-secondary-1);
-}
-
-.events-search:focus {
-  outline: none;
-  border-color: var(--color-primary-3);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
-}
-
-/* Dropdown filter */
-.events-filter {
-  padding: 0.7rem 1rem;
-  border: 1px solid var(--color-secondary-2);
-  border-radius: var(--radius-md);
-  background-color: var(--color-white);
-  color: var(--color-gray);
-  font-size: var(--text-size);
-  font-family: var(--font-family-base);
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.events-filter:hover {
-  background-color: var(--color-secondary-2);
-}
-
-.events-filter:focus {
-  outline: none;
-  border-color: var(--color-primary-2);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
-}
-
-.event-card {
-  background: #4d7cff;
-  border-radius: 24px;
-  padding: 1.75rem;
-  color: white;
-  cursor: pointer;
-  transition: box-shadow .25s ease, transform .25s ease;
-}
-
-.event-card:hover {
-  box-shadow: 0 8px 24px rgba(0,0,0,.25);
-}
-
-.event-card.past-event {
-  background-color: var(--color-secondary-2);
-  opacity: 0.85;
-  filter: grayscale(10%);
-}
-
-/* ===========================================
-   HEADER LAYOUT
-   Row: [Image] [Title + Location] [Date + Icons]
-=========================================== */
-.event-card__body {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: start;
-  gap: 1.5rem;
-}
-
-/* Image - left side */
-.event-card__media {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.event-card__media img {
-  width: 150px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 14px;
-  flex-shrink: 0;
-}
-
-/* Title + City - center */
-.event-card__content {
-  grid-column: 2;
-  grid-row: 1;
-  display: flex;
-  flex-direction: column;
-  gap: .4rem;
-  align-self: center;
-}
-
-.event-card__title {
-  font-size: 1.7rem;
-  font-weight: 700;
-  margin: 0;
-  color: white !important;
-}
-
-.event-card__city {
-  font-size: 1.15rem;
-  opacity: .9;
-  margin: 0;
-}
-
-/* Date + Actions - top right */
-.event-card__right-column {
-  grid-column: 3;
-  grid-row: 1;
-  display: flex;
-  flex-direction: column;
-  gap: .5rem;
-  align-items: flex-end;
-}
-
-.event-card__time {
-  font-size: 1.25rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-/* Action buttons */
-.event-card__actions {
-  display: flex;
-  gap: .75rem;
-  justify-content: flex-end;
-}
-
-.icon-btn {
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-items: center;
-  border-radius: 10px;
-  border: 1.5px solid rgba(255,255,255,.35);
-  background: rgba(255,255,255,.15);
-  cursor: pointer;
-  transition: transform .12s ease, background .2s ease, border-color .2s ease;
-}
-
-.icon-btn:hover {
-  transform: translateY(-1px);
-  background: rgba(255,255,255,.24);
-  border-color: rgba(255,255,255,.55);
-}
-
-/* ===========================================
-   EXPANDED SECTION (Accordion)
-=========================================== */
-.event-card__details {
-  margin-top: 2.25rem;
-  padding-top: 1.75rem;
-  border-top: 1px solid rgba(255,255,255,.35);
-}
-
-/* two columns: address | description */
-.event-card__row {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 2.5rem;
-  align-items: flex-start;
-}
-
-/* Address column */
-.event-card__address {
-  font-size: 1.1rem;
-  font-weight: 600;
-  line-height: 1.45;
-  white-space: normal;
-  cursor: pointer;
-}
-
-.event-card__address:hover {
-  text-decoration: underline;
-}
-
-/* Description column */
-.event-card__description {
-  font-size: 1.05rem;
-  line-height: 1.65;
-  word-break: normal;
-  white-space: normal;
-  overflow-wrap: break-word;
-  max-width: 750px;
-}
-
-/* ===========================================
-   MOBILE
-=========================================== */
-@media (max-width: 680px) {
-  .event-card {
-    padding: 1.5rem;
-  }
-
-  .event-card__body {
-    grid-template-columns: 1fr;
-    gap: 1.3rem;
-  }
-
-  .event-card__media {
-    grid-column: 1;
-  }
-
-  .event-card__media img {
-    width: 100%;
-    height: 180px;
-  }
-
-  .event-card__content {
-    grid-column: 1;
-  }
-
-  .event-card__title {
-    font-size: 1.4rem;
-  }
-
-  .event-card__city {
-    font-size: 1rem;
-  }
-
-  .event-card__right-column {
-    grid-column: 1;
-    align-items: flex-start;
-  }
-
-  .event-card__time {
-    font-size: 1.1rem;
-  }
-
-  .event-card__actions {
-    justify-content: flex-start;
-  }
-
-  .event-card__row {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .event-card__description {
-    max-width: 100%;
-  }
-}
-
-/* RSVP Button */
-.rsvp-btn {
-  padding: 0.6rem 1.5rem;
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  backdrop-filter: blur(4px);
-}
-
-.rsvp-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: white;
-  transform: translateY(-1px);
-}
-
-.rsvp-btn--saved {
-  background: rgba(255, 255, 255, 0.9);
-  color: #4d7cff;
-  border-color: white;
-}
-
-.rsvp-btn--saved:hover {
-  background: white;
-}
-
 /* =================================================
 =                    ABOUT PAGE                   =
 ================================================= */
@@ -3292,19 +2911,31 @@ nav {
   font-style: italic;
   font-size: 14px;
 }
-
 /* =================================================
-=                     EVENTS PAGE                 =
+=                 GLOBAL EVENTS STYLES               =
 ================================================= */
-
-/* =================================================
-=                     EVENTS PAGE                 =
-================================================= */
-
-.events-page {
+.events-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-secondary-3);
   font-family: var(--font-family-base);
-  background: var(--color-bg);
+}
+
+.events-title {
+  /* Combined and optimized title styles */
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  color: #0b3fbf;
+  margin: 18px 0 8px;
+  text-align: center;
+}
+
+.no-events {
+  text-align: center;
+  padding: 2rem;
   color: var(--color-gray);
+  font-size: 1rem;
+  font-style: italic;
 }
 
 .events-wrap {
@@ -3313,28 +2944,36 @@ nav {
   padding: 24px 18px 60px;
 }
 
-.events-title {
-  font-size: clamp(28px, 3vw, 40px);
-  color: #0b3fbf;
-  margin: 18px 0 8px;
+.events-result {
+  margin: 0.5rem 0 1rem;
+  color: var(--color-gray);
+  font-size: 0.95rem;
 }
 
-/* Search controls */
+.events-result-filter {
+  font-weight: 600;
+  color: var(--color-primary-2);
+}
+
+/* =================================================
+=            EVENTS SEARCH & FILTER CONTROLS         =
+================================================= */
 .events-controls {
   display: flex;
   align-items: center;
   gap: 1rem;
   justify-content: flex-start;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   background-color: var(--color-primary-3);
   padding: 1rem 1.25rem;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-soft);
 }
 
+/* Search input */
 .events-search {
   flex: 1;
-  min-width: 240px;
+  min-width: 240px; /* Base minimum width for desktop/tablet */
   padding: 0.7rem 1rem;
   border: 1px solid var(--color-secondary-2);
   border-radius: var(--radius-md);
@@ -3355,6 +2994,7 @@ nav {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
 }
 
+/* Dropdown filter */
 .events-filter {
   padding: 0.7rem 1rem;
   border: 1px solid var(--color-secondary-2);
@@ -3377,18 +3017,11 @@ nav {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
 }
 
-.events-result {
-  margin: 0.5rem 0 1rem;
-  color: var(--color-gray);
-  font-size: 0.95rem;
-}
+/* =================================================
+=                  EVENTS LIST & CARD                =
+================================================= */
 
-.events-result-filter {
-  font-weight: 600;
-  color: var(--color-primary-2);
-}
-
-/* GRID LAYOUT - Events List + Map */
+/* GRID LAYOUT - Events List + Map (Desktop Only) */
 .events-grid {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
@@ -3426,6 +3059,191 @@ nav {
 .events-list::-webkit-scrollbar-thumb:hover {
   background: #2563eb;
 }
+
+/* EVENT CARD */
+.event-card {
+  background: #4d7cff;
+  border-radius: 24px;
+  padding: 1.75rem;
+  color: white;
+  cursor: pointer;
+  transition: box-shadow .25s ease, transform .25s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+}
+
+.event-card.past-event {
+  background-color: var(--color-secondary-2);
+  opacity: 0.85;
+  filter: grayscale(10%);
+}
+
+/* ===========================================
+  HEADER LAYOUT (DESKTOP)
+  Row: [Image] [Title + Location] [Date + Icons]
+=========================================== */
+.event-card__body {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: 1.5rem;
+}
+
+/* Image - left side */
+.event-card__media {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.event-card__media img {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+
+/* Title + City - center */
+.event-card__content {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  align-self: center;
+}
+
+.event-card__title {
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin: 0;
+  color: white !important;
+}
+
+.event-card__city {
+  font-size: 1.15rem;
+  opacity: .9;
+  margin: 0;
+}
+
+/* Date + Actions - top right */
+.event-card__right-column {
+  grid-column: 3;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  align-items: flex-end;
+}
+
+.event-card__time {
+  font-size: 1.25rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Action buttons */
+.event-card__actions {
+  display: flex;
+  gap: .75rem;
+  justify-content: flex-end;
+}
+
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,.35);
+  background: rgba(255,255,255,.15);
+  cursor: pointer;
+  transition: transform .12s ease, background .2s ease, border-color .2s ease;
+}
+
+.icon-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.24);
+  border-color: rgba(255,255,255,.55);
+}
+
+/* RSVP Button */
+.rsvp-btn {
+  padding: 0.6rem 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+}
+
+.rsvp-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: white;
+  transform: translateY(-1px);
+}
+
+.rsvp-btn--saved {
+  background: rgba(255, 255, 255, 0.9);
+  color: #4d7cff;
+  border-color: white;
+}
+
+.rsvp-btn--saved:hover {
+  background: white;
+}
+
+/* ===========================================
+  EXPANDED SECTION (Accordion)
+=========================================== */
+.event-card__details {
+  margin-top: 2.25rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(255,255,255,.35);
+}
+
+/* two columns: address | description */
+.event-card__row {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2.5rem;
+  align-items: flex-start;
+}
+
+/* Address column */
+.event-card__address {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  white-space: normal;
+  cursor: pointer;
+}
+
+.event-card__address:hover {
+  text-decoration: underline;
+}
+
+/* Description column */
+.event-card__description {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  word-break: normal;
+  white-space: normal;
+  overflow-wrap: break-word;
+  max-width: 750px;
+}
+
+/* ===========================================
+  MAP PANEL STYLES
+=========================================== */
 
 /* Map Panel - Sticky positioning */
 .events-map {
@@ -3485,8 +3303,10 @@ nav {
 }
 
 /* ===========================================
-   MOBILE RESPONSIVE
+  MOBILE RESPONSIVE
 =========================================== */
+
+/* Tablet/Small Desktop: Events Grid to Single Column */
 @media (max-width: 1024px) {
   .events-grid {
     grid-template-columns: 1fr;
@@ -3503,15 +3323,67 @@ nav {
     top: 0;
   }
 
-  .events-map .map-surface {
-    min-height: 360px;
-  }
-
+  .events-map .map-surface,
   .leaflet-map {
     min-height: 360px;
   }
 }
 
+/* Mobile: Event Card Layout & Control Stacking */
+@media (max-width: 680px) {
+  /* --- Event Card Stacking --- */
+  .event-card {
+    padding: 1.5rem;
+  }
+
+  .event-card__body {
+    grid-template-columns: 1fr;
+    gap: 1.3rem;
+  }
+
+  .event-card__media,
+  .event-card__content,
+  .event-card__right-column {
+    grid-column: 1;
+    grid-row: unset;
+  }
+
+  .event-card__media img {
+    width: 100%;
+    height: 180px;
+  }
+
+  .event-card__title {
+    font-size: 1.4rem;
+  }
+
+  .event-card__city {
+    font-size: 1rem;
+  }
+
+  .event-card__right-column {
+    align-items: flex-start;
+  }
+
+  .event-card__time {
+    font-size: 1.1rem;
+  }
+
+  .event-card__actions {
+    justify-content: flex-start;
+  }
+
+  .event-card__row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .event-card__description {
+    max-width: 100%;
+  }
+}
+
+/* Smaller Mobile: Search/Filter Stacking Fix */
 @media (max-width: 640px) {
   .events-controls {
     flex-direction: column;
@@ -3521,8 +3393,15 @@ nav {
   .events-search,
   .events-filter {
     width: 100%;
+    min-width: unset; /* FIX: Prevents search bar from overflowing/expanding */
+    margin-bottom: 0.5rem; /* Better spacing when stacked */
+  }
+  
+  .events-filter {
+      margin-bottom: 0; /* No margin on the last stacked element */
   }
 }
+
 /* =================================================
 =                     OVERVIEW.                   =
 ================================================= */
@@ -3953,25 +3832,6 @@ nav {
     gap: 10px;
     z-index: 9999;
     pointer-events: none;
-  }
-  
-  .event-card.expanded {
-    display: block !important;
-    grid-template-columns: none !important;
-  }
-  
-  /* Restore body flex on expand */
-  .event-card.expanded .event-card__body {
-    display: flex !important;
-    gap: 1.75rem;
-  }
-  
-  /* Better 2-column accordion */
-  .event-card__row {
-    display: grid;
-    grid-template-columns: minmax(240px, 1fr) 2fr;
-    align-items: flex-start;
-    gap: 2.25rem;
   }
   
   .toast {

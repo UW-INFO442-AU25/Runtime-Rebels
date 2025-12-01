@@ -452,8 +452,8 @@ export default function Events() {
           {filteredEvents.length === 0
             ? "No events found matching your search."
             : filteredEvents.length === 1
-            ? "1 event found"
-            : `${filteredEvents.length} events found`}
+            ? "1 event found "
+            : `${filteredEvents.length} events found `}
           {(searchQuery || selectedCity !== "all") && (
             <span className="events-result-filter">
               {searchQuery && ` for "${searchQuery}"`}
