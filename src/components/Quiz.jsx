@@ -35,16 +35,35 @@ export default function Quiz() {
   };
 
   return (
-    <main className="signup-page">
-      <section className="signup-card">
+    <main
+      className="signup-page"
+      role="main"
+      aria-labelledby="quiz-heading"
+      aria-describedby="quiz-subtitle"
+    >
+      <section
+        className="signup-card"
+        aria-label="Onboarding quiz to personalize your experience"
+      >
         <div className="signup-left">
-          <h1 className="signup-title">Let’s personalize your experience</h1>
-          <p className="signup-subtitle">Tell us a little about what matters to you.</p>
+          <h1 className="signup-title" id="quiz-heading">
+            Let’s personalize your experience
+          </h1>
+          <p className="signup-subtitle" id="quiz-subtitle">
+            Tell us a little about what matters to you.
+          </p>
 
-          <form className="signup-form" onSubmit={handleSubmit}>
+          <form
+            className="signup-form"
+            onSubmit={handleSubmit}
+            aria-label="Questions about your interests and retirement goals"
+          >
             <div className="field">
-              <label>What would you like to explore?</label>
+              <label htmlFor="quiz-interests">
+                What would you like to explore?
+              </label>
               <select
+                id="quiz-interests"
                 name="interests"
                 value={answers.interests}
                 onChange={handleChange}
@@ -59,8 +78,11 @@ export default function Quiz() {
             </div>
 
             <div className="field">
-              <label>How would you like to connect with others?</label>
+              <label htmlFor="quiz-community">
+                How would you like to connect with others?
+              </label>
               <select
+                id="quiz-community"
                 name="community"
                 value={answers.community}
                 onChange={handleChange}
@@ -74,8 +96,11 @@ export default function Quiz() {
             </div>
 
             <div className="field">
-              <label>What are your goals after retirement?</label>
+              <label htmlFor="quiz-goals">
+                What are your goals after retirement?
+              </label>
               <textarea
+                id="quiz-goals"
                 name="goals"
                 value={answers.goals}
                 onChange={handleChange}
@@ -85,7 +110,13 @@ export default function Quiz() {
               />
             </div>
 
-            <button className="btn-primary">Finish</button>
+            <button
+              type="submit"
+              className="btn-primary"
+              aria-label="Finish quiz and save your preferences"
+            >
+              Finish
+            </button>
           </form>
         </div>
 
