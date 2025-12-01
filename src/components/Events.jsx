@@ -11,25 +11,25 @@ import { collection, doc, setDoc, deleteDoc, onSnapshot } from "firebase/firesto
 import EventCard from "./EventCard";
 import MapPanel from "./MapPanel";
 
+// Helpers for ZIP search
 function isZip(value) {
   return /^\d{5}$/.test(value.trim());
 }
 
 async function geocodeZip(zip) {
   const lookup = {
+    // Seattle and nearby
     "98101": [47.61058, -122.33191],
-    "98118": [47.5512, -122.2770],
-    "98004": [47.6102, -122.2014],
-    "98033": [47.6762, -122.2051],
-    "98052": [47.6736, -122.1215],
-    "98057": [47.4751, -122.2060],
-    "98011": [47.7701, -122.1843],
+    "98105": [47.6613, -122.3134],
     "98107": [47.6728, -122.3924],
+    "98118": [47.5512, -122.277],
+    // Eastside
     "98004": [47.6102, -122.2014],
     "98033": [47.6762, -122.2051],
     "98052": [47.6736, -122.1215],
     "98011": [47.7701, -122.1843],
-    "98057": [47.4751, -122.2060],
+    "98057": [47.4751, -122.206],
+    // Spokane
     "99201": [47.6614, -117.4231],
     "99202": [47.6525, -117.3855],
     "99203": [47.6316, -117.4087],
@@ -202,9 +202,10 @@ const events = [
     title: "Spokane Nature Walk",
     location: "Spokane, WA",
     address: "Riverfront Park, 507 N Howard St",
-    description: "Casual morning walk along the Spokane River. Great for photos and fresh air. Gentle pace.",
+    description:
+      "Casual morning walk along the Spokane River. Great for photos and fresh air. Gentle pace.",
     image: "/img/spokane-riverwalk.jpg",
-    coords: [47.6625, -117.4220],
+    coords: [47.6625, -117.422],
     startsAt: "2026-02-02T09:30:00-07:00",
     endsAt: "2026-02-02T11:00:00-07:00",
   },
@@ -213,12 +214,13 @@ const events = [
     title: "Community Coffee Meetup",
     location: "Spokane, WA",
     address: "Atticus Coffee & Gifts, 222 N Howard St",
-    description: "Friendly meetup for conversation, warm drinks, and relaxed social time. Everyone welcome.",
+    description:
+      "Friendly meetup for conversation, warm drinks, and relaxed social time. Everyone welcome.",
     image: "/img/coffee.jpg",
     coords: [47.6608, -117.4214],
     startsAt: "2026-02-10T10:00:00-07:00",
     endsAt: "2026-02-10T11:30:00-07:00",
-  }
+  },
 ];
 
 export default function Events() {
@@ -321,6 +323,9 @@ export default function Events() {
       const coords = await geocodeZip(raw);
 
       if (!coords) {
+        setZipCenter(null);
+        setFocusedCoords(null);
+        setSearchQuery(raw);
         show({
           title: "Zip code not found",
           description: "Try a nearby zip code or search by city name instead.",
@@ -339,10 +344,9 @@ export default function Events() {
     setFocusedCoords(null);
   }
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      applySearch();
-    }
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    applySearch();
   };
 
   const uniqueCities = useMemo(() => {
@@ -388,57 +392,76 @@ export default function Events() {
   }
 
   return (
-    <div className="events-page">
+    <main className="events-page" aria-labelledby="events-page-title">
       <div className="events-wrap">
-        <h1 className="events-title">Events</h1>
+        <h1 id="events-page-title" className="events-title">
+          Events
+        </h1>
 
         {/* SEARCH + FILTER UI */}
-        <div className="events-controls">
-          <input
-            type="text"
-            className="events-search"
-            placeholder="Search by event name, city, or ZIP..."
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={handleKeyPress}
-            aria-label="Search events by name, location, or ZIP code"
-          />
+        <form
+          className="events-controls"
+          role="search"
+          aria-label="Search and filter events"
+          onSubmit={handleSearchSubmit}
+        >
+          <div className="events-search-group">
+            <label htmlFor="events-search" className="sr-only">
+              Search by event name, city, or ZIP code
+            </label>
+            <input
+              id="events-search"
+              type="text"
+              className="events-search"
+              placeholder="Search by event name, city, or ZIP..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+          </div>
 
-          <select
-            className="events-filter"
-            value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
-            aria-label="Filter by city"
-          >
-            <option value="all">All Locations</option>
-            {uniqueCities.map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
+          <div className="events-filter-group">
+            <label htmlFor="events-city-filter" className="sr-only">
+              Filter events by city
+            </label>
+            <select
+              id="events-city-filter"
+              className="events-filter"
+              value={selectedCity}
+              onChange={(e) => setSelectedCity(e.target.value)}
+            >
+              <option value="all">All Locations</option>
+              {uniqueCities.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <button
-            onClick={applySearch}
+            type="submit"
             className="primary-btn"
-            aria-label="Search"
           >
             Search
           </button>
 
           {(searchQuery || selectedCity !== "all") && (
             <button
+              type="button"
               onClick={clearFilters}
               className="secondary-btn"
-              aria-label="Clear all filters"
             >
-              Clear
+              Clear filters
             </button>
           )}
-        </div>
+        </form>
 
         {/* RESULTS TEXT */}
-        <p className="events-result">
+        <p
+          className="events-result"
+          role="status"
+          aria-live="polite"
+        >
           {filteredEvents.length === 0
             ? "No events found matching your search."
             : filteredEvents.length === 1
@@ -454,8 +477,14 @@ export default function Events() {
         </p>
 
         {/* GRID */}
-        <section className="events-grid">
-          <div className="events-list">
+        <section
+          className="events-grid"
+          aria-label="Event results and map"
+        >
+          <section
+            className="events-list"
+            aria-label="Event list"
+          >
             {filteredEvents.map((e) => (
               <EventCard
                 key={e.id}
@@ -467,13 +496,13 @@ export default function Events() {
                 onFocusLocation={(coords) => setFocusedCoords(coords)}
               />
             ))}
-          </div>
+          </section>
 
-          <aside>
+          <aside aria-label="Map showing locations of filtered events">
             <MapPanel items={filteredEvents} focus={focusedCoords} />
           </aside>
         </section>
       </div>
-    </div>
+    </main>
   );
 }
