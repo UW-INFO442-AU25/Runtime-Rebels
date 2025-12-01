@@ -3812,3 +3812,23 @@ nav {
     margin: 10px;
   }
 }
+
+
+
+/* === Logout === */
+@media (max-width: 768px) {
+  .logout-page h1 {
+    font-size: 24px;
+  }
+  
+  .logout-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .logout-btn,
+  .cancel-btn {
+    width: 100%;
+  }
+}
