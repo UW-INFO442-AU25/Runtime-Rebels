@@ -4,11 +4,11 @@ import "../index.css";
 const heroImg = "/img/resourcesbanner.png";
 const img1 = "/img/samhsa.png";
 const img2 = "/img/nimh.webp";
-const img3 = "img/who.png";
+const img3 = "/img/who.png";
 const img4 = "/img/cdc.png";
 const img5 = "/img/nami.png";
 const img6 = "/img/forbes.jpg";
-const img7 = "img/psychologytoday.png";
+const img7 = "/img/psychologytoday.png";
 const img8 = "/img/harvard.png";
 const img9 = "/img/mha.webp";
 
@@ -18,7 +18,7 @@ const img9 = "/img/mha.webp";
 const resourcesData = [
   {
     title: "SAMHSA: Resources for Older Adults",
-    img: img1, 
+    img: img1,
     description: "Support for older adults with mental and substance use disorders.",
     link: "https://www.samhsa.gov/communities/older-adults",
     category: "Mental Health",
@@ -37,7 +37,7 @@ const resourcesData = [
   {
     title: "NIMH: Caring for Your Mental Health",
     img: img2,
-    description: "Simple steps and practices to maintain mental well-being.",
+    description: "Simple steps and practices to maintain mental well being.",
     link: "https://www.nimh.nih.gov/health/topics/caring-for-your-mental-health",
     category: "Mental Health",
     type: "Guide",
@@ -55,7 +55,7 @@ const resourcesData = [
   {
     title: "CDC Mental Health Resources",
     img: img4,
-    description: "Evidence-based guidance on caring for mental health.",
+    description: "Evidence based guidance on caring for mental health.",
     link: "https://www.cdc.gov/mental-health/caring/index.html",
     category: "Mental Health",
     type: "Guide",
@@ -125,7 +125,8 @@ export default function Resources() {
 
     const matchSearch =
       r.title.toLowerCase().includes(search.toLowerCase()) ||
-      (r.description && r.description.toLowerCase().includes(search.toLowerCase()));
+      (r.description &&
+        r.description.toLowerCase().includes(search.toLowerCase()));
 
     return matchCategory && matchTopic && matchType && matchSearch;
   });
@@ -134,7 +135,6 @@ export default function Resources() {
 
   return (
     <div className="resources-page">
-
       {/* HERO */}
       <section
         className="resources-hero"
@@ -145,25 +145,31 @@ export default function Resources() {
             While retiring can be exciting, it can also be stressful.
             These resources help you cope with retirement depression and find new purpose in life.
           </h1>
-          <p>22.8% of U.S. adults experienced mental illness in 2021.</p>
+          <p>22.8 percent of U.S. adults experienced mental illness in 2021.</p>
+        </div>
 
-          {/* Bottom "View Video" Button */}
-          <div className="hero-bottom-button">
-            <button className="view-video-btn" onClick={() => setShowVideo(true)}>
-              View Video
-            </button>
-          </div>
+        {/* Bottom "View Video" Button anchored to hero */}
+        <div className="hero-bottom-button">
+          <button className="view-video-btn" onClick={() => setShowVideo(true)}>
+            View Video
+          </button>
         </div>
       </section>
 
       {/* VIDEO MODAL */}
       {showVideo && (
-        <div className="video-modal-overlay" onClick={() => setShowVideo(false)}>
+        <div
+          className="video-modal-overlay"
+          onClick={() => setShowVideo(false)}
+        >
           <div
             className="video-modal"
             onClick={(e) => e.stopPropagation()}
           >
-            <button className="modal-close-btn" onClick={() => setShowVideo(false)}>
+            <button
+              className="modal-close-btn"
+              onClick={() => setShowVideo(false)}
+            >
               ✕
             </button>
 
@@ -172,7 +178,7 @@ export default function Resources() {
               src="https://www.youtube.com/embed/G0zJGDokyWQ"
               title="Hero Video"
               frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; clipboard write; encrypted media; gyroscope; picture in picture"
               allowFullScreen
             />
           </div>
@@ -182,7 +188,6 @@ export default function Resources() {
       {/* FILTERS */}
       <section className="filter-section">
         <div className="filter-card">
-
           {/* CATEGORY PILLS */}
           <div className="filter-buttons">
             {categories.map((cat) => (
@@ -205,7 +210,7 @@ export default function Resources() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-            </div>
+            </div>  
           </div>
 
           {/* RESOURCE GRID */}
@@ -218,7 +223,11 @@ export default function Resources() {
 
                 {res.link ? (
                   <h3>
-                    <a href={res.link} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={res.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       {res.title}
                     </a>
                   </h3>

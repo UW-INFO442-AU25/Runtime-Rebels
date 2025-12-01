@@ -2052,13 +2052,14 @@ nav {
 /* ================= HERO "View Video" BUTTON ================= */
 .hero-bottom-button {
   position: absolute;
-  bottom: 60px; /* move button lower */
-  width: 100%;
+  bottom: 32px; 
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  pointer-events: none; 
+  pointer-events: auto;
+  z-index: 2;
 }
-
 .view-video-btn {
   padding: 0.9rem 2rem;
   font-size: 1.1rem;
