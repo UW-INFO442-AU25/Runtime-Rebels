@@ -2139,6 +2139,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .profile-info {
@@ -2158,6 +2159,7 @@ nav {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
+  color: var(--color-primary-1);
 }
 
 .profile-email {
@@ -2167,6 +2169,7 @@ nav {
 
 /* Avatar with pencil icon overlay */
 .avatar-wrapper {
+  position: relative;
   width: 90px;
   height: 90px;
   display: flex;
@@ -2216,7 +2219,7 @@ nav {
 }
 
 .edit-avatar-icon:hover {
-  background-color: #004d99;
+  background-color: var(--color-primary-1);
 }
 
 /* Edit button */
@@ -2225,14 +2228,15 @@ nav {
   color: white;
   border: none;
   padding: 0.6rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 500;
+  border-radius: var(--radius-md);
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .edit-button:hover {
   background-color: var(--color-primary-2);
+  transform: translateY(-2px);
 }
 
 /* Form */
@@ -2251,26 +2255,49 @@ nav {
 .form-field label {
   color: var(--color-grey);
   font-size: 0.9rem;
+  font-weight: 600;
   margin-bottom: 0.4rem;
 }
 
-.form-field input {
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  box-sizing: border-box;
   padding: 0.6rem 0.8rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   border: 1px solid #d1d5db;
   background-color: #f9fafb;
   font-size: 0.95rem;
+  font-family: var(--font-family-base);
   transition: all 0.2s;
 }
 
-.form-field input:enabled {
+.form-field input:enabled,
+.form-field textarea:enabled {
   background-color: white;
   border-color: #cbd5e1;
 }
 
-.form-field input:focus {
+.form-field input:focus,
+.form-field textarea:focus {
   outline: none;
   border-color: var(--color-primary-2);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.form-field input:disabled,
+.form-field textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-field textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
 /* =================================================
@@ -3875,7 +3902,29 @@ nav {
   }
 }
 
+/* === Profile === */
+@media (max-width: 768px) {
+  .profile-container {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+  }
 
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .edit-button {
+    align-self: stretch;
+    width: 100%;
+  }
+
+  .profile-form {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
 
 /* === Logout === */
 @media (max-width: 768px) {
