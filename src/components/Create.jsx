@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../index.css";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import { ref, set } from "firebase/database";
 import { db } from "../firebase";
 
 export default function Create() {
@@ -26,12 +26,11 @@ export default function Create() {
 
     try {
       const userCred = await createUserWithEmailAndPassword(auth, email, password);
-
       await updateProfile(userCred.user, { displayName: name });
 
       await set(ref(db, `users/${userCred.user.uid}`), {
-        name: name,
-        email: email,
+        name,
+        email,
         phoneNumber: "",
         country: "",
         language: "",
@@ -39,9 +38,8 @@ export default function Create() {
         avatar: ""
       });
 
-      // ⬅️ Redirect user to quiz page after signup
+      // Redirect to quiz page after signup
       navigate("/quiz");
-
     } catch (err) {
       console.error("Signup error:", err);
       setError("Failed to create account — try again.");
@@ -53,9 +51,11 @@ export default function Create() {
       <section className="signup-card">
         <div className="signup-left">
           <h1 className="signup-title">Create your account</h1>
-          <p className="signup-subtitle">Because life after work shouldn’t be faced alone.</p>
+          <p className="signup-subtitle">
+            Because life after work shouldn’t be faced alone.
+          </p>
 
-          <form className="signup-form" onSubmit={handleSignup}>
+          <form className="signup-form" onSubmit={handleSignup} aria-label="Create account form">
             <div className="field">
               <label htmlFor="name">Full name</label>
               <input
@@ -66,6 +66,7 @@ export default function Create() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                aria-required="true"
               />
             </div>
 
@@ -79,6 +80,7 @@ export default function Create() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                aria-required="true"
               />
             </div>
 
@@ -93,11 +95,12 @@ export default function Create() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  aria-required="true"
                 />
               </div>
 
               <div className="field">
-                <label htmlFor="confirm">Confirm</label>
+                <label htmlFor="confirm">Confirm password</label>
                 <input
                   id="confirm"
                   name="confirm"
@@ -106,6 +109,7 @@ export default function Create() {
                   value={confirm}
                   onChange={(e) => setConfirm(e.target.value)}
                   required
+                  aria-required="true"
                 />
               </div>
             </div>
@@ -114,7 +118,11 @@ export default function Create() {
               Create account
             </button>
 
-            {error && <p className="error-text">{error}</p>}
+            {error && (
+              <p className="error-text" role="alert" aria-live="assertive">
+                {error}
+              </p>
+            )}
 
             <p className="auth-switch">
               Already have an account? <Link to="/login">Log in</Link>
