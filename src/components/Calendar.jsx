@@ -149,7 +149,8 @@ export default function Calendar() {
 
     Object.values(map).forEach((list) =>
       list.sort(
-        (a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime()
+        (a, b) =>
+          new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime()
       )
     );
 
@@ -163,12 +164,26 @@ export default function Calendar() {
   };
 
   return (
-    <div className="calendar-container">
-      <div className="calendar-card">
+    <div
+      className="calendar-container"
+      role="main"
+      aria-labelledby="calendar-heading"
+    >
+      <div
+        className="calendar-card"
+        role="region"
+        aria-label="Monthly calendar with event list"
+      >
         {/* Header */}
         <div className="calendar-header">
-          <h1>Calendar</h1>
-          <svg className="calendar-icon" fill="currentColor" viewBox="0 0 24 24">
+          <h1 id="calendar-heading">Calendar</h1>
+          <svg
+            className="calendar-icon"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+          >
             <rect
               x="3"
               y="4"
@@ -208,14 +223,25 @@ export default function Calendar() {
         </div>
 
         {/* Events for selected day */}
-        <div className="events-section">
-          <h2 className="events-title">
+        <div
+          className="events-section"
+          aria-labelledby="events-heading"
+          aria-live="polite"
+        >
+          <h2
+            className="events-title"
+            id="events-heading"
+          >
             Events for {monthNames[currentDate.getMonth()]} {selectedDate},{" "}
             {currentDate.getFullYear()}
           </h2>
 
           {currentEvents.length > 0 ? (
-            <div className="events-list">
+            <div
+              className="events-list"
+              role="list"
+              aria-label="Events scheduled for the selected day"
+            >
               {currentEvents.map((event) => (
                 <article
                   key={event.id}
@@ -223,6 +249,11 @@ export default function Calendar() {
                     event.isPast ? "past-event" : ""
                   } ${expandedId === event.id ? "expanded" : ""}`}
                   onClick={() => handleExpand(event.id)}
+                  role="button"
+                  aria-expanded={expandedId === event.id}
+                  aria-label={`Event ${event.title} at ${event.time}${
+                    event.location ? " in " + event.location : ""
+                  }${event.isPast ? ", this event is in the past" : ""}`}
                 >
                   <div className="calendar-event-card__body">
                     {/* Image */}
@@ -230,19 +261,28 @@ export default function Calendar() {
                       {event.image ? (
                         <img src={event.image} alt={event.title} />
                       ) : (
-                        <div className="image-fallback" />
+                        <div
+                          className="image-fallback"
+                          aria-hidden="true"
+                        />
                       )}
                     </div>
 
                     {/* Title + Location */}
                     <div className="calendar-event-card__content">
-                      <h3 className="calendar-event-card__title">{event.title}</h3>
-                      <p className="calendar-event-card__city">{event.location}</p>
+                      <h3 className="calendar-event-card__title">
+                        {event.title}
+                      </h3>
+                      <p className="calendar-event-card__city">
+                        {event.location}
+                      </p>
                     </div>
 
                     {/* Time */}
                     <div className="calendar-event-card__right-column">
-                      <div className="calendar-event-card__time">{event.time}</div>
+                      <div className="calendar-event-card__time">
+                        {event.time}
+                      </div>
                     </div>
                   </div>
 
@@ -261,6 +301,8 @@ export default function Calendar() {
                             width={16}
                             height={16}
                             style={{ marginRight: "0.25rem" }}
+                            aria-hidden="true"
+                            focusable="false"
                           >
                             <path
                               strokeLinecap="round"
@@ -288,7 +330,11 @@ export default function Calendar() {
               ))}
             </div>
           ) : (
-            <p className="no-events">
+            <p
+              className="no-events"
+              role="status"
+              aria-live="polite"
+            >
               {uid
                 ? "No events scheduled for this day."
                 : "Log in to see your saved events here."}
@@ -297,13 +343,22 @@ export default function Calendar() {
         </div>
 
         {/* Month navigation */}
-        <div className="calendar-navigation">
+        <div
+          className="calendar-navigation"
+          aria-label="Change displayed month"
+        >
           <button
             onClick={previousMonth}
             className="nav-btn"
             aria-label="Previous month"
           >
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -313,7 +368,10 @@ export default function Calendar() {
             </svg>
           </button>
 
-          <h2 className="calendar-month">
+          <h2
+            className="calendar-month"
+            aria-live="polite"
+          >
             {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
           </h2>
 
@@ -322,7 +380,13 @@ export default function Calendar() {
             className="nav-btn"
             aria-label="Next month"
           >
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -334,9 +398,16 @@ export default function Calendar() {
         </div>
 
         {/* Calendar grid */}
-        <div className="calendar-grid">
+        <div
+          className="calendar-grid"
+          aria-label="Calendar date picker"
+        >
           {weekDays.map((d, i) => (
-            <div key={`weekday-${i}`} className="weekday-header">
+            <div
+              key={`weekday-${i}`}
+              className="weekday-header"
+              aria-hidden="true"
+            >
               {d}
             </div>
           ))}
@@ -344,8 +415,21 @@ export default function Calendar() {
           {calendarDays.map((dayObj, index) => {
             const isCurrent = dayObj.isCurrentMonth;
             const isSelected = isCurrent && dayObj.day === selectedDate;
-            const hasEvents =
-              isCurrent && (eventsByDay[dayObj.day]?.length || 0) > 0;
+            const eventCount =
+              isCurrent && eventsByDay[dayObj.day]
+                ? eventsByDay[dayObj.day].length
+                : 0;
+            const hasEvents = eventCount > 0;
+
+            let ariaLabel = `${monthNames[currentDate.getMonth()]} ${dayObj.day}, ${currentDate.getFullYear()}`;
+            if (hasEvents) {
+              ariaLabel += `, ${eventCount} event${
+                eventCount > 1 ? "s" : ""
+              }`;
+            }
+            if (isSelected) {
+              ariaLabel += ", selected";
+            }
 
             return (
               <button
@@ -360,15 +444,9 @@ export default function Calendar() {
                 ]
                   .join(" ")
                   .trim()}
-                aria-label={
-                  hasEvents
-                    ? `${dayObj.day}, has ${
-                        eventsByDay[dayObj.day].length
-                      } event${
-                        eventsByDay[dayObj.day].length > 1 ? "s" : ""
-                      }`
-                    : String(dayObj.day)
-                }
+                aria-label={ariaLabel}
+                aria-pressed={isSelected}
+                aria-current={isSelected ? "date" : undefined}
               >
                 {dayObj.day}
               </button>
