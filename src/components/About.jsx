@@ -8,7 +8,7 @@ export default function About() {
       role: "Runtime Rebels",
       img: "./public/img/insert.jpg",
       bio: "Senior studying Informatics at the University of Washington.",
-      links: { linkedin: "https://www.linkedin.com/in/celinechenn/"},
+      links: { linkedin: "https://www.linkedin.com/in/celinechenn/" },
     },
     {
       name: "Mia (Yoonsoo) Cho",
@@ -44,7 +44,11 @@ export default function About() {
     const [failed, setFailed] = React.useState(false);
     if (!src || failed) {
       return (
-        <div className="avatar-fallback" aria-hidden="true">
+        <div
+          className="avatar-fallback"
+          role="img"
+          aria-label={name ? `${name} headshot placeholder` : "User headshot placeholder"}
+        >
           {name?.[0] || "U"}
         </div>
       );
@@ -61,37 +65,51 @@ export default function About() {
   return (
     <main className="about-page">
       {/* Hero */}
-      <section className="about-hero">
-        <h1>About Azure Haven</h1>
+      <section className="about-hero" aria-labelledby="about-hero-title">
+        <h1 id="about-hero-title">About Azure Haven</h1>
         <p>
-        We’re a small team developing tools to help retired adults find community, purpose, and peace of mind without added complexity as part of our INFO 442 software development course. Our goal is to support the mental health of retired adults and help them build meaningful connections.        </p>
+          We’re a small team developing tools to help retired adults find
+          community, purpose, and peace of mind without added complexity as
+          part of our INFO 442 software development course. Our goal is to
+          support the mental health of retired adults and help them build
+          meaningful connections.
+        </p>
       </section>
 
       {/* Team */}
-      <section className="team">
-        <h2>Our Team</h2>
-
+      <section className="team" aria-labelledby="team-title">
+        <h2 id="team-title">Our Team</h2>
         <ul className="team-grid">
-          {team.map((m) => (
-            <li key={m.name} className="team-card">
+          {team.map((member) => (
+            <li key={member.name} className="team-card">
               <div className="avatar-wrap">
-                <Avatar name={m.name} src={m.img} />
+                <Avatar name={member.name} src={member.img} />
               </div>
 
               <div className="team-content">
-                <h3>{m.name}</h3>
-                <p className="role">{m.role}</p>
-                <p className="bio">{m.bio}</p>
+                <h3>{member.name}</h3>
+                <p className="role">{member.role}</p>
+                <p className="bio">{member.bio}</p>
 
                 <div className="links">
-                  {m.links?.linkedin && (
+                  {member.links?.linkedin && (
                     <a
-                      href={m.links.linkedin}
+                      href={member.links.linkedin}
                       target="_blank"
                       rel="noreferrer"
-                      aria-label={`${m.name} on LinkedIn`}
+                      aria-label={`Visit ${member.name}'s LinkedIn profile`}
                     >
                       LinkedIn
+                    </a>
+                  )}
+                  {member.links?.github && member.links.github !== "#" && (
+                    <a
+                      href={member.links.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Visit ${member.name}'s GitHub profile`}
+                    >
+                      GitHub
                     </a>
                   )}
                 </div>
