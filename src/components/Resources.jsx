@@ -170,7 +170,6 @@ export default function Resources() {
         <div
           className="video-modal-overlay"
           onClick={() => setShowVideo(false)}
-          aria-hidden="true"
         >
           <div
             className="video-modal"
