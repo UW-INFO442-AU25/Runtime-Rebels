@@ -19,4 +19,8 @@ In recent years, mental health has increasingly been recognized as a key compone
 The National Alliance on Mental Health states that 22.8% of U.S. adults experienced mental illness in 2021, representing 1 in 5 adults. We want to focus on helping retired adults and their mental health, our aim is to improve their quality of life by making mental health resources accessible and addressed. We plan to address barriers such as technology accessibility and awareness, rather than medical treatment availability. Poor mental health among retired adults is often caused by social isolation, financial constraints, and limited digital literacy. Many face shrinking social networks after retirement, stigma around seeking help, and difficulties navigating online resources, which creates barriers to accessing care. How might we provide retired adults with accessible mental health resources so that they can prioritize their own well-being and improve their quality of life?
 
 ## Developer Information
-[WIP]
+Built with:
+- HTML/CSS
+- JavaScript
+- React
+- Firebase (Auth + Firestore)
