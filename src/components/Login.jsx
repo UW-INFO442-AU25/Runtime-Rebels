@@ -29,12 +29,12 @@ export default function Login() {
       <section className="signup-card">
         <div className="signup-left">
           <h1 className="signup-title">Log in</h1>
-
+          <p className="signup-subtitle">Welcome back! Please enter your details.</p>
           <form className="signup-form" onSubmit={handleEmailLogin}>
             <div className="field">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="login-email">Email</label>
               <input
-                id="email"
+                id="login-email"
                 name="email"
                 type="email"
                 placeholder="you@example.com"
@@ -44,9 +44,9 @@ export default function Login() {
               />
             </div>
 
-            <div className="field field-row">
+            <div className="field">
               <div className="field">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="login-password">Password</label>
                 <input
                   id="password"
                   name="password"
@@ -58,12 +58,16 @@ export default function Login() {
                 />
               </div>
             </div>
+            
+            {error && (
+              <p className="error-text" role="alert" style={{ color: '#dc2626', fontSize: '0.9rem', margin: '0.5rem 0' }}>
+                {error}
+              </p>
+            )}
 
             <button className="btn-primary" type="submit">
               Log in
             </button>
-
-            {error && <p className="error-text">{error}</p>}
 
             <p className="auth-switch">
               Don't have an account? <Link to="/create">Sign up</Link>
