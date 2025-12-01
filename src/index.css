@@ -3414,48 +3414,68 @@ nav {
 /* =================================================
 =                     LOGOUT.                    =
 ================================================= */
-
 .logout-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  font-family: var(--font-family-base);
+  padding: 2rem;
   text-align: center;
-  padding: 200px;
+}
+
+.logout-page h1 {
+  font-size: var(--h1-size);
+  font-weight: 700;
+  color: var(--color-primary-1);
+  margin: 0 0 2rem 0;
 }
 
 .logout-buttons {
-  margin-top: 20px;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  align-items: center;
+  gap: 1rem;
 }
 
 .logout-btn {
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 0.7rem 2rem;
+  border-radius: var(--radius-lg);
   border: none;
   cursor: pointer;
-  font-size: 16px;
-  background-color: #d9534f;
-  color: #fff;
-  transition: 0.2s ease;
+  font-size: var(--text-size);
+  font-weight: 600;
+  font-family: var(--font-family-base);
+  background-color: var(--color-primary-3);
+  color: var(--color-white);
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: var(--shadow-soft);
 }
 
 .logout-btn:hover {
-  background-color: #c9302c;
+  background-color: var(--color-primary-2);
+  transform: translateY(-2px);
 }
 
 .cancel-btn {
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 0.7rem 2rem;
+  border-radius: var(--radius-lg);
   cursor: pointer;
-  font-size: 16px;
-  border: 1px solid #999;
-  background-color: #eee;
-  transition: 0.2s ease;
+  font-size: var(--text-size);
+  font-weight: 600;
+  font-family: var(--font-family-base);
+  border: 1px solid var(--color-secondary-2);
+  background-color: var(--color-secondary-3);
+  color: var(--color-primary-1);
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .cancel-btn:hover {
-  background-color: #ddd;
+  background-color: var(--color-secondary-2);
+  transform: translateY(-2px);
 }
-
 /* =================================================
 =                     RESPONSIVE                  =
 ================================================= */
@@ -3790,5 +3810,25 @@ nav {
   .inbox-modal {
     max-width: 100%;
     margin: 10px;
+  }
+}
+
+
+
+/* === Logout === */
+@media (max-width: 768px) {
+  .logout-page h1 {
+    font-size: 24px;
+  }
+  
+  .logout-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .logout-btn,
+  .cancel-btn {
+    width: 100%;
   }
 }
