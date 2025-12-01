@@ -134,14 +134,19 @@ export default function Resources() {
   const categories = ["All", "General", "Mental Health", "Community", "Lifestyle"];
 
   return (
-    <div className="resources-page">
+    <div
+      className="resources-page"
+      role="main"
+      aria-labelledby="resources-title"
+    >
       {/* HERO */}
       <section
         className="resources-hero"
         style={{ backgroundImage: `url(${heroImg})` }}
+        aria-label="Retirement mental health resources hero section"
       >
         <div className="hero-overlay">
-          <h1>
+          <h1 id="resources-title">
             While retiring can be exciting, it can also be stressful.
             These resources help you cope with retirement depression and find new purpose in life.
           </h1>
@@ -150,7 +155,11 @@ export default function Resources() {
 
         {/* Bottom "View Video" Button anchored to hero */}
         <div className="hero-bottom-button">
-          <button className="view-video-btn" onClick={() => setShowVideo(true)}>
+          <button
+            className="view-video-btn"
+            onClick={() => setShowVideo(true)}
+            aria-label="Open video about coping with retirement stress"
+          >
             View Video
           </button>
         </div>
@@ -161,14 +170,19 @@ export default function Resources() {
         <div
           className="video-modal-overlay"
           onClick={() => setShowVideo(false)}
+          aria-hidden="true"
         >
           <div
             className="video-modal"
             onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Video dialog about retirement and mental health"
           >
             <button
               className="modal-close-btn"
               onClick={() => setShowVideo(false)}
+              aria-label="Close video"
             >
               ✕
             </button>
@@ -176,9 +190,9 @@ export default function Resources() {
             <iframe
               className="video-iframe"
               src="https://www.youtube.com/embed/G0zJGDokyWQ"
-              title="Hero Video"
+              title="Retirement and mental health video"
               frameBorder="0"
-              allow="accelerometer; autoplay; clipboard write; encrypted media; gyroscope; picture in picture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
           </div>
@@ -186,15 +200,27 @@ export default function Resources() {
       )}
 
       {/* FILTERS */}
-      <section className="filter-section">
-        <div className="filter-card">
+      <section
+        className="filter-section"
+        aria-label="Filter and search mental health resources"
+      >
+        <div
+          className="filter-card"
+          role="group"
+          aria-label="Resource filters"
+        >
           {/* CATEGORY PILLS */}
-          <div className="filter-buttons">
+          <div
+            className="filter-buttons"
+            role="group"
+            aria-label="Filter resources by category"
+          >
             {categories.map((cat) => (
               <button
                 key={cat}
                 className={`pill ${category === cat ? "active" : ""}`}
                 onClick={() => setCategory(cat)}
+                aria-pressed={category === cat}
               >
                 {cat}
               </button>
@@ -209,16 +235,26 @@ export default function Resources() {
                 placeholder="Search keywords..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                aria-label="Search resources by keyword"
               />
-            </div>  
+            </div>
           </div>
 
           {/* RESOURCE GRID */}
-          <div className="resource-grid resources-grid--wide">
+          <div
+            className="resource-grid resources-grid--wide"
+            aria-label="Resource search results"
+            aria-live="polite"
+          >
             {filteredResources.map((res, index) => (
               <article className="resource-card" key={index}>
                 <div className="thumb">
-                  {res.img && <img src={res.img} alt={res.title} />}
+                  {res.img && (
+                    <img
+                      src={res.img}
+                      alt={res.title}
+                    />
+                  )}
                 </div>
 
                 {res.link ? (
@@ -240,7 +276,9 @@ export default function Resources() {
             ))}
 
             {filteredResources.length === 0 && (
-              <p className="no-results">No resources match your search.</p>
+              <p className="no-results" role="status">
+                No resources match your search.
+              </p>
             )}
           </div>
         </div>
