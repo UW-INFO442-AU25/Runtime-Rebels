@@ -18,11 +18,14 @@ export function ToastProvider({ children }) {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  const show = useCallback(({ title, description, duration = 3500 }) => {
-    const id = idOf();
-    setToasts((prev) => [...prev, { id, title, description }]);
-    if (duration !== 0) setTimeout(() => dismiss(id), duration);
-  }, [dismiss]);
+  const show = useCallback(
+    ({ title, description, duration = 3500 }) => {
+      const id = idOf();
+      setToasts((prev) => [...prev, { id, title, description }]);
+      if (duration !== 0) setTimeout(() => dismiss(id), duration);
+    },
+    [dismiss]
+  );
 
   // Quick debug: window.toast({ title, description })
   useEffect(() => {
@@ -34,8 +37,11 @@ export function ToastProvider({ children }) {
   const container = (
     <div
       className="toast-container"
+      role="region"
+      aria-label="Notifications"
       aria-live="polite"
       aria-atomic="true"
+      aria-relevant="additions text"
       style={{
         position: "fixed",
         top: 16,
@@ -63,9 +69,14 @@ export function ToastProvider({ children }) {
             animation: "toast-in 200ms ease-out"
           }}
         >
-          <div className="toast-title" style={{ fontWeight: 600 }}>{t.title}</div>
+          <div className="toast-title" style={{ fontWeight: 600 }}>
+            {t.title}
+          </div>
           {t.description ? (
-            <div className="toast-desc" style={{ opacity: 0.95, fontSize: "0.92rem", marginTop: 2 }}>
+            <div
+              className="toast-desc"
+              style={{ opacity: 0.95, fontSize: "0.92rem", marginTop: 2 }}
+            >
               {t.description}
             </div>
           ) : null}
