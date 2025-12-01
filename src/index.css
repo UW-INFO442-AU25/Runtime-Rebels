@@ -3641,6 +3641,14 @@ nav {
   .contact-card form {
     max-width: 100%;
   }
+
+  .events-search,
+  .events-filter,
+  .events-controls .primary-btn,
+  .events-controls .secondary-btn {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -3872,9 +3880,11 @@ nav {
     animation: toast-in 200ms ease-out;
   }
 
+  @media (min-width: 769px) and (max-width: 1024px) {
   .about-page .team-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
   
   .toast-title { font-weight: 600; }
   .toast-desc  { opacity: 0.95; font-size: 0.92rem; margin-top: 2px; }
