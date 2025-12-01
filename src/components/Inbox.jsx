@@ -96,7 +96,6 @@ export default function Inbox() {
     }
   };
 
-
   const handleSend = async (e) => {
     e.preventDefault();
     if (!composeData.recipientId || !composeData.subject || !composeData.body) {
@@ -156,52 +155,96 @@ export default function Inbox() {
   if (!currentUser) {
     return (
       <div className="inbox-page">
-        <div className="inbox-empty">
-          <p>Please <a href="/login">log in</a> to view your inbox.</p>
+        <div className="inbox-empty" role="status" aria-live="polite">
+          <p>
+            Please <a href="/login">log in</a> to view your inbox.
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="inbox-page">
+    <div
+      className="inbox-page"
+      aria-label="Messaging inbox page"
+    >
       {/* === SIDEBAR === */}
-      <aside className="inbox-sidebar">
+      <aside
+        className="inbox-sidebar"
+        aria-labelledby="inbox-heading"
+      >
         <div className="inbox-header">
-          <h2>Inbox</h2>
-          <button className="inbox-btn" onClick={() => setShowCompose(true)}>
+          <h2 id="inbox-heading">Inbox</h2>
+          <button
+            className="inbox-btn"
+            onClick={() => setShowCompose(true)}
+            aria-label="Compose new message"
+          >
             New Mail
           </button>
         </div>
 
-        <input className="inbox-search" type="text" placeholder="Search" />
+        <input
+          className="inbox-search"
+          type="text"
+          placeholder="Search"
+          aria-label="Search messages"
+        />
 
-        <div className="inbox-tabs">
+        <div
+          className="inbox-tabs"
+          role="group"
+          aria-label="Inbox and sent message views"
+        >
           <button
             className={`inbox-tab ${view === "inbox" ? "active" : ""}`}
-            onClick={() => { setView("inbox"); setSelected(0); }}
+            onClick={() => {
+              setView("inbox");
+              setSelected(0);
+            }}
+            aria-pressed={view === "inbox"}
           >
-            <InboxIcon size={16} /> Inbox ({messages.filter(m => !m.read).length})
+            <InboxIcon size={16} /> Inbox ({messages.filter((m) => !m.read).length})
           </button>
           <button
             className={`inbox-tab ${view === "sent" ? "active" : ""}`}
-            onClick={() => { setView("sent"); setSelected(0); }}
+            onClick={() => {
+              setView("sent");
+              setSelected(0);
+            }}
+            aria-pressed={view === "sent"}
           >
             <Send size={16} /> Sent
           </button>
         </div>
 
         {loading ? (
-          <p className="inbox-loading">Loading messages...</p>
+          <p className="inbox-loading" role="status" aria-live="polite">
+            Loading messages...
+          </p>
         ) : displayedMessages.length === 0 ? (
-          <p className="inbox-empty-list">No messages yet.</p>
+          <p className="inbox-empty-list" role="status" aria-live="polite">
+            No messages yet.
+          </p>
         ) : (
-          <ul className="inbox-list">
+          <ul
+            className="inbox-list"
+            aria-label={view === "inbox" ? "Inbox messages" : "Sent messages"}
+          >
             {displayedMessages.map((msg, i) => (
               <li
                 key={msg.id}
-                className={`inbox-item ${selected === i ? "active" : ""} ${!msg.read && view === "inbox" ? "unread" : ""}`}
+                className={`inbox-item ${selected === i ? "active" : ""} ${
+                  !msg.read && view === "inbox" ? "unread" : ""
+                }`}
                 onClick={() => handleSelectMessage(i)}
+                aria-current={selected === i ? "true" : undefined}
+                aria-label={
+                  view === "inbox"
+                    ? `${msg.read ? "" : "Unread message. "}From ${msg.senderName}. Subject: ${msg.subject}.`
+                    : `To ${msg.recipientName}. Subject: ${msg.subject}.`
+                }
               >
                 <div className="inbox-avatar">
                   {(view === "inbox" ? msg.senderName : msg.recipientName)?.[0]?.toUpperCase() || "?"}
@@ -222,26 +265,37 @@ export default function Inbox() {
         )}
       </aside>
 
-
       {/* === MAIN PANEL === */}
-      <main className="inbox-content">
+      <main
+        className="inbox-content"
+        aria-label="Message content"
+      >
         {selectedMessage ? (
-          <div className="inbox-message">
+          <div
+            className="inbox-message"
+            role="group"
+            aria-labelledby="message-subject"
+          >
             <div className="inbox-message-header">
-              <h3>{selectedMessage.subject}</h3>
+              <h3 id="message-subject">{selectedMessage.subject}</h3>
               <button
                 className="inbox-delete-btn"
                 onClick={() => handleDelete(selectedMessage.id)}
                 title="Delete message"
+                aria-label="Delete this message"
               >
                 <Trash2 size={18} />
               </button>
             </div>
             <p className="inbox-message-meta">
               {view === "inbox" ? (
-                <>From: <strong>{selectedMessage.senderName}</strong></>
+                <>
+                  From: <strong>{selectedMessage.senderName}</strong>
+                </>
               ) : (
-                <>To: <strong>{selectedMessage.recipientName}</strong></>
+                <>
+                  To: <strong>{selectedMessage.recipientName}</strong>
+                </>
               )}
               {" · "}
               {selectedMessage.createdAt?.toLocaleString()}
@@ -251,29 +305,53 @@ export default function Inbox() {
             </div>
           </div>
         ) : (
-          <div className="inbox-no-selection">
-            <Mail size={48} />
+          <div
+            className="inbox-no-selection"
+            role="status"
+            aria-live="polite"
+          >
+            <Mail size={48} aria-hidden="true" />
             <p>Select a message to read</p>
           </div>
         )}
       </main>
 
       {showCompose && (
-        <div className="inbox-modal-overlay" onClick={() => setShowCompose(false)}>
-          <div className="inbox-modal" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="inbox-modal-overlay"
+          onClick={() => setShowCompose(false)}
+        >
+          <div
+            className="inbox-modal"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="compose-dialog-title"
+          >
             <div className="inbox-modal-header">
-              <h3>New Message</h3>
-              <button className="inbox-modal-close" onClick={() => setShowCompose(false)}>
+              <h3 id="compose-dialog-title">New Message</h3>
+              <button
+                className="inbox-modal-close"
+                onClick={() => setShowCompose(false)}
+                aria-label="Close compose window"
+              >
                 <X size={20} />
               </button>
             </div>
 
-            <form onSubmit={handleSend} className="inbox-compose-form">
+            <form
+              onSubmit={handleSend}
+              className="inbox-compose-form"
+              aria-label="Compose new message form"
+            >
               <div className="inbox-form-field">
-                <label>To:</label>
+                <label htmlFor="compose-to">To:</label>
                 <select
+                  id="compose-to"
                   value={composeData.recipientId}
-                  onChange={(e) => setComposeData({ ...composeData, recipientId: e.target.value })}
+                  onChange={(e) =>
+                    setComposeData({ ...composeData, recipientId: e.target.value })
+                  }
                   required
                 >
                   <option value="">Select recipient...</option>
@@ -288,21 +366,27 @@ export default function Inbox() {
               </div>
 
               <div className="inbox-form-field">
-                <label>Subject:</label>
+                <label htmlFor="compose-subject">Subject:</label>
                 <input
+                  id="compose-subject"
                   type="text"
                   value={composeData.subject}
-                  onChange={(e) => setComposeData({ ...composeData, subject: e.target.value })}
+                  onChange={(e) =>
+                    setComposeData({ ...composeData, subject: e.target.value })
+                  }
                   placeholder="Enter subject..."
                   required
                 />
               </div>
 
               <div className="inbox-form-field">
-                <label>Message:</label>
+                <label htmlFor="compose-body">Message:</label>
                 <textarea
+                  id="compose-body"
                   value={composeData.body}
-                  onChange={(e) => setComposeData({ ...composeData, body: e.target.value })}
+                  onChange={(e) =>
+                    setComposeData({ ...composeData, body: e.target.value })
+                  }
                   placeholder="Write your message..."
                   rows={6}
                   required
@@ -310,10 +394,19 @@ export default function Inbox() {
               </div>
 
               <div className="inbox-form-actions">
-                <button type="button" onClick={() => setShowCompose(false)} className="inbox-btn-secondary">
+                <button
+                  type="button"
+                  onClick={() => setShowCompose(false)}
+                  className="inbox-btn-secondary"
+                >
                   Cancel
                 </button>
-                <button type="submit" className="inbox-btn" disabled={sending}>
+                <button
+                  type="submit"
+                  className="inbox-btn"
+                  disabled={sending}
+                  aria-busy={sending}
+                >
                   {sending ? "Sending..." : "Send"}
                 </button>
               </div>
