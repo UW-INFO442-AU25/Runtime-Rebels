@@ -84,6 +84,19 @@ a:hover {
 }
 
 /* HEADER CONTAINER */
+/* Desktop + Mobile active state */
+.active-link {
+  color: #007bff !important; /* bright blue highlight */
+  font-weight: 700;
+}
+
+/* Mobile menu highlight */
+.mobile-links .active-link {
+  color: #4ea8ff !important;
+  border-left: 5px solid #4ea8ff;
+  padding-left: 10px;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
