@@ -12,21 +12,43 @@ export default function MapPanel({ items, focus }) {
   }, [items]);
 
   return (
-    <aside className="events-map" aria-label="Map showing event locations">
+    <aside
+      className="events-map"
+      role="region"
+      aria-labelledby="event-map-heading"
+    >
+      {/* Screen reader only heading to label the region */}
+      <h3 id="event-map-heading" className="sr-only">
+        Event location map
+      </h3>
+
+      {/* Extra SR context for how many points users can explore */}
+      <p className="sr-only" aria-live="polite">
+        {items.length === 0
+          ? "No events to display on the map."
+          : `${items.length} event${items.length > 1 ? "s" : ""} displayed on the map.`}
+      </p>
+
       <MapContainer
         center={center}
         zoom={items.length === 1 ? 13 : 10}
         scrollWheelZoom={false}
         style={{ height: 420, width: "100%" }}
         className="leaflet-rounded"
+        aria-label="Interactive map of event locations"
       >
         <TileLayer
           attribution="&copy; OpenStreetMap"
+          aria-hidden="true"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
         {items.map((e) => (
-          <Marker key={e.id} position={e.coords}>
+          <Marker
+            key={e.id}
+            position={e.coords}
+            aria-label={`Location marker for ${e.title}`}
+          >
             <Popup>
               <strong>{e.title}</strong>
               <br />
