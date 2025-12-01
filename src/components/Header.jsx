@@ -52,23 +52,19 @@ const handleLogout = async () => {
   return (
     <header className="navbar">
       {/* LOGO */}
-      <div className="logo" >
-        <NavLink to="/" aria-label="Azure Haven Home">
-          <img src="/img/N Logo.png" alt="Azure Haven Home Logo" />
+      <div className="logo">
+        <NavLink to="/">
+          <img src="/img/N Logo.png" alt="Logo" />
         </NavLink>
       </div>
 
       {/* HAMBURGER */}
-      <button 
-        className="hamburger-btn" 
-        onClick={() => setMenuOpen(true)}
-        aria-label="Open navigation menu"
-        aria-expanded={menuOpen}>
-        <Menu size={30} aria-hidden="true" />
+      <button className="hamburger-btn" onClick={() => setMenuOpen(true)}>
+        <Menu size={30} />
       </button>
 
       {/* DESKTOP NAV */}
-      <nav aria-label="Main navigation">
+      <nav>
         <ul className="nav-links">
           <li><NavLink to="/">Home</NavLink></li>
           <li><NavLink to="/events">Events</NavLink></li>
@@ -94,15 +90,11 @@ const handleLogout = async () => {
           </NavLink>
         ) : (
           <div className="user-actions">
-            <NavLink to="/inbox" className="icon-btn" aria-label="View inbox">
-              <Mail aria-hidden="true" />
+            <NavLink to="/inbox" className="icon-btn">
+              <Mail />
             </NavLink>
 
-            <NavLink 
-              to="/profile" 
-              className="user-avatar"
-              aria-label={`View profile for ${profile?.name || 'user'}`}
-            >
+            <NavLink to="/profile" className="user-avatar">
               {profile ? getInitials(profile.name) : "U"}
             </NavLink>
 
@@ -114,58 +106,52 @@ const handleLogout = async () => {
       </div>
 
       {/* FULLSCREEN MOBILE MENU */}
-      <div className={`mobile-menu-overlay ${menuOpen ? "open" : ""}`}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Mobile navigation menu"
-      
-      >
-        <button className="close-btn" onClick={() => setMenuOpen(false)} aria-label="Close navigation menu">
-          <X size={34} aria-hidden="true" />
+      <div className={`mobile-menu-overlay ${menuOpen ? "open" : ""}`}>
+        <button className="close-btn" onClick={() => setMenuOpen(false)}>
+          <X size={34} />
         </button>
-        <nav aria-label="Mobile navigation">
-          <ul className="mobile-links">
-            <li><NavLink to="/" onClick={() => setMenuOpen(false)}>Home</NavLink></li>
-            <li><NavLink to="/events" onClick={() => setMenuOpen(false)}>Events</NavLink></li>
-            <li>
-              <NavLink
-                to="/calendar"
-                onClick={(e) => {
-                  handleProtectedNav(e, "/calendar");
-                  setMenuOpen(false);
-                }}
-              >
-                Calendar
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/discussion"
-                onClick={(e) => {
-                  handleProtectedNav(e, "/discussion");
-                  setMenuOpen(false);
-                }}
-              >
-                Discussion
-              </NavLink>
-            </li>
-            <li><NavLink to="/resources" onClick={() => setMenuOpen(false)}>Resources</NavLink></li>
 
-            {!user ? (
-              <li>
-                <NavLink to="/login" onClick={() => setMenuOpen(false)}>
-                  Login
-                </NavLink>
-              </li>
-            ) : (
-              <>
-                <li><NavLink to="/inbox" onClick={() => setMenuOpen(false)}>Inbox</NavLink></li>
-                <li><NavLink to="/profile" onClick={() => setMenuOpen(false)}>Profile</NavLink></li>
-                <li><button className="logout-btn-mobile" onClick={handleLogout}>Log Out</button></li>
-              </>
-            )}
-          </ul>
-        </nav>
+        <ul className="mobile-links">
+          <li><NavLink to="/" onClick={() => setMenuOpen(false)}>Home</NavLink></li>
+          <li><NavLink to="/events" onClick={() => setMenuOpen(false)}>Events</NavLink></li>
+          <li>
+            <NavLink
+              to="/calendar"
+              onClick={(e) => {
+                handleProtectedNav(e, "/calendar");
+                setMenuOpen(false);
+              }}
+            >
+              Calendar
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/discussion"
+              onClick={(e) => {
+                handleProtectedNav(e, "/discussion");
+                setMenuOpen(false);
+              }}
+            >
+              Discussion
+            </NavLink>
+          </li>
+          <li><NavLink to="/resources" onClick={() => setMenuOpen(false)}>Resources</NavLink></li>
+
+          {!user ? (
+            <li>
+              <NavLink to="/login" onClick={() => setMenuOpen(false)}>
+                Login
+              </NavLink>
+            </li>
+          ) : (
+            <>
+              <li><NavLink to="/inbox" onClick={() => setMenuOpen(false)}>Inbox</NavLink></li>
+              <li><NavLink to="/profile" onClick={() => setMenuOpen(false)}>Profile</NavLink></li>
+              <li><button className="logout-btn-mobile" onClick={handleLogout}>Log Out</button></li>
+            </>
+          )}
+        </ul>
       </div>
     </header>
   );
