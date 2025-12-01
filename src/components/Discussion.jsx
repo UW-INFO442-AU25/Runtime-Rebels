@@ -229,48 +229,84 @@ export default function CommunityDiscussions() {
     });
   };
 
+  const handleKeyActivate = (evt, action) => {
+    if (evt.key === "Enter" || evt.key === " ") {
+      evt.preventDefault();
+      action();
+    }
+  };
+
   /* ------------------------- JSX ------------------------- */
   return (
-    <div className="community-page">
-      <section className="community-hero">
-        <img src="./img/community.jpg" alt="" className="community-bg" />
+    <div
+      className="community-page"
+      role="main"
+      aria-labelledby="community-heading"
+    >
+      <section
+        className="community-hero"
+        aria-label="Community discussions hero"
+      >
+        <img
+          src="./img/community.jpg"
+          alt="Older adults talking together in a community setting"
+          className="community-bg"
+        />
         <div className="community-overlay">
-          <h1>Community Discussions</h1>
+          <h1 id="community-heading">Community Discussions</h1>
           <div className="community-meta">
             <p className="meta-item">
-              <MapPin size={16} /> Washington
+              <MapPin size={16} aria-hidden="true" /> Washington
             </p>
           </div>
         </div>
       </section>
 
-      <div className="community-controls">
-        <div className="tabs">
+      <div
+        className="community-controls"
+        aria-label="Discussion controls"
+      >
+        <div
+          className="tabs"
+          role="group"
+          aria-label="Sort posts"
+        >
           <button
             className={`tab ${sortMode === "recent" ? "active" : ""}`}
             onClick={() => setSortMode("recent")}
+            aria-pressed={sortMode === "recent"}
           >
-            <Clock size={16} /> Recent
+            <Clock size={16} aria-hidden="true" /> Recent
           </button>
           <button
             className={`tab ${sortMode === "trending" ? "active" : ""}`}
             onClick={() => setSortMode("trending")}
+            aria-pressed={sortMode === "trending"}
           >
-            <TrendingUp size={16} /> Trending
+            <TrendingUp size={16} aria-hidden="true" /> Trending
           </button>
         </div>
-        <button className="add-post" onClick={() => setShowForm(true)}>
-          <Plus size={18} /> Add Post
+        <button
+          className="add-post"
+          onClick={() => setShowForm(true)}
+          aria-label="Add a new discussion post"
+        >
+          <Plus size={18} aria-hidden="true" /> Add Post
         </button>
       </div>
 
       {showForm && (
-        <div className="form-overlay">
+        <div
+          className="form-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="create-post-title"
+        >
           <div className="add-post-form">
-            <h3>Create a Post</h3>
+            <h3 id="create-post-title">Create a Post</h3>
 
             <div className="tag-field">
-              <label>Tags:</label>
+              <label htmlFor="tag-input">Tags:</label>
               <div className="tags-container">
                 {newPostTags.map((tag, idx) => (
                   <span key={idx} className="tag-pill">
@@ -279,8 +315,9 @@ export default function CommunityDiscussions() {
                 ))}
               </div>
               <input
+                id="tag-input"
                 className="tag-input"
-                placeholder="Type tag + press Enter"
+                placeholder="Type tag and press Enter"
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={(e) => {
@@ -292,13 +329,19 @@ export default function CommunityDiscussions() {
                     e.preventDefault();
                   }
                 }}
+                aria-label="Add a tag to this post"
               />
             </div>
 
+            <label htmlFor="post-content" className="sr-only">
+              Post content
+            </label>
             <textarea
+              id="post-content"
               placeholder="Write your post..."
               value={newPostContent}
               onChange={(e) => setNewPostContent(e.target.value)}
+              aria-label="Write your discussion post"
             />
 
             <div className="form-buttons">
@@ -309,11 +352,20 @@ export default function CommunityDiscussions() {
         </div>
       )}
 
-      <div className="posts">
+      <div
+        className="posts"
+        aria-label="Discussion posts"
+        aria-live="polite"
+      >
         {posts.map((post) => (
-          <div key={post.id} className="post-card">
+          <div
+            key={post.id}
+            className="post-card"
+            role="article"
+            aria-label={`Post by ${post.author}, ${post.likes} likes, ${post.comments || 0} comments`}
+          >
             <div className="post-header">
-              <div className="avatar">
+              <div className="avatar" aria-hidden="true">
                 {post.author ? post.author[0].toUpperCase() : "U"}
               </div>
               <div className="author">{post.author}</div>
@@ -333,6 +385,7 @@ export default function CommunityDiscussions() {
               <button
                 className="delete-post-btn"
                 onClick={() => handleDelete(post.id)}
+                aria-label="Delete this post"
               >
                 Delete
               </button>
@@ -343,29 +396,55 @@ export default function CommunityDiscussions() {
                 className={`icon-group ${
                   likePending[post.id] ? "icon-group--disabled" : ""
                 }`}
+                role="button"
+                tabIndex={0}
+                aria-pressed={post.likedByCurrentUser}
+                aria-disabled={likePending[post.id] ? "true" : "false"}
+                aria-label={
+                  post.likedByCurrentUser
+                    ? `Unlike this post, currently ${post.likes} likes`
+                    : `Like this post, currently ${post.likes} likes`
+                }
                 onClick={() => handleLike(post)}
+                onKeyDown={(evt) => handleKeyActivate(evt, () => handleLike(post))}
               >
                 <ThumbsUp
                   size={16}
                   fill={post.likedByCurrentUser ? "currentColor" : "none"}
+                  aria-hidden="true"
                 />
                 {post.likes} likes
               </div>
 
               <div
                 className="icon-group"
+                role="button"
+                tabIndex={0}
+                aria-expanded={!!openComments[post.id]}
+                aria-label={
+                  openComments[post.id]
+                    ? `Hide comments, ${post.comments || 0} total`
+                    : `Show comments, ${post.comments || 0} total`
+                }
                 onClick={() => toggleComments(post.id)}
+                onKeyDown={(evt) =>
+                  handleKeyActivate(evt, () => toggleComments(post.id))
+                }
               >
-                <MessageCircle size={16} /> {post.comments || 0} comments
+                <MessageCircle size={16} aria-hidden="true" />{" "}
+                {post.comments || 0} comments
               </div>
             </div>
 
             {openComments[post.id] && (
-              <div className="comments-section">
+              <div
+                className="comments-section"
+                aria-label="Comments for this post"
+              >
                 <div className="comments-list">
                   {(commentsByPost[post.id] || []).map((c) => (
                     <div key={c.id} className="comment">
-                      <div className="comment-avatar">
+                      <div className="comment-avatar" aria-hidden="true">
                         {c.author ? c.author[0].toUpperCase() : "U"}
                       </div>
                       <div className="comment-body">
@@ -376,9 +455,8 @@ export default function CommunityDiscussions() {
                       {currentUser?.uid === c.uid && (
                         <button
                           className="delete-post-btn"
-                          onClick={() =>
-                            handleDeleteComment(post.id, c.id)
-                          }
+                          onClick={() => handleDeleteComment(post.id, c.id)}
+                          aria-label="Delete this comment"
                         >
                           Delete
                         </button>
@@ -388,7 +466,14 @@ export default function CommunityDiscussions() {
                 </div>
 
                 <div className="comment-input-row">
+                  <label
+                    htmlFor={`comment-input-${post.id}`}
+                    className="sr-only"
+                  >
+                    Add a comment
+                  </label>
                   <input
+                    id={`comment-input-${post.id}`}
                     className="comment-input"
                     placeholder="Write a comment..."
                     value={newCommentText[post.id] || ""}
@@ -402,6 +487,7 @@ export default function CommunityDiscussions() {
                   <button
                     className="comment-send-btn"
                     onClick={() => handleAddComment(post.id)}
+                    aria-label="Post comment"
                   >
                     Post
                   </button>
